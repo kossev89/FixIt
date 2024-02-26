@@ -1,7 +1,6 @@
-﻿using FixIt.Data;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
+using FixIt.Infrastructure.Data;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
