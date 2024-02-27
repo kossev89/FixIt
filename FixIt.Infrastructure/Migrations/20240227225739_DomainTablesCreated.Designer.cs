@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FixIt.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240227214024_CreatedTables")]
-    partial class CreatedTables
+    [Migration("20240227225739_DomainTablesCreated")]
+    partial class DomainTablesCreated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -82,6 +82,10 @@ namespace FixIt.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Car Image");
+
                     b.Property<string>("Make")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -114,8 +118,8 @@ namespace FixIt.Infrastructure.Migrations
                         .HasColumnType("nvarchar(17)")
                         .HasComment("Car Vehicle Identification Number");
 
-                    b.Property<DateTime>("Year")
-                        .HasColumnType("datetime2")
+                    b.Property<int>("Year")
+                        .HasColumnType("int")
                         .HasComment("Car Year of Manufacture");
 
                     b.HasKey("Id");

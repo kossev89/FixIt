@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FixIt.Infrastructure.Migrations
 {
-    public partial class CreatedTables : Migration
+    public partial class DomainTablesCreated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,11 +17,12 @@ namespace FixIt.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Make = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Car Manufacturer Information"),
                     Model = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Car Model Information"),
-                    Year = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Car Year of Manufacture"),
+                    Year = table.Column<int>(type: "int", nullable: false, comment: "Car Year of Manufacture"),
                     PlateNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, comment: "Car Registration Plate Number"),
                     Vin = table.Column<string>(type: "nvarchar(17)", maxLength: 17, nullable: true, comment: "Car Vehicle Identification Number"),
                     Mileage = table.Column<int>(type: "int", nullable: false, comment: "Car Current Mileage in km"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Car's owner")
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Car's owner"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Car Image")
                 },
                 constraints: table =>
                 {

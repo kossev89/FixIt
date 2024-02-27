@@ -116,8 +116,8 @@ namespace FixIt.Infrastructure.Migrations
                         .HasColumnType("nvarchar(17)")
                         .HasComment("Car Vehicle Identification Number");
 
-                    b.Property<DateTime>("Year")
-                        .HasColumnType("datetime2")
+                    b.Property<int>("Year")
+                        .HasColumnType("int")
                         .HasComment("Car Year of Manufacture");
 
                     b.HasKey("Id");
