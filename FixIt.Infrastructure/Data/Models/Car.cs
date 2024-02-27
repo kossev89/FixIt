@@ -47,6 +47,9 @@ namespace FixIt.Infrastructure.Data.Models
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; } = null!;
 
+        [Comment("Car Image")]
+        public string? ImageUrl { get; set; }
+
         public ICollection<ServiceHistory> ServiceHistories { get; set; } = new List<ServiceHistory>();
     }
 }
