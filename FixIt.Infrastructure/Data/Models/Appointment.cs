@@ -32,7 +32,6 @@ namespace FixIt.Infrastructure.Data.Models
         [ForeignKey(nameof(ServiceId))]
         public Service Service { get; set; } = null!;
 
-
         [Comment("Technician Identifier")]
         [Required]
         public int TechnicianId { get; set; }
