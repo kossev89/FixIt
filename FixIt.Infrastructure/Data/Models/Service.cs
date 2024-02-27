@@ -1,6 +1,7 @@
 ﻿using FixIt.Infrastructure.Data.Enumerators;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography;
 
 namespace FixIt.Infrastructure.Data.Models
@@ -21,6 +22,7 @@ namespace FixIt.Infrastructure.Data.Models
 
         [Comment("Price for the service")]
         [Required]
+        [Column(TypeName = ("decimal(18,2)"))]
         public decimal Price { get; set; }
     }
 }
