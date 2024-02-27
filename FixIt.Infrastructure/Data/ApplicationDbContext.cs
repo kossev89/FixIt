@@ -16,5 +16,6 @@ namespace FixIt.Infrastructure.Data
         public DbSet<Service> Services { get; set; } = null!;
         public DbSet<ServiceHistory> ServiceHistories { get; set; } = null!;
         public DbSet<Technician> Technicians { get; set; } = null!;
+
     }
 }
