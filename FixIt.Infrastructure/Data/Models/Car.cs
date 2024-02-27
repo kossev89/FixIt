@@ -6,34 +6,35 @@ using static FixIt.Infrastructure.Data.Constants.ValidationConstants;
 
 namespace FixIt.Infrastructure.Data.Models
 {
+    [Comment("Cars Table")]
     public class Car
     {
         [Comment("Car Identifier")]
         [Key]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Comment("Car Manufacturer Information")]
         [Required]
         [StringLength(CarMax)]
-        public string Make { get; set; } = string.Empty;
+        public string Make { get; init; } = string.Empty;
 
         [Comment("Car Model Information")]
         [Required]
         [StringLength(CarMax)]
-        public string Model { get; set; } = string.Empty;
+        public string Model { get; init; } = string.Empty;
 
         [Comment("Car Year of Manufacture")]
         [Required]
-        public DateTime Year { get; set; }
+        public DateTime Year { get; init; }
 
         [Comment("Car Registration Plate Number")]
         [Required]
         [StringLength(CarMax)]
-        public string PlateNumber { get; set; } = string.Empty;
+        public string PlateNumber { get; init; } = string.Empty;
 
         [Comment("Car Vehicle Identification Number")]
         [StringLength(VinLength)]
-        public string? Vin { get; set; }
+        public string? Vin { get; init; }
 
         [Comment("Car Current Mileage in km")]
         [Required]
@@ -42,7 +43,7 @@ namespace FixIt.Infrastructure.Data.Models
 
         [Comment("Car's owner")]
         [Required]
-        public string UserId { get; set; } = string.Empty;
+        public string UserId { get; init; } = string.Empty;
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; } = null!;
 
