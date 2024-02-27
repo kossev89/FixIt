@@ -31,7 +31,7 @@ namespace FixIt.Infrastructure.Data.Models
 
         [Comment("Date of the service")]
         [Required]
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
 
         [Comment("Current car mileage")]
         [Required]
