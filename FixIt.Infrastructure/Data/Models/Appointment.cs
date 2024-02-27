@@ -41,11 +41,7 @@ namespace FixIt.Infrastructure.Data.Models
 
         [Comment("Appointment Date")]
         [Required]
-        public DateOnly Date { get; set; }
-
-        [Comment("Appointment Time")]
-        [Required]
-        public TimeOnly Time { get; set; }
+        public DateTime DateAndTime { get; set; }
 
         [Comment("Appointment Status")]
         [Required]
