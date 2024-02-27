@@ -37,11 +37,39 @@ namespace FixIt.Infrastructure.Data.Seed
 
         private void SeedUsers()
         {
+            var hasher = new PasswordHasher<IdentityUser>();
+            AdminUser = new IdentityUser() 
+            {
+                Id = "dea12856-c198-4129-b3f3-b893d8395082", 
+                UserName = "admin@mail.com", NormalizedUserName = "admin@mail.com", 
+                Email = "admin@mail.com", 
+                NormalizedEmail = "admin@mail.com"
+            };
 
+            AdminUser.PasswordHash = hasher.HashPassword(AdminUser, "admin123");
+
+            CustomerUser = new IdentityUser() 
+            { 
+                Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                UserName = "customer@mail.com", 
+                NormalizedUserName = "customer@mail.com",
+                Email = "customer@mail.com", 
+                NormalizedEmail = "customer@mail.com"
+            };
+
+            CustomerUser.PasswordHash = hasher.HashPassword(CustomerUser, "customer123");
         }
+
         private void SeedCars()
         {
+            FirstCar = new Car()
+            {
+                Id = 1,
+                Make = "Toyota",
+                Model = "Avensis",
+                Year = 2005,
 
+            };
         }
         private void SeedServices()
         {
