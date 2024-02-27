@@ -25,7 +25,7 @@ namespace FixIt.Infrastructure.Data.Models
 
         [Comment("Car Year of Manufacture")]
         [Required]
-        public DateTime Year { get; init; }
+        public int Year { get; init; }
 
         [Comment("Car Registration Plate Number")]
         [Required]
