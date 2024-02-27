@@ -1,21 +1,44 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FixIt.Infrastructure.Data.Models
 {
     [Comment("Table for the ServiceHistory")]
     public class ServiceHistory
     {
+        [Comment("ServiceHistory Identifier")]
+        [Key]
         public int Id { get; set; }
-        public int CarId { get; set; }
-        public Car Car { get; set; } 
-    }
 
-//Id(Primary Key)
-//CarId(Foreign Key to associate the service history record with the car)
-//ServiceId(Foreign Key to specify the type of service)
-//TechnicianId(Foreign Key to specify the technician who performed the service)
-//Date
-//Mileage
-//Price
-//AdditionalDetails(e.g., Notes about the service)
+        [Comment("Car Identifier")]
+        [Required]
+        public int CarId { get; set; }
+        [ForeignKey(nameof(CarId))]
+        public Car Car { get; set; } = null!;
+
+        [Comment("Service Identifier")]
+        [Required]
+        public int ServiceId { get; set; }
+        [ForeignKey(nameof(ServiceId))]
+        public Service Service { get; set; } = null!;
+
+        [Comment("Technician Identifier")]
+        [Required]
+        public int TechnicianId { get; set; }
+        [ForeignKey(nameof(TechnicianId))]
+        public Technician Technician { get; set; } = null!;
+
+        [Comment("Date of the service")]
+        [Required]
+        public DateOnly Date { get; set; }
+
+        [Comment("Current car mileage")]
+        [Required]
+        public int Mileage => Car.Mileage;
+
+        [Comment("Price of the service performed")]
+        [Required]
+        public decimal Price => Service.Price;
+    }
 }
