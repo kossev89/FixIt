@@ -38,7 +38,7 @@ namespace FixIt.Infrastructure.Data.Models
 
         [Comment("Car Current Mileage in km")]
         [Required]
-        [Range(VinLength,VinLength)]
+        [Range(MinMileage,MaxMileage)]
         public int Mileage { get; set; }
 
         [Comment("Car's owner")]
