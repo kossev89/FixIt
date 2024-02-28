@@ -1,11 +1,6 @@
-﻿using FixIt.Infrastructure.Data.Models;
+﻿using FixIt.Infrastructure.Data.Enumerators;
+using FixIt.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FixIt.Infrastructure.Data.Enumerators;
 
 namespace FixIt.Infrastructure.Data.Seed
 {
@@ -23,41 +18,42 @@ namespace FixIt.Infrastructure.Data.Seed
             SeedServiceHistories();
         }
 
-        public IdentityUser AdminUser { get; set; }
-        public IdentityUser CustomerUser { get; set; }
-        public Car FirstCar { get; set; }
-        public Car SecondCar { get; set; }
-        public Service TireRotation { get; set; }
-        public Service OilChange { get; set; }
-        public Service Diagnostics { get; set; }
-        public Service EngineRepair { get; set; }
-        public Service SuspensionRepair { get; set; }
-        public Service BodyRepair { get; set; }
-        public Service Paint { get; set; }
-        public ServiceHistory FirstCarHistory { get; set; }
-        public Technician FirstTechnician { get; set; }
-        public Technician SecondTechnician { get; set; }
-        public Technician ThirdTechnician { get; set; }
+        public IdentityUser AdminUser { get; set; } = null!;
+        public IdentityUser CustomerUser { get; set; } = null!;
+        public Car FirstCar { get; set; } = null!;
+        public Car SecondCar { get; set; } = null!;
+        public Service TireRotation { get; set; } = null!;
+        public Service OilChange { get; set; } = null!;
+        public Service Diagnostics { get; set; } = null!;
+        public Service EngineRepair { get; set; } = null!;
+        public Service SuspensionRepair { get; set; } = null!;
+        public Service BodyRepair { get; set; } = null!;
+        public Service Paint { get; set; } = null!;
+        public ServiceHistory FirstCarHistory { get; set; } = null!;
+        public Technician FirstTechnician { get; set; } = null!;
+        public Technician SecondTechnician { get; set; } = null!;
+        public Technician ThirdTechnician { get; set; } = null!;
 
         private void SeedUsers()
         {
             var hasher = new PasswordHasher<IdentityUser>();
-            AdminUser = new IdentityUser() 
+            AdminUser = new IdentityUser()
             {
-                Id = "dea12856-c198-4129-b3f3-b893d8395082", 
-                UserName = "admin@mail.com", NormalizedUserName = "admin@mail.com", 
-                Email = "admin@mail.com", 
+                Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                UserName = "admin@mail.com",
+                NormalizedUserName = "admin@mail.com",
+                Email = "admin@mail.com",
                 NormalizedEmail = "admin@mail.com"
             };
 
             AdminUser.PasswordHash = hasher.HashPassword(AdminUser, "admin123");
 
-            CustomerUser = new IdentityUser() 
-            { 
+            CustomerUser = new IdentityUser()
+            {
                 Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
-                UserName = "customer@mail.com", 
+                UserName = "customer@mail.com",
                 NormalizedUserName = "customer@mail.com",
-                Email = "customer@mail.com", 
+                Email = "customer@mail.com",
                 NormalizedEmail = "customer@mail.com"
             };
 
@@ -75,7 +71,7 @@ namespace FixIt.Infrastructure.Data.Seed
                 PlateNumber = "P3366BC",
                 Mileage = 180_000,
                 UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
-                ImageUrl= "https://www.google.com/imgres?imgurl=https%3A%2F%2Fimg.autoabc.lv%2FToyota-Avensis%2FToyota-Avensis_2003_Hecbeks_15102250637_3.jpg&tbnid=3pELpEqszmhQ8M&vet=12ahUKEwiHqLvu_s6EAxX74bsIHVDBCw8QMygIegQIARBf..i&imgrefurl=https%3A%2F%2Fwww.auto-abc.eu%2FToyota-Avensis%2Fg275-2003&docid=Hbz18f1fC2wffM&w=1000&h=547&q=avensis%20t25&ved=2ahUKEwiHqLvu_s6EAxX74bsIHVDBCw8QMygIegQIARBf"
+                ImageUrl = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fimg.autoabc.lv%2FToyota-Avensis%2FToyota-Avensis_2003_Hecbeks_15102250637_3.jpg&tbnid=3pELpEqszmhQ8M&vet=12ahUKEwiHqLvu_s6EAxX74bsIHVDBCw8QMygIegQIARBf..i&imgrefurl=https%3A%2F%2Fwww.auto-abc.eu%2FToyota-Avensis%2Fg275-2003&docid=Hbz18f1fC2wffM&w=1000&h=547&q=avensis%20t25&ved=2ahUKEwiHqLvu_s6EAxX74bsIHVDBCw8QMygIegQIARBf"
             };
 
             SecondCar = new Car()
@@ -94,7 +90,7 @@ namespace FixIt.Infrastructure.Data.Seed
         {
             TireRotation = new Service()
             {
-                Id=1,
+                Id = 1,
                 Type = ServiceType.TireRotation,
                 Price = 80.00m
             };
@@ -138,10 +134,10 @@ namespace FixIt.Infrastructure.Data.Seed
         {
             FirstCarHistory = new ServiceHistory()
             {
-                Id=1,
-                CarId=1,
-                ServiceId=6,
-                TechnicianId=2,
+                Id = 1,
+                CarId = 1,
+                ServiceId = 6,
+                TechnicianId = 2,
                 Date = DateTime.Today.AddMonths(-3),
                 Mileage = 180_000
             };
@@ -150,7 +146,7 @@ namespace FixIt.Infrastructure.Data.Seed
         {
             FirstTechnician = new Technician()
             {
-                Id =1,
+                Id = 1,
                 Name = "John Doe",
                 Specialization = TechnicianSpecialization.Mechanics
             };

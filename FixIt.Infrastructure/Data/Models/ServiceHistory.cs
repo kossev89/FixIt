@@ -35,7 +35,7 @@ namespace FixIt.Infrastructure.Data.Models
 
         [Comment("Current car mileage")]
         [Required]
-        public int Mileage { get; set; };
+        public int Mileage { get; set; }
 
         [Comment("Price of the service performed")]
         [Required]
