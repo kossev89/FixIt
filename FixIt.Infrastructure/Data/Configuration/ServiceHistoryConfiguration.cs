@@ -15,7 +15,7 @@ namespace FixIt.Infrastructure.Data.Configuration
         public void Configure(EntityTypeBuilder<ServiceHistory> builder)
         {
             var data = new SeedData();
-            builder.HasData(new ServiceHistory[] { data.FirstCarHistory });
+            builder.HasData(data.FirstCarHistory);
         }
     }
 }

@@ -151,14 +151,14 @@ namespace FixIt.Infrastructure.Data.Seed
                 Specialization = TechnicianSpecialization.Mechanics
             };
 
-            FirstTechnician = new Technician()
+            SecondTechnician = new Technician()
             {
                 Id = 2,
                 Name = "Jane Doe",
                 Specialization = TechnicianSpecialization.Electronics
             };
 
-            FirstTechnician = new Technician()
+            ThirdTechnician = new Technician()
             {
                 Id = 3,
                 Name = "Don Johns",

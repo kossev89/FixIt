@@ -15,8 +15,7 @@ namespace FixIt.Infrastructure.Data.Configuration
         public void Configure(EntityTypeBuilder<Service> builder)
         {
             var data = new SeedData();
-            builder.HasData(new Service[] 
-            {data.TireRotation, data.OilChange, data.Paint, data.BodyRepair , data.EngineRepair, data.Diagnostics });
+            builder.HasData(new Service[]{data.TireRotation, data.OilChange, data.Diagnostics, data.EngineRepair , data.SuspensionRepair, data.BodyRepair });
         }
     }
 }
