@@ -30,5 +30,9 @@ namespace FixIt.Infrastructure.Data.Constants
         /// </summary>
         public const int TechnicianNameMin = 2;
         public const int TechnicianNameMax = 50;
+        /// <summary>
+        /// Error message constants
+        /// </summary>
+        public const string NameValidationError = "The {0} field should be between {2} and {1} symbols";
     }
 }
