@@ -20,4 +20,12 @@
     <ProjectReference Include="..\FixIt.Infrastructure\FixIt.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Appointment\" />
+    <Folder Include="Views\Car\" />
+    <Folder Include="Views\Technician\" />
+    <Folder Include="Views\ServiceHistory\" />
+    <Folder Include="Views\Service\" />
+  </ItemGroup>
+
 </Project>
