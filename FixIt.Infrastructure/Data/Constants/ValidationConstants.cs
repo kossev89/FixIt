@@ -17,6 +17,11 @@ namespace FixIt.Infrastructure.Data.Constants
         public const int CarMin = 2;
         public const int CarMax = 20;
         /// <summary>
+        /// Minimum manufacture year
+        /// </summary>
+        public const int YearMin = 1_800;
+        public const int YearMax = 2_024;
+        /// <summary>
         /// VIN number fixed length
         /// </summary>
         public const int VinLength = 17;
@@ -34,5 +39,8 @@ namespace FixIt.Infrastructure.Data.Constants
         /// Error message constants
         /// </summary>
         public const string NameValidationError = "The {0} field should be between {2} and {1} symbols";
+        public const string YearValidationError = "The {0} field should be between {1} and {2}";
+        public const string VinValidationError = "The {0} field should be exactly {1} symbols";
+        public const string MileageValidationError = "The {0} field should be between {1} and {2} kilometers";
     }
 }

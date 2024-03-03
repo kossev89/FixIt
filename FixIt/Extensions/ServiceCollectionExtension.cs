@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using FixIt.Infrastructure.Data;
 using FixIt.Infrastructure.Data.Models;
+using FixIt.Core.Contracts.Car;
+using FixIt.Core.Services.Car;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -9,6 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<ICarService, CarService>();
             return services;
         }
 
@@ -30,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
             services
-                .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             return services;

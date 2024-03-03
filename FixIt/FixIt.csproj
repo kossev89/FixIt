@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FixIt.Core\FixIt.Core.csproj" />
     <ProjectReference Include="..\FixIt.Infrastructure\FixIt.Infrastructure.csproj" />
   </ItemGroup>
 
