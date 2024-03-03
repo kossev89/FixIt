@@ -19,7 +19,7 @@ namespace FixIt.Infrastructure.Data.Constants
         /// <summary>
         /// Minimum manufacture year
         /// </summary>
-        public const int YearMin = 1_800;
+        public const int YearMin = 1_886;
         public const int YearMax = 2_024;
         /// <summary>
         /// VIN number fixed length
@@ -42,5 +42,12 @@ namespace FixIt.Infrastructure.Data.Constants
         public const string YearValidationError = "The {0} field should be between {1} and {2}";
         public const string VinValidationError = "The {0} field should be exactly {1} symbols";
         public const string MileageValidationError = "The {0} field should be between {1} and {2} kilometers";
+        /// <summary>
+        /// Display Constants
+        /// </summary>
+        public const string CarModelDisplay = "Car Model";
+        public const string CarYearDisplay = "Year of Production";
+        public const string CarPlateDisplay = "Registration Plate Number";
+        public const string CarImageDisplay = "Car Image";
     }
 }
