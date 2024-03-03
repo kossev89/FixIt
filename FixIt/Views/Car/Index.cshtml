@@ -3,12 +3,13 @@
 @{
     ViewData["Title"] = "My Cars";
 }
+<hr />
 
 <div class="container">
     <h1>My Cars</h1>
 
     <a asp-controller="Car" asp-action="Add" class="btn btn-primary">Add a Car</a>
-
+    <hr />
     @if (!Model.Any())
     {
         <div class="alert alert-info" role="alert">
@@ -34,7 +35,7 @@
 
                             
                             <div class="d-grid gap-2">
-                                <a href="#" class="btn btn-primary">Details</a>
+                                <a asp-controller="Car" asp-action="Details" asp-route-id="@car.Id" class="btn btn-primary">Details</a>
                                 <a href="#" class="btn btn-secondary">Edit</a>
                                 <a href="#" class="btn btn-success">Book a Service</a>
                             </div>
