@@ -34,11 +34,11 @@ namespace FixIt.Controllers
             {
 
             };
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
-            return View(model);
+            return View();
         }
 
         [HttpPost]
@@ -46,6 +46,13 @@ namespace FixIt.Controllers
         {
             await service.AddAsync(model);
             return RedirectToAction("Index", "Car");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var model = await service.GetDetailsAsync(id);
+            return View(model);
         }
     }
 }
