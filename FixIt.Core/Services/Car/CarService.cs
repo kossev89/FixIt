@@ -34,7 +34,7 @@ namespace FixIt.Core.Services.Car
             var entity = new Infrastructure.Data.Models.Car()
             {
                 Make = model.Make,
-                Model = model.Model,
+                Model = model.CarModel,
                 Year = model.Year,
                 PlateNumber = model.PlateNumber,
                 Vin = model.Vin,
@@ -67,6 +67,35 @@ namespace FixIt.Core.Services.Car
                     PlateNumber = e.PlateNumber
                 })
                 .ToArrayAsync();
+        }
+
+        public async Task<CarDetailedViewModel> GetDetailsAsync(int id)
+        {
+            var entity = await context
+                .Cars
+                .FindAsync(id);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("The car doesn't exist!");
+            }
+
+            if (entity.UserId!=GetUserId())
+            {
+                throw new UnauthorizedAccessException("Access not granted");
+            }
+
+            return new CarDetailedViewModel()
+            {
+                Id=entity.Id,
+                Make = entity.Make,
+                Model = entity.Model,
+                Year = entity.Year,
+                PlateNumber = entity.PlateNumber,
+                Vin = entity.Vin,
+                Mileage = entity.Mileage,
+                ImageUrl = entity.ImageUrl
+            };
         }
 
         public string GetUserId()
