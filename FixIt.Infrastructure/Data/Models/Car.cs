@@ -9,6 +9,11 @@ namespace FixIt.Infrastructure.Data.Models
     [Comment("Cars Table")]
     public class Car
     {
+        public Car()
+        {
+            IsDeleted = false;
+        }
+
         [Comment("Car Identifier")]
         [Key]
         public int Id { get; init; }
@@ -49,6 +54,10 @@ namespace FixIt.Infrastructure.Data.Models
 
         [Comment("Car Image")]
         public string? ImageUrl { get; set; }
+
+        [Comment("Soft delete property")]
+        [Required]
+        public bool IsDeleted { get; set; }
 
         public ICollection<ServiceHistory> ServiceHistories { get; set; } = new List<ServiceHistory>();
     }

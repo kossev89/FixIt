@@ -21,5 +21,9 @@ namespace FixIt.Infrastructure.Data.Models
         [Comment("Technician Specialization")]
         [Required]
         public TechnicianSpecialization Specialization { get; set; }
+
+        [Comment("Technician Soft Delete Property")]
+        [Required]
+        public bool IsDeleted { get; set; }
     }
 }
