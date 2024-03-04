@@ -59,7 +59,7 @@ namespace FixIt.Core.Services.Car
             return await context
                 .Cars
                 .AsNoTracking()
-                .Where(x => x.UserId == GetUserId())
+                .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)
                 .Select(e => new CarViewModel()
                 {
                     Id = e.Id,
@@ -77,10 +77,20 @@ namespace FixIt.Core.Services.Car
                 .Cars
                 .FindAsync(id);
 
+            if (entity == null || entity.IsDeleted)
+            {
+                throw new ArgumentException("The car does not exist");
+            }
+
+            if (entity.UserId != GetUserId())
+            {
+                throw new UnauthorizedAccessException("Acces not granted");
+            }
+
 
             return new CarDetailedViewModel()
             {
-                Id=entity.Id,
+                Id = entity.Id,
                 Make = entity.Make,
                 Model = entity.Model,
                 Year = entity.Year,
@@ -97,7 +107,7 @@ namespace FixIt.Core.Services.Car
                 .Cars
                 .FindAsync(id);
 
-            if (entity == null)
+            if (entity == null || entity.IsDeleted)
             {
                 throw new ArgumentException("The car doesn't exist!");
             }
@@ -113,7 +123,7 @@ namespace FixIt.Core.Services.Car
                 ImageUrl = entity.ImageUrl,
                 Mileage = entity.Mileage,
                 PlateNumber = entity.PlateNumber,
-                Vin= entity.Vin
+                Vin = entity.Vin
             };
         }
 
@@ -132,7 +142,7 @@ namespace FixIt.Core.Services.Car
                 .Cars
                 .FindAsync(model.Id);
 
-            if (entity == null)
+            if (entity == null || entity.IsDeleted)
             {
                 throw new ArgumentException("The car doesn't exist!");
             }
@@ -144,7 +154,7 @@ namespace FixIt.Core.Services.Car
 
             entity.PlateNumber = model.PlateNumber;
             entity.ImageUrl = model.ImageUrl;
-            if (entity.Mileage>model.Mileage)
+            if (entity.Mileage > model.Mileage)
             {
                 throw new ArgumentException($"The new Mileage should be more or equal to {entity.Mileage}");
             }
