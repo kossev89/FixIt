@@ -8,5 +8,7 @@ namespace FixIt.Core.Contracts.Car
         string GetUserId();
         Task AddAsync(CarFormModel model);
         Task<CarDetailedViewModel> GetDetailsAsync(int id);
+        Task UpdateAsync(CarFormModel model);
+        Task<CarFormModel> GetFormByIdAsync(int id);
     }
 }

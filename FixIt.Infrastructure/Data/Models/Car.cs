@@ -30,11 +30,11 @@ namespace FixIt.Infrastructure.Data.Models
         [Comment("Car Registration Plate Number")]
         [Required]
         [StringLength(CarMax)]
-        public string PlateNumber { get; init; } = string.Empty;
+        public string PlateNumber { get; set; } = string.Empty;
 
         [Comment("Car Vehicle Identification Number")]
         [StringLength(VinLength)]
-        public string? Vin { get; init; }
+        public string? Vin { get; set; }
 
         [Comment("Car Current Mileage in km")]
         [Required]

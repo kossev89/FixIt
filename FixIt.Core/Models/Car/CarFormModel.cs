@@ -10,6 +10,8 @@ namespace FixIt.Core.Models.Car
     /// </summary>
     public class CarFormModel
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(CarMax, MinimumLength = CarMin, ErrorMessage = NameValidationError)]
         public string Make { get; set; } = string.Empty;

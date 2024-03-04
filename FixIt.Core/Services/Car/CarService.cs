@@ -3,7 +3,9 @@ using FixIt.Core.Models.Car;
 using FixIt.Infrastructure.Data;
 using FixIt.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,15 +77,6 @@ namespace FixIt.Core.Services.Car
                 .Cars
                 .FindAsync(id);
 
-            if (entity == null)
-            {
-                throw new ArgumentException("The car doesn't exist!");
-            }
-
-            if (entity.UserId!=GetUserId())
-            {
-                throw new UnauthorizedAccessException("Access not granted");
-            }
 
             return new CarDetailedViewModel()
             {
@@ -98,6 +91,32 @@ namespace FixIt.Core.Services.Car
             };
         }
 
+        public async Task<CarFormModel> GetFormByIdAsync(int id)
+        {
+            var entity = await context
+                .Cars
+                .FindAsync(id);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("The car doesn't exist!");
+            }
+
+            if (entity.UserId != GetUserId())
+            {
+                throw new UnauthorizedAccessException("Access not granted");
+            }
+
+            return new CarFormModel()
+            {
+                Id = entity.Id,
+                ImageUrl = entity.ImageUrl,
+                Mileage = entity.Mileage,
+                PlateNumber = entity.PlateNumber,
+                Vin= entity.Vin
+            };
+        }
+
         public string GetUserId()
         {
             return httpContextAccessor
@@ -105,6 +124,34 @@ namespace FixIt.Core.Services.Car
                 .User
                 .FindFirst(ClaimTypes.NameIdentifier)?
                 .Value;
+        }
+
+        public async Task UpdateAsync(CarFormModel model)
+        {
+            var entity = await context
+                .Cars
+                .FindAsync(model.Id);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("The car doesn't exist!");
+            }
+
+            if (entity.UserId != GetUserId())
+            {
+                throw new UnauthorizedAccessException("Access not granted");
+            }
+
+            entity.PlateNumber = model.PlateNumber;
+            entity.ImageUrl = model.ImageUrl;
+            if (entity.Mileage>model.Mileage)
+            {
+                throw new ArgumentException($"The new Mileage should be more or equal to {entity.Mileage}");
+            }
+            entity.Mileage = model.Mileage;
+            entity.Vin = model.Vin;
+
+            await context.SaveChangesAsync();
         }
     }
 }
