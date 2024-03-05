@@ -54,6 +54,26 @@ namespace FixIt.Core.Services.Car
             await context.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(CarViewModel model)
+        {
+            var entity = await context
+                .Cars
+                .FindAsync(model.Id);
+
+            if (entity == null || entity.IsDeleted)
+            {
+                throw new ArgumentException("The car does not exist");
+            }
+
+            if (entity.UserId != GetUserId())
+            {
+                throw new UnauthorizedAccessException("Acces not granted");
+            }
+
+            entity.IsDeleted = true;
+            await context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<CarViewModel>> GetAllAsync()
         {
             return await context
@@ -124,6 +144,30 @@ namespace FixIt.Core.Services.Car
                 Mileage = entity.Mileage,
                 PlateNumber = entity.PlateNumber,
                 Vin = entity.Vin
+            };
+        }
+
+        public async Task<CarViewModel> GetModelByIdAsync(int id)
+        {
+            var entity = await context
+            .Cars
+            .FindAsync(id);
+
+            if (entity == null || entity.IsDeleted)
+            {
+                throw new ArgumentException("The car doesn't exist!");
+            }
+
+            if (entity.UserId != GetUserId())
+            {
+                throw new UnauthorizedAccessException("Access not granted");
+            }
+
+            return new CarViewModel()
+            {
+                Id = entity.Id,
+                Make = entity.Make,
+                Model = entity.Model
             };
         }
 

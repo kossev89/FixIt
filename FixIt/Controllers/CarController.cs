@@ -85,5 +85,32 @@ namespace FixIt.Controllers
             await service.UpdateAsync(model);
             return RedirectToAction("Details", "Car", new { id = model.Id });
         }
+
+        /// <summary>
+        /// Deletes a car
+        /// </summary>
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await service.GetModelByIdAsync(id);
+
+            if (ModelState.IsValid)
+            {
+                return View(model);
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(CarViewModel model)
+        {
+            await service.DeleteAsync(model);
+            return RedirectToAction("Index", "Car");
+        }
+
     }
 }

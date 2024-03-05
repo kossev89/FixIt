@@ -19,7 +19,7 @@
                 </div>
                 <div class="mb-3">
                     <label asp-for="@Model.Mileage" class="form-label-add-edit">Current mileage</label>
-                    <input asp-for="@Model.Mileage" class="form-control" placeholder="0-2 000 000" type="number" min="@MinMileage" max="@MaxMileage" />
+                    <input asp-for="@Model.Mileage" class="form-control" placeholder="0-2 000 000" type="number" min="@Model.Mileage" max="@MaxMileage" />
                     <span asp-validation-for="@Model.Mileage" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
