@@ -176,6 +176,7 @@ namespace FixIt.Infrastructure.Data.Seed
                 UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                 CarId = 1,
                 ServiceId = 1,
+                TechnicianId = 1,
                 DateAndTime = DateTime.Now.AddDays(1),
                 Status = AppointmentStatus.Idle
             };

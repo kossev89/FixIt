@@ -19,6 +19,7 @@ namespace FixIt.Infrastructure.Data
             builder.ApplyConfiguration(new TechnicianConfiguration());
             builder.ApplyConfiguration(new ServiceConfiguration());
             builder.ApplyConfiguration(new ServiceHistoryConfiguration());
+            builder.ApplyConfiguration(new AppointmentConfiguration());
             base.OnModelCreating(builder);
         }
 
