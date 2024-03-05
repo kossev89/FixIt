@@ -8,6 +8,7 @@ namespace FixIt.Infrastructure.Data.Enumerators
 {
     public enum AppointmentStatus
     {
+        Idle,
         Scheduled,
         InProgress,
         Completed,

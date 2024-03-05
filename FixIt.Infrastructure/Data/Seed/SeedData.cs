@@ -16,6 +16,7 @@ namespace FixIt.Infrastructure.Data.Seed
             SeedServices();
             SeedTechnicians();
             SeedServiceHistories();
+            SeedAppointments();
         }
 
         public IdentityUser AdminUser { get; set; } = null!;
@@ -33,6 +34,7 @@ namespace FixIt.Infrastructure.Data.Seed
         public Technician FirstTechnician { get; set; } = null!;
         public Technician SecondTechnician { get; set; } = null!;
         public Technician ThirdTechnician { get; set; } = null!;
+        public Appointment FirstAppointment { get; set; } = null!;
 
         private void SeedUsers()
         {
@@ -163,6 +165,19 @@ namespace FixIt.Infrastructure.Data.Seed
                 Id = 3,
                 Name = "Don Johns",
                 Specialization = TechnicianSpecialization.Body
+            };
+        }
+
+        private void SeedAppointments()
+        {
+            FirstAppointment = new Appointment()
+            {
+                Id = 1,
+                UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                CarId = 1,
+                ServiceId = 1,
+                DateAndTime = DateTime.Now.AddDays(1),
+                Status = AppointmentStatus.Idle
             };
         }
 

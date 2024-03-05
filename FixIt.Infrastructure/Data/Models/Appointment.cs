@@ -33,8 +33,7 @@ namespace FixIt.Infrastructure.Data.Models
         public Service Service { get; set; } = null!;
 
         [Comment("Technician Identifier")]
-        [Required]
-        public int TechnicianId { get; set; }
+        public int? TechnicianId { get; set; }
         [ForeignKey(nameof(TechnicianId))]
         public Technician Technician { get; set; } = null!;
 
@@ -44,6 +43,6 @@ namespace FixIt.Infrastructure.Data.Models
 
         [Comment("Appointment Status")]
         [Required]
-        public AppointmentStatus Status { get; set; } = AppointmentStatus.Scheduled;
+        public AppointmentStatus Status { get; set; } = AppointmentStatus.Idle;
     }
 }

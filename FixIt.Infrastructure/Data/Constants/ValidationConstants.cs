@@ -49,5 +49,9 @@ namespace FixIt.Infrastructure.Data.Constants
         public const string CarYearDisplay = "Year of Production";
         public const string CarPlateDisplay = "Registration Plate Number";
         public const string CarImageDisplay = "Car Image";
+        /// <summary>
+        /// Date Format
+        /// </summary>
+        public const string DateValidationFormat = "dd/MM/yyyy HH:mm";
     }
 }
