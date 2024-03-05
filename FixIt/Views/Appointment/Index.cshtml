@@ -1,0 +1,47 @@
+﻿@model IEnumerable<AppointmentViewModel>
+
+@{
+    ViewBag.Title = "My Appointments";
+}
+<hr />
+
+<div class="container">
+    <h1>@ViewBag.Title</h1>
+
+    <a asp-controller="Appointment" asp-action="Book" class="btn btn-primary">Book an Appointment</a>
+    <hr />
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info" role="alert">
+            You have no appointments.
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var appointment in Model)
+            {
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@appointment.CarMake @appointment.CarModel</h5>
+                            <p class="card-text">Registration Plate: @appointment.CarRegPlate</p>
+                            <p class="card-text">Service Type: @appointment.ServiceType</p>
+                            <p class="card-text">Technician: @appointment.TechnicianName</p>
+                            <p class="card-text">Date And Time: @appointment.DateAndTime.ToString(DateValidationFormat)</p>
+                            <p class="card-text">Status: @appointment.Status</p>
+
+                            <div class="mt-4">
+                                <a asp-controller="Appointment" asp-action="Index" asp-route-id="@appointment.Id" class="btn btn-danger">Cancel Appointnment</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

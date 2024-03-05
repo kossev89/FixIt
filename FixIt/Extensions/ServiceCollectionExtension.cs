@@ -4,6 +4,8 @@ using FixIt.Infrastructure.Data;
 using FixIt.Infrastructure.Data.Models;
 using FixIt.Core.Contracts.Car;
 using FixIt.Core.Services.Car;
+using FixIt.Core.Contracts.Appointment;
+using FixIt.Core.Services.Appointment;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -12,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<ICarService, CarService>();
+            services.AddScoped<IAppointmentService, AppointmentService>();
             return services;
         }
 
