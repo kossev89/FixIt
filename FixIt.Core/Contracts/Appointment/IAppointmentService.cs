@@ -14,6 +14,7 @@ namespace FixIt.Core.Contracts.Appointment
         Task BookAsync(AppointmentFormModel model);
         Task CancelAsync(AppointmentViewModel model);
         string GetUserId();
+        Task<AppointmentViewModel> GetModelByIdAsync(int id);
 
     }
 }

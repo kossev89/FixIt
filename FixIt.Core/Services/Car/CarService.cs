@@ -173,11 +173,18 @@ namespace FixIt.Core.Services.Car
 
         public string GetUserId()
         {
-            return httpContextAccessor
+            var userId= httpContextAccessor
                 .HttpContext
                 .User
                 .FindFirst(ClaimTypes.NameIdentifier)?
                 .Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("User doesn't exist");
+            }
+
+            return userId;
         }
 
         public async Task UpdateAsync(CarFormModel model)

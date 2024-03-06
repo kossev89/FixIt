@@ -1,0 +1,29 @@
+﻿@model AppointmentViewModel
+@{
+    ViewBag.Title = "Cancel Appointment";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Model.CarMake @Model.CarModel</h5>
+                <p class="card-text">Registration Plate: @Model.CarRegPlate</p>
+                <p class="card-text">Service Type: @Model.ServiceType</p>
+                <p class="card-text">Technician: @Model.TechnicianName</p>
+                <p class="card-text">Date And Time: @Model.DateAndTime.ToString(DateValidationFormat)</p>
+                <p class="card-text">Status: @Model.Status</p>
+            </div>
+            <div class="card-footer">
+                <form asp-action="CancelConfirmed" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger" asp-controller="Appointment" asp-action="CancelConfirmed">Cancel Appointment?</button>
+                    <a asp-controller="Appointment" asp-action="Index" class="btn btn-secondary">Discard</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
