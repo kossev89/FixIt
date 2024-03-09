@@ -53,5 +53,14 @@ namespace FixIt.Infrastructure.Data.Constants
         /// Date Format
         /// </summary>
         public const string DateValidationFormat = "dd/MM/yyyy HH:mm";
+        /// <summary>
+        /// Error Validation
+        /// </summary>
+        public const string RequiredErrorMessage = "The {0} field is required!";
+        /// <summary>
+        /// Work Time Validation
+        /// </summary>
+        public const DayOfWeek FirstWorkDay = DayOfWeek.Monday;
+        public const DayOfWeek LastWorkDay = DayOfWeek.Friday;
     }
 }

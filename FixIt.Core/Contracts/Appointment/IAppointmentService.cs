@@ -1,5 +1,6 @@
 ﻿using FixIt.Core.Models.Appointment;
 using FixIt.Core.Models.Car;
+using FixIt.Core.Models.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace FixIt.Core.Contracts.Appointment
         Task CancelAsync(AppointmentViewModel model);
         string GetUserId();
         Task<AppointmentViewModel> GetModelByIdAsync(int id);
+        Task<IEnumerable<CarViewModel>> GetCars();
+        Task<IEnumerable<ServiceViewModel>> GetServices();
 
     }
 }

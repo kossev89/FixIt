@@ -1,0 +1,61 @@
+﻿@model AppointmentFormModel
+
+@{
+    ViewBag.Title = "Book an Appointment";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-action="BookConfirmed" method="post">
+            <div class="mb-3">
+                <label asp-for="@Model.CarId" class="form-label-add-edit">Car Plate Number</label>
+                <select asp-for="@Model.CarId" class="form-control" aria-required="true">
+                    @foreach (var type in Model.CarList)
+                    {
+                        <option value="@type.Id">@type.PlateNumber</option>
+                    }
+                </select>
+                <span asp-validation-for="@Model.CarId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.ServiceId" class="form-label-add-edit">Choose Service Type</label>
+                <select asp-for="@Model.ServiceId" class="form-control" aria-required="true">
+                    @foreach (var type in Model.ServiceList)
+                    {
+                        <option value="@type.Id">@type.Type</option>
+                    }
+                </select>
+                <span asp-validation-for="@Model.CarId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.DateAndTime" class="form-label-add-edit">Book a Date</label>
+                <input asp-for="@Model.DateAndTime" class="form-control" id="datePicker" />
+                <span asp-validation-for="@Model.DateAndTime" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+
+                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Book" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            $("#datePicker").datepicker({
+                dateFormat: 'yy-mm-dd',
+                timeFormat: 'HH:mm',
+                showButtonPanel: true,
+                showAnim: 'slideDown'
+            });
+        });
+    </script>
+}
+

@@ -1,17 +1,12 @@
 ﻿using FixIt.Core.Contracts.Appointment;
 using FixIt.Core.Models.Appointment;
 using FixIt.Core.Models.Car;
+using FixIt.Core.Models.Service;
 using FixIt.Infrastructure.Data;
-using FixIt.Infrastructure.Data.Enumerators;
-using FixIt.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+using static FixIt.Infrastructure.Data.Constants.ValidationConstants;
 using static FixIt.Infrastructure.Data.Enumerators.AppointmentStatus;
 
 namespace FixIt.Core.Services.Appointment
@@ -25,9 +20,35 @@ namespace FixIt.Core.Services.Appointment
             context = _context;
             httpContextAccessor = _httpContextAccessor;
         }
-        public Task BookAsync(AppointmentFormModel model)
+        public async Task BookAsync(AppointmentFormModel model)
         {
-            throw new NotImplementedException();
+            var currentUserId = GetUserId();
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                throw new UnauthorizedAccessException("Authorization error");
+            }
+
+            var entity = new Infrastructure.Data.Models.Appointment()
+            {
+                UserId = currentUserId,
+                CarId = model.CarId,
+                DateAndTime = model.DateAndTime,
+                ServiceId = model.ServiceId,
+                Status = Idle
+            };
+
+            if (entity == null)
+            {
+                throw new ArgumentException("Invalid Appointment Information");
+            }
+
+            if (entity.DateAndTime.DayOfWeek > LastWorkDay || entity.DateAndTime.Hour < 8 || entity.DateAndTime.Hour > 17)
+            {
+                throw new ArgumentException("The appointment date is outside working hours");
+            }
+
+            await context.AddAsync(entity);
+            await context.SaveChangesAsync();
         }
 
         public async Task CancelAsync(AppointmentViewModel model)
@@ -74,6 +95,19 @@ namespace FixIt.Core.Services.Appointment
                 .ToArrayAsync();
         }
 
+        public async Task<IEnumerable<CarViewModel>> GetCars()
+        {
+            return await context
+                .Cars
+                .AsNoTracking()
+                .Select(e => new CarViewModel()
+                {
+                    Id = e.Id,
+                    PlateNumber = e.PlateNumber
+                })
+                .ToArrayAsync();
+        }
+
         public async Task<AppointmentViewModel> GetModelByIdAsync(int id)
         {
             var model = await context
@@ -108,6 +142,19 @@ namespace FixIt.Core.Services.Appointment
 
             return model;
 
+        }
+
+        public async Task<IEnumerable<ServiceViewModel>> GetServices()
+        {
+            return await context
+                .Services
+                .AsNoTracking()
+                .Select(e => new ServiceViewModel()
+                {
+                    Id = e.Id,
+                    Type = e.Type
+                })
+                .ToArrayAsync();
         }
 
         public string GetUserId()
