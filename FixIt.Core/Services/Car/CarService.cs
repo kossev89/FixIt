@@ -167,7 +167,8 @@ namespace FixIt.Core.Services.Car
             {
                 Id = entity.Id,
                 Make = entity.Make,
-                Model = entity.Model
+                Model = entity.Model,
+                ImageUrl = entity.ImageUrl
             };
         }
 

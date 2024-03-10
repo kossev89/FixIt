@@ -2,6 +2,7 @@
 using FixIt.Core.Models.Service;
 using System.ComponentModel.DataAnnotations;
 using static FixIt.Infrastructure.Data.Constants.ValidationConstants;
+using FixIt.Infrastructure.Data.Constants;
 
 namespace FixIt.Core.Models.Appointment
 {

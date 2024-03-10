@@ -95,17 +95,40 @@ namespace FixIt.Core.Services.Appointment
                 .ToArrayAsync();
         }
 
-        public async Task<IEnumerable<CarViewModel>> GetCars()
+        public async Task<IEnumerable<CarViewModel>> GetCarsAsync()
         {
             return await context
                 .Cars
                 .AsNoTracking()
+                .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)
+                .Select(e => new CarViewModel()
+                {
+                    Id = e.Id,
+                    PlateNumber = e.PlateNumber
+                })
+                .OrderBy(p => p.PlateNumber)
+                .ToArrayAsync();
+        }
+
+        public async Task<IEnumerable<CarViewModel>> GetCarByIdAsync(int id)
+        {
+            var model = await context
+                .Cars
+                .AsNoTracking()
+                .Where(x => x.UserId == GetUserId() && x.IsDeleted == false && x.Id == id)
                 .Select(e => new CarViewModel()
                 {
                     Id = e.Id,
                     PlateNumber = e.PlateNumber
                 })
                 .ToArrayAsync();
+
+            if (model == null)
+            {
+                throw new ArgumentException("The car doesn't exist");
+            }
+
+            return model;
         }
 
         public async Task<AppointmentViewModel> GetModelByIdAsync(int id)
@@ -113,6 +136,7 @@ namespace FixIt.Core.Services.Appointment
             var model = await context
                 .Appointments
                 .AsNoTracking()
+                .Where(x => x.Id == id)
                 .Select(e => new AppointmentViewModel()
                 {
                     Id = e.Id,
@@ -144,7 +168,7 @@ namespace FixIt.Core.Services.Appointment
 
         }
 
-        public async Task<IEnumerable<ServiceViewModel>> GetServices()
+        public async Task<IEnumerable<ServiceViewModel>> GetServicesAsync()
         {
             return await context
                 .Services
@@ -154,6 +178,7 @@ namespace FixIt.Core.Services.Appointment
                     Id = e.Id,
                     Type = e.Type
                 })
+                .OrderBy(n => n.Type)
                 .ToArrayAsync();
         }
 

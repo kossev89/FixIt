@@ -58,8 +58,23 @@ namespace FixIt.Controllers
         {
             var model = new AppointmentFormModel()
             {
-                ServiceList = await service.GetServices(),
-                CarList = await service.GetCars()
+                ServiceList = await service.GetServicesAsync(),
+                CarList = await service.GetCarsAsync()
+            };
+            if (ModelState.IsValid)
+            {
+                return View(model);
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> BookToCar(int id)
+        {
+            var model = new AppointmentFormModel()
+            {
+                ServiceList = await service.GetServicesAsync(),
+                CarList = await service.GetCarByIdAsync(id)
             };
             if (ModelState.IsValid)
             {

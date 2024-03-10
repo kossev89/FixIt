@@ -16,8 +16,9 @@ namespace FixIt.Core.Contracts.Appointment
         Task CancelAsync(AppointmentViewModel model);
         string GetUserId();
         Task<AppointmentViewModel> GetModelByIdAsync(int id);
-        Task<IEnumerable<CarViewModel>> GetCars();
-        Task<IEnumerable<ServiceViewModel>> GetServices();
+        Task<IEnumerable<CarViewModel>> GetCarsAsync();
+        Task<IEnumerable<CarViewModel>> GetCarByIdAsync(int id);
+        Task<IEnumerable<ServiceViewModel>> GetServicesAsync();
 
     }
 }

@@ -35,7 +35,7 @@ namespace FixIt.Infrastructure.Data.Models
         [Comment("Technician Identifier")]
         public int? TechnicianId { get; set; }
         [ForeignKey(nameof(TechnicianId))]
-        public Technician Technician { get; set; } = null!;
+        public Technician? Technician { get; set; }
 
         [Comment("Appointment Date")]
         [Required]
