@@ -66,7 +66,7 @@ namespace FixIt.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
 
                     b.HasComment("Appointments table");
 
@@ -140,7 +140,7 @@ namespace FixIt.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
 
                     b.HasComment("Cars Table");
 
@@ -194,7 +194,7 @@ namespace FixIt.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Services");
+                    b.ToTable("Services", (string)null);
 
                     b.HasComment("Table for Services");
 
@@ -274,7 +274,7 @@ namespace FixIt.Infrastructure.Migrations
 
                     b.HasIndex("TechnicianId");
 
-                    b.ToTable("ServiceHistories");
+                    b.ToTable("ServiceHistories", (string)null);
 
                     b.HasComment("Table for the ServiceHistory");
 
@@ -315,7 +315,7 @@ namespace FixIt.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Technicians");
+                    b.ToTable("Technicians", (string)null);
 
                     b.HasComment("Technicians Table");
 

@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Technician\" />
-    <Folder Include="Views\ServiceHistory\" />
     <Folder Include="Views\Service\" />
   </ItemGroup>
 

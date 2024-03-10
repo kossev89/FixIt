@@ -6,6 +6,8 @@ using FixIt.Core.Contracts.Car;
 using FixIt.Core.Services.Car;
 using FixIt.Core.Contracts.Appointment;
 using FixIt.Core.Services.Appointment;
+using FixIt.Core.Contracts.ServiceHistory;
+using FixIt.Core.Services.ServiceHistory;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -15,6 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IServiceHistoryService, ServiceHistoryService>();
             return services;
         }
 

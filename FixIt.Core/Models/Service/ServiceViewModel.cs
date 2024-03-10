@@ -9,5 +9,6 @@ namespace FixIt.Core.Models.Service
         public int Id { get; set; }
         [Required (ErrorMessage = RequiredErrorMessage)]
         public ServiceType Type { get; set; }
+        public decimal Price { get; set; }
     }
 }

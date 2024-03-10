@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -35,7 +36,7 @@ namespace FixIt.Infrastructure.Data.Models
 
         [Comment("Current car mileage")]
         [Required]
-        public int Mileage { get; set; }
+        public int Mileage { get; init; }
 
         [Comment("Price of the service performed")]
         [Required]
