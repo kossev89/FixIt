@@ -4,6 +4,7 @@ using FixIt.Infrastructure.Data;
 using FixIt.Infrastructure.Data.Models;
 using FixIt.Core.Contracts.Car;
 using FixIt.Core.Services.Car;
+using FixIt.Core.Services.User;
 using FixIt.Core.Contracts.Appointment;
 using FixIt.Core.Services.Appointment;
 using FixIt.Core.Contracts.ServiceHistory;
@@ -19,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IServiceHistoryService, ServiceHistoryService>();
-            services.AddScoped<IUserService, IUserService>();
+            services.AddScoped<IUserService, FixIt.Core.Services.User.UserSevice>();
             return services;
         }
 
@@ -46,5 +47,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return services;
         }
+
+        //public static IServiceCollection AddAutoMapper(this IServiceCollection services, IConfiguration config)
+        //{
+        //    services.AddAutoMapper(typeof(Program));
+        //    return services;
+        //}
     }
 }
