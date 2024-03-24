@@ -1,17 +1,13 @@
-﻿using FixIt.Core.Contracts.Car;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using FixIt.Core.Contracts.Car;
 using FixIt.Core.Models.Car;
+using FixIt.Core.Profiles;
 using FixIt.Infrastructure.Data;
 using FixIt.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Core.Services.Car
 {
@@ -24,6 +20,7 @@ namespace FixIt.Core.Services.Car
             context = _context;
             httpContextAccessor = _httpContextAccessor;
         }
+
 
         public async Task AddAsync(CarFormModel model)
         {
@@ -76,105 +73,86 @@ namespace FixIt.Core.Services.Car
 
         public async Task<IEnumerable<CarViewModel>> GetAllAsync()
         {
+            var config = new MapperConfiguration
+                (
+                cfg =>
+                cfg.AddProfile<MapperConfig>()
+                );
+
             return await context
                 .Cars
-                .AsNoTracking()
                 .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)
-                .Select(e => new CarViewModel()
-                {
-                    Id = e.Id,
-                    Make = e.Make,
-                    Model = e.Model,
-                    ImageUrl = e.ImageUrl,
-                    PlateNumber = e.PlateNumber
-                })
-                .ToArrayAsync();
+                .AsNoTracking()
+                .ProjectTo<CarViewModel>(config)
+                .ToListAsync();
         }
 
         public async Task<CarDetailedViewModel> GetDetailsAsync(int id)
         {
-            var entity = await context
+            var config = new MapperConfiguration
+         (
+         cfg =>
+         cfg.AddProfile<MapperConfig>()
+         );
+
+            var car = await context
                 .Cars
-                .FindAsync(id);
+                .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)
+                .ProjectTo<CarDetailedViewModel>(config)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (entity == null || entity.IsDeleted)
+            if (car is CarDetailedViewModel == false)
             {
-                throw new ArgumentException("The car does not exist");
+                throw new ArgumentException("Car does not exist");
             }
-
-            if (entity.UserId != GetUserId())
-            {
-                throw new UnauthorizedAccessException("Acces not granted");
-            }
-
-
-            return new CarDetailedViewModel()
-            {
-                Id = entity.Id,
-                Make = entity.Make,
-                Model = entity.Model,
-                Year = entity.Year,
-                PlateNumber = entity.PlateNumber,
-                Vin = entity.Vin,
-                Mileage = entity.Mileage,
-                ImageUrl = entity.ImageUrl
-            };
+            return car;
         }
 
         public async Task<CarFormModel> GetFormByIdAsync(int id)
         {
-            var entity = await context
+            var config = new MapperConfiguration
+            (
+            cfg =>
+            cfg.AddProfile<MapperConfig>()
+            );
+
+            var carForm = await context
                 .Cars
-                .FindAsync(id);
+                .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)
+                .ProjectTo<CarFormModel>(config)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (entity == null || entity.IsDeleted)
+            if (carForm is CarFormModel == false)
             {
-                throw new ArgumentException("The car doesn't exist!");
+                throw new ArgumentException("Car does not exist");
             }
-
-            if (entity.UserId != GetUserId())
-            {
-                throw new UnauthorizedAccessException("Access not granted");
-            }
-
-            return new CarFormModel()
-            {
-                Id = entity.Id,
-                ImageUrl = entity.ImageUrl,
-                Mileage = entity.Mileage,
-                PlateNumber = entity.PlateNumber,
-                Vin = entity.Vin
-            };
+            return carForm;
         }
 
         public async Task<CarViewModel> GetModelByIdAsync(int id)
         {
-            var entity = await context
-            .Cars
-            .FindAsync(id);
+            var config = new MapperConfiguration
+            (
+            cfg =>
+            cfg.AddProfile<MapperConfig>()
+            );
 
-            if (entity == null || entity.IsDeleted)
+            var carView = await context
+                .Cars
+                .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)
+                .ProjectTo<CarViewModel>(config)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (carView is CarViewModel == false)
             {
-                throw new ArgumentException("The car doesn't exist!");
+                throw new ArgumentException("Car does not exist");
             }
-
-            if (entity.UserId != GetUserId())
-            {
-                throw new UnauthorizedAccessException("Access not granted");
-            }
-
-            return new CarViewModel()
-            {
-                Id = entity.Id,
-                Make = entity.Make,
-                Model = entity.Model,
-                ImageUrl = entity.ImageUrl
-            };
+            return carView;
         }
 
         public string GetUserId()
         {
-            var userId= httpContextAccessor
+            var userId = httpContextAccessor
                 .HttpContext
                 .User
                 .FindFirst(ClaimTypes.NameIdentifier)?
