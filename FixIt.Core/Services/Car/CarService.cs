@@ -15,10 +15,12 @@ namespace FixIt.Core.Services.Car
     {
         private readonly ApplicationDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
-        public CarService(ApplicationDbContext _context, IHttpContextAccessor _httpContextAccessor)
+        private readonly IConfigurationProvider config;
+        public CarService(ApplicationDbContext _context, IHttpContextAccessor _httpContextAccessor, IConfigurationProvider _config)
         {
             context = _context;
             httpContextAccessor = _httpContextAccessor;
+            config = _config;
         }
 
 
@@ -73,12 +75,6 @@ namespace FixIt.Core.Services.Car
 
         public async Task<IEnumerable<CarViewModel>> GetAllAsync()
         {
-            var config = new MapperConfiguration
-                (
-                cfg =>
-                cfg.AddProfile<MapperConfig>()
-                );
-
             return await context
                 .Cars
                 .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)
@@ -89,12 +85,6 @@ namespace FixIt.Core.Services.Car
 
         public async Task<CarDetailedViewModel> GetDetailsAsync(int id)
         {
-            var config = new MapperConfiguration
-         (
-         cfg =>
-         cfg.AddProfile<MapperConfig>()
-         );
-
             var car = await context
                 .Cars
                 .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)
@@ -110,12 +100,6 @@ namespace FixIt.Core.Services.Car
 
         public async Task<CarFormModel> GetFormByIdAsync(int id)
         {
-            var config = new MapperConfiguration
-            (
-            cfg =>
-            cfg.AddProfile<MapperConfig>()
-            );
-
             var carForm = await context
                 .Cars
                 .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)
@@ -131,12 +115,6 @@ namespace FixIt.Core.Services.Car
 
         public async Task<CarViewModel> GetModelByIdAsync(int id)
         {
-            var config = new MapperConfiguration
-            (
-            cfg =>
-            cfg.AddProfile<MapperConfig>()
-            );
-
             var carView = await context
                 .Cars
                 .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)

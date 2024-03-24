@@ -1,7 +1,10 @@
-﻿using FixIt.Core.Contracts.Appointment;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using FixIt.Core.Contracts.Appointment;
 using FixIt.Core.Models.Appointment;
 using FixIt.Core.Models.Car;
 using FixIt.Core.Models.Service;
+using FixIt.Core.Profiles;
 using FixIt.Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +18,12 @@ namespace FixIt.Core.Services.Appointment
     {
         private readonly ApplicationDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
-        public AppointmentService(ApplicationDbContext _context, IHttpContextAccessor _httpContextAccessor)
+        private readonly IConfigurationProvider config;
+        public AppointmentService(ApplicationDbContext _context, IHttpContextAccessor _httpContextAccessor, IConfigurationProvider _config)
         {
             context = _context;
             httpContextAccessor = _httpContextAccessor;
+            config = _config;
         }
         public async Task BookAsync(AppointmentFormModel model)
         {
@@ -74,25 +79,11 @@ namespace FixIt.Core.Services.Appointment
         public async Task<IEnumerable<AppointmentViewModel>> GetAllAsync()
         {
             return await context
-                .Appointments
-                .AsNoTracking()
-                .Where(x => x.UserId == GetUserId() && x.Status != Canceled)
-                .Select(e => new AppointmentViewModel()
-                {
-                    Id = e.Id,
-                    UserId = e.UserId,
-                    CarId = e.CarId,
-                    CarMake = e.Car.Make,
-                    CarModel = e.Car.Model,
-                    CarRegPlate = e.Car.PlateNumber,
-                    ServiceId = e.ServiceId,
-                    ServiceType = e.Service.Type.ToString(),
-                    TechnicianId = e.TechnicianId,
-                    TechnicianName = e.Technician.Name,
-                    DateAndTime = e.DateAndTime,
-                    Status = e.Status
-                })
-                .ToArrayAsync();
+            .Appointments
+            .Where(x => x.UserId == GetUserId())
+            .AsNoTracking()
+            .ProjectTo<AppointmentViewModel>(config)
+            .ToListAsync();
         }
 
         public async Task<IEnumerable<CarViewModel>> GetCarsAsync()
@@ -101,11 +92,7 @@ namespace FixIt.Core.Services.Appointment
                 .Cars
                 .AsNoTracking()
                 .Where(x => x.UserId == GetUserId() && x.IsDeleted == false)
-                .Select(e => new CarViewModel()
-                {
-                    Id = e.Id,
-                    PlateNumber = e.PlateNumber
-                })
+                .ProjectTo<CarViewModel>(config)
                 .OrderBy(p => p.PlateNumber)
                 .ToArrayAsync();
         }
@@ -116,11 +103,7 @@ namespace FixIt.Core.Services.Appointment
                 .Cars
                 .AsNoTracking()
                 .Where(x => x.UserId == GetUserId() && x.IsDeleted == false && x.Id == id)
-                .Select(e => new CarViewModel()
-                {
-                    Id = e.Id,
-                    PlateNumber = e.PlateNumber
-                })
+                .ProjectTo<CarViewModel>(config)
                 .ToArrayAsync();
 
             if (model == null)
@@ -137,24 +120,10 @@ namespace FixIt.Core.Services.Appointment
                 .Appointments
                 .AsNoTracking()
                 .Where(x => x.Id == id)
-                .Select(e => new AppointmentViewModel()
-                {
-                    Id = e.Id,
-                    UserId = e.UserId,
-                    CarId = e.CarId,
-                    CarMake = e.Car.Make,
-                    CarModel = e.Car.Model,
-                    CarRegPlate = e.Car.PlateNumber,
-                    ServiceId = e.ServiceId,
-                    ServiceType = e.Service.Type.ToString(),
-                    TechnicianId = e.TechnicianId,
-                    TechnicianName = e.Technician.Name,
-                    DateAndTime = e.DateAndTime,
-                    Status = e.Status
-                })
+                .ProjectTo<AppointmentViewModel>(config)
                 .FirstOrDefaultAsync();
 
-            if (model == null || model.Status == Canceled)
+            if (model is AppointmentViewModel == false)
             {
                 throw new ArgumentException("Appointment not found!");
             }
@@ -165,21 +134,23 @@ namespace FixIt.Core.Services.Appointment
             }
 
             return model;
-
         }
 
         public async Task<IEnumerable<ServiceViewModel>> GetServicesAsync()
         {
-            return await context
+            var services = await context
                 .Services
                 .AsNoTracking()
-                .Select(e => new ServiceViewModel()
-                {
-                    Id = e.Id,
-                    Type = e.Type
-                })
+                .ProjectTo<ServiceViewModel>(config)
                 .OrderBy(n => n.Type)
                 .ToArrayAsync();
+
+            if (services==null)
+            {
+                throw new ArgumentException("There are no services added!");
+            }
+
+            return services;
         }
 
         public string GetUserId()

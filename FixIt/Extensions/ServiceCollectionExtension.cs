@@ -47,11 +47,5 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return services;
         }
-
-        //public static IServiceCollection AddAutoMapper(this IServiceCollection services, IConfiguration config)
-        //{
-        //    services.AddAutoMapper(typeof(Program));
-        //    return services;
-        //}
     }
 }

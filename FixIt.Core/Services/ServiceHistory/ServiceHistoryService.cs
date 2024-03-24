@@ -1,4 +1,6 @@
-﻿using FixIt.Core.Contracts.ServiceHistory;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using FixIt.Core.Contracts.ServiceHistory;
 using FixIt.Core.Models.Car;
 using FixIt.Core.Models.ServiceHistory;
 using FixIt.Infrastructure.Data;
@@ -17,10 +19,12 @@ namespace FixIt.Core.Services.ServiceHistory
     {
         private readonly ApplicationDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
-        public ServiceHistoryService(ApplicationDbContext _context, IHttpContextAccessor _httpContextAccessor)
+        private readonly IConfigurationProvider config;
+        public ServiceHistoryService(ApplicationDbContext _context, IHttpContextAccessor _httpContextAccessor, IConfigurationProvider _config)
         {
             context = _context;
             httpContextAccessor = _httpContextAccessor;
+            config = _config;
         }
 
         public async Task<IEnumerable<ServiceHistoryViewModel>> GetAllAsync()
@@ -29,31 +33,7 @@ namespace FixIt.Core.Services.ServiceHistory
                 .ServiceHistories
                 .AsNoTracking()
                 .Where(x => x.Car.UserId == GetUserId())
-                .Select(e => new ServiceHistoryViewModel()
-                {
-                    Id = e.Id,
-                    CarId = e.CarId,
-                    Car = new CarViewModel()
-                    {
-                        Make = e.Car.Make,
-                        Model = e.Car.Model,
-                        PlateNumber = e.Car.PlateNumber,
-                        Mileage = e.Mileage
-                    },
-                    ServiceId = e.ServiceId,
-                    Service = new Models.Service.ServiceViewModel()
-                    {
-                        Type = e.Service.Type,
-                        Price = e.Service.Price
-                    },
-                    TechnicianId = e.TechnicianId,
-                    Technician = new Models.Technician.TechnicianViewModel()
-                    {
-                        Name = e.Technician.Name,
-                        Specialization = e.Technician.Specialization.ToString()
-                    },
-                    Date = e.Date
-                })
+                .ProjectTo<ServiceHistoryViewModel>(config)
                 .ToArrayAsync();
         }
 
