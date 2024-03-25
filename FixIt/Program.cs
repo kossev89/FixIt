@@ -1,4 +1,5 @@
 using FixIt.Core.Profiles;
+using FixIt.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.SeedAdmin();
 
 app.MapDefaultControllerRoute();
 app.MapRazorPages();
