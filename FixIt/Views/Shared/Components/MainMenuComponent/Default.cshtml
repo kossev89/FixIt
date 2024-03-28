@@ -1,9 +1,6 @@
 ﻿<ul class="navbar-nav flex-grow-1">
     @if (User?.Identity?.IsAuthenticated ?? false)
     {
-         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Customers</a>
-        </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Index">My Cars</a>
         </li>
@@ -12,12 +9,6 @@
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="ServiceHistory" asp-action="Index">Service History</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Technicians</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Services</a>
         </li>
     }
     else
