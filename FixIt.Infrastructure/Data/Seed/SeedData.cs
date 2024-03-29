@@ -21,6 +21,9 @@ namespace FixIt.Infrastructure.Data.Seed
 
         public IdentityUser AdminUser { get; set; } = null!;
         public IdentityUser CustomerUser { get; set; } = null!;
+        public IdentityUser TechnicianUser1 { get; set; } = null!;
+        public IdentityUser TechnicianUser2 { get; set; } = null!;
+        public IdentityUser TechnicianUser3 { get; set; } = null!;
         public Car FirstCar { get; set; } = null!;
         public Car SecondCar { get; set; } = null!;
         public Service TireRotation { get; set; } = null!;
@@ -47,7 +50,6 @@ namespace FixIt.Infrastructure.Data.Seed
                 Email = "admin@mail.com",
                 NormalizedEmail = "admin@mail.com"
             };
-
             AdminUser.PasswordHash = hasher.HashPassword(AdminUser, "admin123");
 
             CustomerUser = new IdentityUser()
@@ -58,8 +60,37 @@ namespace FixIt.Infrastructure.Data.Seed
                 Email = "customer@mail.com",
                 NormalizedEmail = "customer@mail.com"
             };
-
             CustomerUser.PasswordHash = hasher.HashPassword(CustomerUser, "customer123");
+
+            TechnicianUser1 = new IdentityUser()
+            {
+                Id = "99ae7f52-08a1-4c41-98f6-0934ab9eeced",
+                UserName = "technician1@mail.com",
+                NormalizedUserName = "technician1@mail.com",
+                Email = "technician1@mail.com",
+                NormalizedEmail = "technician1@mail.com"
+            };
+            TechnicianUser1.PasswordHash = hasher.HashPassword(TechnicianUser1, "Tech123@");
+
+            TechnicianUser2 = new IdentityUser()
+            {
+                Id = "3e0f5536-ea82-4817-9d63-861cc93427c6",
+                UserName = "technician2@mail.com",
+                NormalizedUserName = "technician2@mail.com",
+                Email = "technician2@mail.com",
+                NormalizedEmail = "technician2@mail.com"
+            };
+            TechnicianUser2.PasswordHash = hasher.HashPassword(TechnicianUser2, "Tech123@");
+
+            TechnicianUser3 = new IdentityUser()
+            {
+                Id = "b98a765c-94d6-4520-95ae-42503a95445d",
+                UserName = "technician3@mail.com",
+                NormalizedUserName = "technician3@mail.com",
+                Email = "technician3@mail.com",
+                NormalizedEmail = "technician3@mail.com"
+            };
+            TechnicianUser3.PasswordHash = hasher.HashPassword(TechnicianUser3, "Tech123@");
         }
 
         private void SeedCars()
@@ -150,21 +181,24 @@ namespace FixIt.Infrastructure.Data.Seed
             {
                 Id = 1,
                 Name = "John Doe",
-                Specialization = TechnicianSpecialization.Mechanics
+                Specialization = TechnicianSpecialization.Mechanics,
+                UserId= "99ae7f52-08a1-4c41-98f6-0934ab9eeced"
             };
 
             SecondTechnician = new Technician()
             {
                 Id = 2,
                 Name = "Jane Doe",
-                Specialization = TechnicianSpecialization.Electronics
+                Specialization = TechnicianSpecialization.Electronics,
+                UserId= "3e0f5536-ea82-4817-9d63-861cc93427c6"
             };
 
             ThirdTechnician = new Technician()
             {
                 Id = 3,
                 Name = "Don Johns",
-                Specialization = TechnicianSpecialization.Body
+                Specialization = TechnicianSpecialization.Body,
+                UserId= "b98a765c-94d6-4520-95ae-42503a95445d"
             };
         }
 
