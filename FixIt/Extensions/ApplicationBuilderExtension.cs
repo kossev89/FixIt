@@ -19,11 +19,12 @@ namespace FixIt.Extensions
                 {
                     if (await roleManager.RoleExistsAsync("Administrator")
                         && await roleManager.RoleExistsAsync("Technician")
+                        && await roleManager.RoleExistsAsync("Customer")
                     )
                     {
                         return;
                     }
-                    var roles = new string[] {"Administrator", "Technician" };
+                    var roles = new string[] {"Administrator", "Technician", "Customer" };
 
                     foreach (var item in roles)
                     {
@@ -45,6 +46,9 @@ namespace FixIt.Extensions
                         var technician = await userManager.FindByEmailAsync(item);
                         await userManager.AddToRoleAsync(technician, "Technician");
                     }
+
+                    var customer = await userManager.FindByEmailAsync("customer@mail.com");
+                    await userManager.AddToRoleAsync(customer, "Customer");
                 })
                 .GetAwaiter()
                 .GetResult();

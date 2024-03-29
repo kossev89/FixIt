@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IServiceHistoryService, ServiceHistoryService>();
-            services.AddScoped<IUserService, FixIt.Core.Services.User.UserSevice>();
+            services.AddScoped<IAdminService, FixIt.Core.Services.User.AdminService>();
             return services;
         }
 

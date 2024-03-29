@@ -2,10 +2,10 @@
     @if (User?.Identity?.IsAuthenticated ?? false)
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Customers</a>
+            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Customer" asp-action="Index">Customers</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Index">Appointments</a>
+            <a class="nav-link text-dark" asp-area="Admin" asp-controller="AppointmentAdmin" asp-action="Index">Appointments</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Technicians</a>
