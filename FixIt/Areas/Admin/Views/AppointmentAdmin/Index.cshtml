@@ -1,0 +1,51 @@
+﻿@model IEnumerable<AppointmentViewModel>
+
+@{
+    ViewBag.Title = "All Appointments";
+}
+<hr />
+
+<div class="container">
+    <h1>@ViewBag.Title</h1>
+
+    <hr />
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info" role="alert">
+            There are no appointments
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var appointment in Model)
+            {
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@appointment.CarMake @appointment.CarModel</h5>
+                            <p class="card-text">Registration Plate: @appointment.CarRegPlate</p>
+                            <p class="card-text">Service Type: @appointment.ServiceType</p>
+                            <p class="card-text">Technician: @appointment.TechnicianName</p>
+                            <p class="card-text">Date And Time: @appointment.DateAndTime.ToString(DateValidationFormat)</p>
+                            <p class="card-text">Status: @appointment.Status</p>
+                            <a asp-area="Admin" asp-controller="" asp-action="" asp-route-id="@appointment.Id" class="btn btn-primary">Assign a Technician</a>
+                            @if (appointment.Status != Canceled
+                           && appointment.Status != InProgress
+                           && appointment.Status != Completed)
+                            {
+                                <div class="mt-4">
+                                    <a asp-area="Admin" asp-controller="" asp-route-id="@appointment.Id" class="btn btn-danger">Cancel Appointment</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
