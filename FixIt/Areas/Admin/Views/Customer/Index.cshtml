@@ -5,6 +5,14 @@
 }
 <hr />
 
+<form asp-area="Admin" asp-controller="Customer" asp-action="SearchCustomer">
+    <p>
+        Title: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table class="table">
+
 <div class="container">
     <h1>@ViewBag.Title</h1>
 
@@ -30,7 +38,7 @@
 
 
                             <div class="d-grid gap-2">
-                                <a asp-area="Admin" asp-controller="" asp-action="" asp-route-id="" class="btn btn-primary">Details</a>
+                                    <a asp-area="Admin" asp-controller="Customer" asp-action="CustomerDetails" asp-route-id="@customer.Id" class="btn btn-primary">Details</a>
                                 <a asp-area="Admin" asp-controller="" asp-action="" asp-route-id="" class="btn btn-secondary">Edit</a>
                             </div>
                         </div>

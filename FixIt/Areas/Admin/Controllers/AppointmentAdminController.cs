@@ -28,5 +28,6 @@ namespace FixIt.Areas.Admin.Controllers
             }
             return View("~/Areas/Admin/Views/AppointmentAdmin/Index.cshtml");
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using FixIt.Core.Contracts.User;
 using FixIt.Core.Models.Appointment;
+using FixIt.Core.Models.Car;
 using FixIt.Core.Models.Customer;
 using FixIt.Core.Models.Technician;
 using FixIt.Infrastructure.Data;
@@ -41,7 +42,7 @@ namespace FixIt.Core.Services.User
                 .Appointments
                 .AsNoTracking()
                 .ProjectTo<AppointmentViewModel>(config)
-                .OrderBy(x=>x.Status)
+                .OrderBy(x => x.Status)
                 .ToArrayAsync();
         }
 
@@ -62,6 +63,62 @@ namespace FixIt.Core.Services.User
         public Task<IEnumerable<TechnicianViewModel>> GetAllTechniciansAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<AppointmentViewModel>> GetCustomerApointmentsAsync(string id)
+        {
+            return await context
+            .Appointments
+            .AsNoTracking()
+            .Where(x => x.UserId == id
+            && x.Status != Infrastructure.Data.Enumerators.AppointmentStatus.Canceled
+            )
+            .ProjectTo<AppointmentViewModel>(config)
+            .ToArrayAsync();
+        }
+
+        public async Task<IEnumerable<CarDetailedViewModel>> GetCustomerCarsAsync(string id)
+        {
+            return await context
+                .Cars
+                .AsNoTracking()
+                .Where(x => x.UserId == id && x.IsDeleted == false)
+                .ProjectTo<CarDetailedViewModel>(config)
+                .ToArrayAsync();
+        }
+
+        public async Task<CustomerViewModel> GetCustomerDetailsAsync(string id)
+        {
+            var customer = userManager.GetUsersInRoleAsync("Customer").Result.FirstOrDefault();
+
+            if (customer == null)
+            {
+                throw new ArgumentException("Customer doesn't exist!");
+            }
+
+            var model = await context
+                .Users
+                .AsNoTracking()
+                .Where(x => x.Id == customer.Id)
+                .ProjectTo<CustomerViewModel>(config)
+                .FirstOrDefaultAsync();
+
+            if (model == null)
+            {
+                throw new ArgumentException("Customer doesn't exist!");
+            }
+
+            return model;
+        }
+
+        public async Task<IEnumerable<CustomerViewModel>> SearchIndexAsync(string filter)
+        {
+            return await context
+                .Users
+                .AsNoTracking()
+                .Where(x => x.Email.Contains(filter))
+                .ProjectTo<CustomerViewModel>(config)
+                .ToArrayAsync();
         }
     }
 }
