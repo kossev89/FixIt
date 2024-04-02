@@ -12,6 +12,12 @@ namespace FixIt.Infrastructure.Data.Models
         [Key]
         public int Id { get; set; }
 
+        [Comment("ServceHistory Customer Identifier")]
+        [Required]
+        public string UserId { get; set; } = string.Empty;
+        [ForeignKey(nameof(UserId))]
+        public IdentityUser User { get; set; } = null!;
+
         [Comment("Car Identifier")]
         [Required]
         public int CarId { get; set; }

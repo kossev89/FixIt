@@ -47,10 +47,12 @@ namespace FixIt.Areas.Admin.Controllers
             var cutomer = await service.GetCustomerDetailsAsync(id);
             var cars = await service.GetCustomerCarsAsync(id);
             var appointments = await service.GetCustomerApointmentsAsync(id);
+            var serviceHistories = await service.GetCustomerServicesAsync(id);
 
             ViewBag.CustomerData = cutomer;
             ViewBag.CarsData = cars;
             ViewBag.AppointmentsData = appointments;
+            ViewBag.ServicesData = serviceHistories;
 
             return View("~/Areas/Admin/Views/Customer/CustomerDetails.cshtml");
         }

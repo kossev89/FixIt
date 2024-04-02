@@ -39,6 +39,7 @@ namespace FixIt.Infrastructure.Data.Constants
         /// Error message constants
         /// </summary>
         public const string NameValidationError = "The {0} field should be between {2} and {1} symbols";
+        public const string EmailValidationError = "The {0} field should be a valid e-mail";
         public const string YearValidationError = "The {0} field should be between {1} and {2}";
         public const string VinValidationError = "The {0} field should be exactly {1} symbols";
         public const string MileageValidationError = "The {0} field should be between {1} and {2} kilometers";
@@ -62,5 +63,12 @@ namespace FixIt.Infrastructure.Data.Constants
         /// </summary>
         public const DayOfWeek FirstWorkDay = DayOfWeek.Monday;
         public const DayOfWeek LastWorkDay = DayOfWeek.Friday;
+        /// <summary>
+        /// Customer validation
+        /// </summary>
+        public const string EmailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+        public const int UsernameMin = 4;
+        public const int UsernameMax = 25;
+
     }
 }

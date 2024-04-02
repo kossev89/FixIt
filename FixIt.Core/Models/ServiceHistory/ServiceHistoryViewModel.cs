@@ -1,4 +1,5 @@
 ﻿using FixIt.Core.Models.Car;
+using FixIt.Core.Models.Customer;
 using FixIt.Core.Models.Service;
 using FixIt.Core.Models.Technician;
 
@@ -8,6 +9,8 @@ namespace FixIt.Core.Models.ServiceHistory
     {
         public int Id { get; set; }
         public int CarId { get; set; }
+        public string UserId { get; set; } = string.Empty;
+        public CustomerViewModel User { get; set; } = null!;
         public int ServiceId { get; set; }
         public int TechnicianId { get; set; }
         public CarViewModel Car { get; set; } = null!;

@@ -1,6 +1,7 @@
 ﻿using FixIt.Core.Models.Appointment;
 using FixIt.Core.Models.Car;
 using FixIt.Core.Models.Customer;
+using FixIt.Core.Models.ServiceHistory;
 using FixIt.Core.Models.Technician;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -20,5 +21,7 @@ namespace FixIt.Core.Contracts.User
         Task<CustomerViewModel> GetCustomerDetailsAsync(string id);
         Task<IEnumerable<CarDetailedViewModel>> GetCustomerCarsAsync(string id);
         Task<IEnumerable<AppointmentViewModel>> GetCustomerApointmentsAsync(string id);
+        Task<IEnumerable<ServiceHistoryViewModel>> GetCustomerServicesAsync(string id);
+        Task RegisterCustomerAsync(CustomerFormModel model);
     }
 }

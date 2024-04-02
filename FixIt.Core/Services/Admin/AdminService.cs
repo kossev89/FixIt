@@ -4,6 +4,7 @@ using FixIt.Core.Contracts.User;
 using FixIt.Core.Models.Appointment;
 using FixIt.Core.Models.Car;
 using FixIt.Core.Models.Customer;
+using FixIt.Core.Models.ServiceHistory;
 using FixIt.Core.Models.Technician;
 using FixIt.Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
@@ -109,6 +110,34 @@ namespace FixIt.Core.Services.User
             }
 
             return model;
+        }
+
+        public async Task<IEnumerable<ServiceHistoryViewModel>> GetCustomerServicesAsync(string id)
+        {
+            return await context
+             .ServiceHistories
+             .AsNoTracking()
+             .Where(x => x.UserId == id)
+             .ProjectTo<ServiceHistoryViewModel>(config)
+             .OrderBy(d=>d.Date)
+             .ToArrayAsync();
+        }
+
+        public async Task RegisterCustomerAsync(CustomerFormModel model)
+        {
+            var hasher = new PasswordHasher<IdentityUser>();
+            var user = new IdentityUser()
+            {
+                UserName = model.UserName,
+                NormalizedUserName = model.NormalizedUserName,
+                Email = model.Email,
+                NormalizedEmail = model.NormalizedEmail
+            };
+            user.PasswordHash = hasher.HashPassword(user, model.Password);
+            await userManager.AddToRoleAsync(user, "Customer");
+
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CustomerViewModel>> SearchIndexAsync(string filter)
