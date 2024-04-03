@@ -9,45 +9,25 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Add" method="post">
+        <form asp-area="Admin" asp-controller="Customer" asp-action="RegisterCustomer" method="post">
             <div class="mb-3">
-                <label asp-for="@Model.Make" class="form-label-add-edit">Car manufacturer</label>
-                <input asp-for="@Model.Make" class="form-control" aria-required="true" placeholder="Enter Car Manufacturer" />
-                <span asp-validation-for="@Model.Make" class="text-danger"></span>
+                <label asp-for="@Model.Email" class="form-label-add-edit">Customer E-mail</label>
+                <input asp-for="@Model.Email" class="form-control" aria-required="true" placeholder="Enter Customer E-mail" />
+                <span asp-validation-for="@Model.Email" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="@Model.CarModel" class="form-label-add-edit">Car model</label>
-                <input asp-for="@Model.CarModel" class="form-control" aria-required="true" placeholder="Enter Car Model" />
-                <span asp-validation-for="@Model.CarModel" class="text-danger"></span>
+                <label asp-for="@Model.Password" class="form-label-add-edit">Enter Customer Password</label>
+                <input asp-for="@Model.Password" class="form-control" aria-required="true" placeholder="Enter Customer Password" />
+                <span asp-validation-for="@Model.Password" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="@Model.Year" class="form-label-add-edit">Year of manufacture</label>
-                <input asp-for="@Model.Year" class="form-control" aria-required="true" placeholder="Enter Year of Production" type="number" min="@YearMin" max="@DateTime.Now.Year" value="@DateTime.Now.Year" />
-                <span asp-validation-for="@Model.Year" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.PlateNumber" class="form-label-add-edit">Registration plate number</label>
-                <input asp-for="@Model.PlateNumber" class="form-control" aria-required="true" placeholder="Enter Registration Plate Number" />
-                <span asp-validation-for="@Model.PlateNumber" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.Vin" class="form-label-add-edit">Vin</label>
-                <input asp-for="@Model.Vin" class="form-control" placeholder="Enter Vin Number (17 symbols)" />
-                <span asp-validation-for="@Model.Vin" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.Mileage" class="form-label-add-edit">Current mileage</label>
-                <input asp-for="@Model.Mileage" class="form-control" placeholder="0-2 000 000" type="number" min="@MinMileage" max="@MaxMileage" />
-                <span asp-validation-for="@Model.Mileage" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.ImageUrl" class="form-label-add-edit">Enter image URL</label>
-                <input asp-for="@Model.ImageUrl" class="form-control" placeholder="Enter Image Url" />
-                <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+                <label asp-for="@Model.PhoneNumber" class="form-label-add-edit">Enter Phone Number</label>
+                <input asp-for="@Model.PhoneNumber" class="form-control" aria-required="false" placeholder="(0XXX) XXX XX XX or 0XXX XXX XX XX)" />
+                <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="mb-3">
 
-                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Add" />
+                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Register" />
             </div>
         </form>
     </div>

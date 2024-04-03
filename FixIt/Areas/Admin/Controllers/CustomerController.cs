@@ -1,5 +1,7 @@
 ﻿using FixIt.Core.Contracts.Car;
 using FixIt.Core.Contracts.User;
+using FixIt.Core.Models.Car;
+using FixIt.Core.Models.Customer;
 using FixIt.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +57,27 @@ namespace FixIt.Areas.Admin.Controllers
             ViewBag.ServicesData = serviceHistories;
 
             return View("~/Areas/Admin/Views/Customer/CustomerDetails.cshtml");
+        }
+
+        [HttpGet]
+        public IActionResult RegisterCustomer()
+        {
+            var model = new CustomerFormModel()
+            {
+
+            };
+            if (ModelState.IsValid)
+            {
+                return View("~/Areas/Admin/Views/Customer/RegisterCustomer.cshtml", model);
+            }
+            return View("~/Areas/Admin/Views/Customer/RegisterCustomer.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterCustomer(CustomerFormModel model)
+        {
+            await service.RegisterCustomerAsync(model);
+            return RedirectToAction("Index", "Customer");
         }
     }
 }

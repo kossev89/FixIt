@@ -16,7 +16,7 @@
 <div class="container">
     <h1>@ViewBag.Title</h1>
 
-    <a asp-area="Admin" asp-controller="Customer" asp-action="Add" class="btn btn-primary">New Customer</a>
+    <a asp-area="Admin" asp-controller="Customer" asp-action="RegisterCustomer" class="btn btn-primary">New Customer</a>
     <hr />
     @if (!Model.Any())
     {
@@ -48,7 +48,7 @@
         </div>
     }
 </div>
-
+</table>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

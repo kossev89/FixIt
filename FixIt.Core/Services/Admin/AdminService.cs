@@ -134,10 +134,10 @@ namespace FixIt.Core.Services.User
                 NormalizedEmail = model.NormalizedEmail
             };
             user.PasswordHash = hasher.HashPassword(user, model.Password);
-            await userManager.AddToRoleAsync(user, "Customer");
-
+            
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
+            await userManager.AddToRoleAsync(user, "Customer");
         }
 
         public async Task<IEnumerable<CustomerViewModel>> SearchIndexAsync(string filter)
