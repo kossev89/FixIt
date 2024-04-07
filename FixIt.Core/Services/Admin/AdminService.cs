@@ -37,6 +37,29 @@ namespace FixIt.Core.Services.User
             config = _config;
         }
 
+        public async Task EditCustomerCarAsync(CarFormModel model)
+        {
+            var entity = await context
+               .Cars
+               .FindAsync(model.Id);
+
+            if (entity == null || entity.IsDeleted)
+            {
+                throw new ArgumentException("The car doesn't exist!");
+            }
+
+            entity.PlateNumber = model.PlateNumber;
+            entity.ImageUrl = model.ImageUrl;
+            if (entity.Mileage > model.Mileage)
+            {
+                throw new ArgumentException($"The new Mileage should be more or equal to {entity.Mileage}");
+            }
+            entity.Mileage = model.Mileage;
+            entity.Vin = model.Vin;
+
+            await context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<AppointmentViewModel>> GetAllAppointmentsAsync()
         {
             return await context
@@ -76,6 +99,26 @@ namespace FixIt.Core.Services.User
             )
             .ProjectTo<AppointmentViewModel>(config)
             .ToArrayAsync();
+        }
+
+        public async Task<CarFormModel> GetCustomerCarAsync(string cutomerId, int carId)
+        {
+            var car = await context
+            .Cars
+            .AsNoTracking()
+            .Where(x =>
+            x.UserId == cutomerId
+            && x.Id == carId
+            && x.IsDeleted == false
+            )
+            .ProjectTo<CarFormModel>(config)
+            .FirstOrDefaultAsync();
+
+            if (car is CarFormModel)
+            {
+                return car;
+            }
+            throw new InvalidDataException("The car doesn't exist");
         }
 
         public async Task<IEnumerable<CarDetailedViewModel>> GetCustomerCarsAsync(string id)
@@ -119,7 +162,7 @@ namespace FixIt.Core.Services.User
              .AsNoTracking()
              .Where(x => x.UserId == id)
              .ProjectTo<ServiceHistoryViewModel>(config)
-             .OrderBy(d=>d.Date)
+             .OrderBy(d => d.Date)
              .ToArrayAsync();
         }
 
@@ -134,7 +177,7 @@ namespace FixIt.Core.Services.User
                 NormalizedEmail = model.NormalizedEmail
             };
             user.PasswordHash = hasher.HashPassword(user, model.Password);
-            
+
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
             await userManager.AddToRoleAsync(user, "Customer");

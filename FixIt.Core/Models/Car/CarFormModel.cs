@@ -11,6 +11,7 @@ namespace FixIt.Core.Models.Car
     public class CarFormModel
     {
         public int Id { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         [Required]
         [StringLength(CarMax, MinimumLength = CarMin, ErrorMessage = NameValidationError)]

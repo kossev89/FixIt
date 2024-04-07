@@ -79,5 +79,23 @@ namespace FixIt.Areas.Admin.Controllers
             await service.RegisterCustomerAsync(model);
             return RedirectToAction("Index", "Customer");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditCustomerCar(string customerId, int carId)
+        {
+            var model = await service.GetCustomerCarAsync(customerId, carId);
+            if (ModelState.IsValid)
+            {
+                return View("~/Areas/Admin/Views/Customer/EditCustomerCar.cshtml", model);
+            }
+            return View("~/Areas/Admin/Views/Customer/EditCustomerCar.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCustomerCar(CarFormModel model)
+        {
+            await service.EditCustomerCarAsync(model);
+            return RedirectToAction("CustomerDetails", new { id = model.UserId });
+        }
     }
 }

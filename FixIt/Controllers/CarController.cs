@@ -83,7 +83,7 @@ namespace FixIt.Controllers
         public async Task<IActionResult> Update(CarFormModel model)
         {
             await service.UpdateAsync(model);
-            return RedirectToAction("Details", "Car", new { id = model.Id });
+            return RedirectToAction("Details", "Car", new { id = model.UserId});
         }
 
         /// <summary>
