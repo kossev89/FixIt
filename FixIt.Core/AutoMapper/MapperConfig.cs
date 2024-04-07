@@ -17,6 +17,7 @@ namespace FixIt.Core.Profiles
             CreateMap<Car, CarViewModel>();
             CreateMap<Car, CarDetailedViewModel>();
             CreateMap<Car, CarFormModel>();
+            CreateMap<CarFormModel, Car>();
             CreateMap<Appointment, AppointmentViewModel>();
             CreateMap<Service, ServiceViewModel>();
             CreateMap<ServiceHistory, ServiceHistoryViewModel>();

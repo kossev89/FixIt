@@ -7,6 +7,7 @@ using FixIt.Core.Models.Customer;
 using FixIt.Core.Models.ServiceHistory;
 using FixIt.Core.Models.Technician;
 using FixIt.Infrastructure.Data;
+using FixIt.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,17 +25,33 @@ namespace FixIt.Core.Services.User
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly UserManager<IdentityUser> userManager;
         private readonly IConfigurationProvider config;
+        private readonly IMapper mapper;
         public AdminService(
             ApplicationDbContext _context,
             IHttpContextAccessor _httpContextAccessor,
             UserManager<IdentityUser> _userManager,
-            IConfigurationProvider _config
+            IConfigurationProvider _config,
+            IMapper _mapper
             )
         {
             context = _context;
             httpContextAccessor = _httpContextAccessor;
             userManager = _userManager;
             config = _config;
+            mapper = _mapper;
+        }
+
+        public async Task AddCarAsync(CarFormModel model)
+        {
+            var entity = mapper.Map<Infrastructure.Data.Models.Car>(model);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("Invalid Car Information");
+            }
+
+            await context.AddAsync(entity);
+            await context.SaveChangesAsync();
         }
 
         public async Task EditCustomerCarAsync(CarFormModel model)
@@ -133,7 +150,10 @@ namespace FixIt.Core.Services.User
 
         public async Task<CustomerViewModel> GetCustomerDetailsAsync(string id)
         {
-            var customer = userManager.GetUsersInRoleAsync("Customer").Result.FirstOrDefault();
+            var customer = userManager.GetUsersInRoleAsync("Customer")
+                .Result
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
 
             if (customer == null)
             {

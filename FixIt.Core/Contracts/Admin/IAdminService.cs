@@ -25,5 +25,6 @@ namespace FixIt.Core.Contracts.User
         Task RegisterCustomerAsync(CustomerFormModel model);
         Task <CarFormModel> GetCustomerCarAsync(string cutomerId, int carId);
         Task EditCustomerCarAsync(CarFormModel model);
+        Task AddCarAsync(CarFormModel model);
     }
 }

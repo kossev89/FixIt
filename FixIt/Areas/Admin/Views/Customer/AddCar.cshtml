@@ -1,0 +1,61 @@
+﻿@model CarFormModel
+
+@{
+    ViewBag.Title = "Add a Car";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-area="Admin" asp-controller="Customer" asp-action="AddCar" method="post">
+            <div class="mb-3">
+                <label asp-for="@Model.Make" class="form-label-add-edit">Car manufacturer</label>
+                <input asp-for="@Model.Make" class="form-control" aria-required="true" placeholder="Enter Car Manufacturer" />
+                <span asp-validation-for="@Model.Make" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.CarModel" class="form-label-add-edit">Car model</label>
+                <input asp-for="@Model.CarModel" class="form-control" aria-required="true" placeholder="Enter Car Model" />
+                <span asp-validation-for="@Model.CarModel" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Year" class="form-label-add-edit">Year of manufacture</label>
+                <input asp-for="@Model.Year" class="form-control" aria-required="true" placeholder="Enter Year of Production" type="number" min="@YearMin" max="@DateTime.Now.Year" value="@DateTime.Now.Year" />
+                <span asp-validation-for="@Model.Year" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.PlateNumber" class="form-label-add-edit">Registration plate number</label>
+                <input asp-for="@Model.PlateNumber" class="form-control" aria-required="true" placeholder="Enter Registration Plate Number" />
+                <span asp-validation-for="@Model.PlateNumber" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Vin" class="form-label-add-edit">Vin</label>
+                <input asp-for="@Model.Vin" class="form-control" placeholder="Enter Vin Number (17 symbols)" />
+                <span asp-validation-for="@Model.Vin" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Mileage" class="form-label-add-edit">Current mileage</label>
+                <input asp-for="@Model.Mileage" class="form-control" placeholder="0-2 000 000" type="number" min="@MinMileage" max="@MaxMileage" />
+                <span asp-validation-for="@Model.Mileage" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.ImageUrl" class="form-label-add-edit">Enter image URL</label>
+                <input asp-for="@Model.ImageUrl" class="form-control" placeholder="Enter Image Url" />
+                <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+            </div>
+            <input type="hidden" name="UserId" value="@Model.UserId" />
+            <div class="mb-3">
+
+                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Add" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
