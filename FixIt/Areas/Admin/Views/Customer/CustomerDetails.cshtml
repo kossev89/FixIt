@@ -50,7 +50,7 @@
                                             <a asp-controller="" asp-action="" asp-route-id="@car.Id" class="btn btn-success">Book an Appointment</a>
                                         </div>
                                         <div class="mt-4">
-                                            <a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger">Remove a Car</a>
+                                            <a asp-area="Admin" asp-controller="Customer" asp-action="Delete" asp-route-customerId="@car.UserId" asp-route-carId="@car.Id" class="btn btn-danger">Remove a Car</a>
                                         </div>
                                     </div>
                                 </div>

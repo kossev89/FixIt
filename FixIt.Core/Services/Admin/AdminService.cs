@@ -54,6 +54,25 @@ namespace FixIt.Core.Services.User
             await context.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(CarViewModel model)
+        {
+            var entity = await context
+            .Cars
+            .Where(x => x.UserId == model.UserId
+            && x.Id == model.Id
+            && x.IsDeleted == false
+            )
+            .FirstOrDefaultAsync();
+
+            if (entity == null || entity.IsDeleted)
+            {
+                throw new ArgumentException("The car does not exist");
+            }
+
+            entity.IsDeleted = true;
+            await context.SaveChangesAsync();
+        }
+
         public async Task EditCustomerCarAsync(CarFormModel model)
         {
             var entity = await context
@@ -118,7 +137,7 @@ namespace FixIt.Core.Services.User
             .ToArrayAsync();
         }
 
-        public async Task<CarFormModel> GetCustomerCarAsync(string cutomerId, int carId)
+        public async Task<CarFormModel> GetCustomerCarFormAsync(string cutomerId, int carId)
         {
             var car = await context
             .Cars
@@ -146,6 +165,26 @@ namespace FixIt.Core.Services.User
                 .Where(x => x.UserId == id && x.IsDeleted == false)
                 .ProjectTo<CarDetailedViewModel>(config)
                 .ToArrayAsync();
+        }
+
+        public async Task<CarViewModel> GetCustomerCarViewAsync(string cutomerId, int carId)
+        {
+            var car = await context
+            .Cars
+            .AsNoTracking()
+            .Where(x =>
+            x.UserId == cutomerId
+            && x.Id == carId
+            && x.IsDeleted == false
+            )
+            .ProjectTo<CarViewModel>(config)
+            .FirstOrDefaultAsync();
+
+            if (car is CarViewModel)
+            {
+                return car;
+            }
+            throw new InvalidDataException("The car doesn't exist");
         }
 
         public async Task<CustomerViewModel> GetCustomerDetailsAsync(string id)

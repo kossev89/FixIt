@@ -83,7 +83,7 @@ namespace FixIt.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> EditCustomerCar(string customerId, int carId)
         {
-            var model = await service.GetCustomerCarAsync(customerId, carId);
+            var model = await service.GetCustomerCarFormAsync(customerId, carId);
             if (ModelState.IsValid)
             {
                 return View("~/Areas/Admin/Views/Customer/EditCustomerCar.cshtml", model);
@@ -117,6 +117,28 @@ namespace FixIt.Areas.Admin.Controllers
         {
             await service.AddCarAsync(model);
             return RedirectToAction("CustomerDetails", new { id = model.UserId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string customerId, int carId)
+        {
+            var model = await service.GetCustomerCarViewAsync(customerId, carId);
+
+            if (ModelState.IsValid)
+            {
+                return View("~/Areas/Admin/Views/Customer/Delete.cshtml", model);
+            }
+            else
+            {
+                return View("~/Areas/Admin/Views/Customer/Delete.cshtml");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(CarViewModel viewModel)
+        {
+            await service.DeleteAsync(viewModel);
+            return RedirectToAction("CustomerDetails", new { id = viewModel.UserId });
         }
     }
 }
