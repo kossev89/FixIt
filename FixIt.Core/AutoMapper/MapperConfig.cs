@@ -18,11 +18,17 @@ namespace FixIt.Core.Profiles
             CreateMap<Car, CarDetailedViewModel>();
             CreateMap<Car, CarFormModel>();
             CreateMap<CarFormModel, Car>();
+
             CreateMap<Appointment, AppointmentViewModel>();
+            CreateMap<AppointmentFormModel, Appointment>();
+
             CreateMap<Service, ServiceViewModel>();
             CreateMap<ServiceHistory, ServiceHistoryViewModel>();
+
             CreateMap<Technician, TechnicianViewModel>();
+
             CreateMap<IdentityUser, CustomerViewModel>();
+
             CreateMap<ServiceHistory, ServiceHistoryViewModel>();
         }
     }

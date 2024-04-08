@@ -7,6 +7,7 @@ using FixIt.Core.Models.Customer;
 using FixIt.Core.Models.ServiceHistory;
 using FixIt.Core.Models.Technician;
 using FixIt.Infrastructure.Data;
+using static FixIt.Infrastructure.Data.Constants.ValidationConstants;
 using FixIt.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -16,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FixIt.Core.Models.Service;
 
 namespace FixIt.Core.Services.User
 {
@@ -43,7 +45,8 @@ namespace FixIt.Core.Services.User
 
         public async Task AddCarAsync(CarFormModel model)
         {
-            var entity = mapper.Map<Infrastructure.Data.Models.Car>(model);
+            var entity = mapper
+                .Map<Infrastructure.Data.Models.Car>(model);
 
             if (entity == null)
             {
@@ -51,6 +54,25 @@ namespace FixIt.Core.Services.User
             }
 
             await context.AddAsync(entity);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task BookAsync(AppointmentFormModel model)
+        {
+            var entity = mapper
+                .Map<Infrastructure.Data.Models.Appointment>(model);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("Invalid Appointment Information");
+            }
+
+            if (entity.DateAndTime.DayOfWeek > LastWorkDay || entity.DateAndTime.Hour < 8 || entity.DateAndTime.Hour > 17)
+            {
+                throw new ArgumentException("The appointment date is outside working hours");
+            }
+
+            await context.Appointments.AddAsync(entity);
             await context.SaveChangesAsync();
         }
 
@@ -223,6 +245,23 @@ namespace FixIt.Core.Services.User
              .ProjectTo<ServiceHistoryViewModel>(config)
              .OrderBy(d => d.Date)
              .ToArrayAsync();
+        }
+
+        public async Task<IEnumerable<ServiceViewModel>> GetServicesAsync()
+        {
+            var services = await context
+            .Services
+            .AsNoTracking()
+            .ProjectTo<ServiceViewModel>(config)
+            .OrderBy(n => n.Type)
+            .ToArrayAsync();
+
+            if (services == null)
+            {
+                throw new ArgumentException("There are no services added!");
+            }
+
+            return services;
         }
 
         public async Task RegisterCustomerAsync(CustomerFormModel model)

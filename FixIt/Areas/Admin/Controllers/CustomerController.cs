@@ -1,5 +1,6 @@
 ﻿using FixIt.Core.Contracts.Car;
 using FixIt.Core.Contracts.User;
+using FixIt.Core.Models.Appointment;
 using FixIt.Core.Models.Car;
 using FixIt.Core.Models.Customer;
 using FixIt.Infrastructure.Data.Models;
@@ -139,6 +140,29 @@ namespace FixIt.Areas.Admin.Controllers
         {
             await service.DeleteAsync(viewModel);
             return RedirectToAction("CustomerDetails", new { id = viewModel.UserId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> BookToCar(string customerId, int carId)
+        {
+            var model = new AppointmentFormModel()
+            {
+                ServiceList = await service.GetServicesAsync(),
+                CarList = new CarViewModel[] { await service.GetCustomerCarViewAsync(customerId, carId) },
+                UserId = customerId
+            };
+            if (ModelState.IsValid)
+            {
+                return View("~/Areas/Admin/Views/Customer/BookToCar.cshtml", model);
+            }
+            return RedirectToAction("CustomerDetails", new { id = model.UserId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BookConfirmed(AppointmentFormModel model)
+        {
+            await service.BookAsync(model);
+            return RedirectToAction("CustomerDetails", new { id = model.UserId });
         }
     }
 }

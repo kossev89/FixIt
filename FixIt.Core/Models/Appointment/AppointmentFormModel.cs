@@ -8,7 +8,6 @@ namespace FixIt.Core.Models.Appointment
 {
     public class AppointmentFormModel
     {
-        [Required(ErrorMessage = RequiredErrorMessage)]
         public string UserId { get; init; } = string.Empty;
 
         public int CarId { get; init; }
