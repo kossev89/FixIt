@@ -158,6 +158,22 @@ namespace FixIt.Areas.Admin.Controllers
             return RedirectToAction("CustomerDetails", new { id = model.UserId });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Book(string customerId)
+        {
+            var model = new AppointmentFormModel()
+            {
+                ServiceList = await service.GetServicesAsync(),
+                CarList = await service.GetCustomerCarsViewAsync(customerId),
+                UserId = customerId
+            };
+            if (ModelState.IsValid)
+            {
+                return View("~/Areas/Admin/Views/Customer/BookToCar.cshtml", model);
+            }
+            return RedirectToAction("CustomerDetails", new { id = model.UserId });
+        }
+
         [HttpPost]
         public async Task<IActionResult> BookConfirmed(AppointmentFormModel model)
         {

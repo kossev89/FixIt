@@ -11,6 +11,12 @@ namespace FixIt.Infrastructure.Data.Models
     [Comment("Technicians Table")]
     public class Technician
     {
+        public Technician() 
+        {
+            IsDeleted = false;
+            IsAvailable = true;
+        }
+
         [Comment("Technician Identifier")]
         [Key]
         public int Id { get; set; }
@@ -32,5 +38,9 @@ namespace FixIt.Infrastructure.Data.Models
         [Comment("Technician Soft Delete Property")]
         [Required]
         public bool IsDeleted { get; set; }
+
+        [Comment("Technician Availability Property")]
+        [Required]
+        public bool IsAvailable { get; set; }
     }
 }

@@ -147,6 +147,29 @@ namespace FixIt.Core.Services.User
             throw new NotImplementedException();
         }
 
+        public async Task<ICollection<TechnicianViewModel>> GetAvailableTechnicians(int appointmentId)
+        {
+            var availableTechnicians = new List<TechnicianViewModel>();
+
+            var allTechnicians = await context
+                .Technicians
+                .AsNoTracking()
+                .ProjectTo<TechnicianViewModel>(config)
+                .ToArrayAsync();
+
+            foreach (var technician in allTechnicians)
+            {
+                var technicianId = technician.Id;
+                if (await IsAvailableAsync(appointmentId, technicianId))
+                {
+                    availableTechnicians.Add(technician);
+                }
+            }
+
+            return availableTechnicians;
+
+        }
+
         public async Task<IEnumerable<AppointmentViewModel>> GetCustomerApointmentsAsync(string id)
         {
             return await context
@@ -187,6 +210,26 @@ namespace FixIt.Core.Services.User
                 .Where(x => x.UserId == id && x.IsDeleted == false)
                 .ProjectTo<CarDetailedViewModel>(config)
                 .ToArrayAsync();
+        }
+
+        public async Task<IEnumerable<CarViewModel>> GetCustomerCarsViewAsync(string cutomerId)
+        {
+            var models = await context
+            .Cars
+            .AsNoTracking()
+            .Where(x =>
+            x.UserId == cutomerId
+            && x.IsDeleted == false
+            )
+            .ProjectTo<CarViewModel>(config)
+            .ToArrayAsync();
+
+            if (models.Any())
+            {
+                return models;
+            }
+
+            throw new InvalidDataException("The customer has no cars!");
         }
 
         public async Task<CarViewModel> GetCustomerCarViewAsync(string cutomerId, int carId)
@@ -262,6 +305,34 @@ namespace FixIt.Core.Services.User
             }
 
             return services;
+        }
+
+        public async Task <bool> IsAvailableAsync(int appointmentId, int technicianId)
+        {
+            var appointment = await context
+                .Appointments
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x=>x.Id==appointmentId);
+
+            if (appointment==null)
+            {
+                throw new ArgumentException("Invalid Appointment");
+            }
+
+            var technicianAppointments =await context
+                .Appointments
+                .AsNoTracking()
+                .Where(x=>x.TechnicianId== technicianId
+                && x.DateAndTime.Date == appointment.DateAndTime.Date
+                && x.Status == Infrastructure.Data.Enumerators.AppointmentStatus.InProgress
+                )
+                .ToArrayAsync();
+
+            if (technicianAppointments.Any())
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task RegisterCustomerAsync(CustomerFormModel model)

@@ -183,7 +183,8 @@ namespace FixIt.Infrastructure.Data.Seed
                 Id = 1,
                 Name = "John Doe",
                 Specialization = TechnicianSpecialization.Mechanics,
-                UserId= "99ae7f52-08a1-4c41-98f6-0934ab9eeced"
+                UserId = "99ae7f52-08a1-4c41-98f6-0934ab9eeced",
+                Appointments = { FirstAppointment }
             };
 
             SecondTechnician = new Technician()
