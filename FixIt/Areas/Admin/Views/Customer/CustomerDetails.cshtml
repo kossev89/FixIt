@@ -87,7 +87,7 @@
                                     @if (appointment.Status == Idle && string.IsNullOrEmpty(appointment.TechnicianName))
                                                     {
                                         <div class="mt-4">
-                                            <a asp-area="Admin" asp-controller="" asp-action="" asp-route-id="@appointment.Id" class="btn btn-primary">Appoint Technician</a>
+                                            <a asp-area="Admin" asp-controller="Customer" asp-action="AppointTechnician" asp-route-id="@appointment.Id" class="btn btn-primary">Appoint Technician</a>
                                         </div>
                                         <div class="mt-4">
                                             <a asp-area="Admin" asp-controller="" asp-action="" asp-route-id="@appointment.Id" class="btn btn-danger">Cancel Appointment</a>

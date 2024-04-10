@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Service\**" />
+    <Compile Remove="Views\Technician\**" />
+    <Content Remove="Views\Service\**" />
+    <Content Remove="Views\Technician\**" />
+    <EmbeddedResource Remove="Views\Service\**" />
+    <EmbeddedResource Remove="Views\Technician\**" />
+    <None Remove="Views\Service\**" />
+    <None Remove="Views\Technician\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.26" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.28" />
@@ -30,8 +41,6 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Identity\Data\" />
-    <Folder Include="Views\Technician\" />
-    <Folder Include="Views\Service\" />
   </ItemGroup>
 
 </Project>

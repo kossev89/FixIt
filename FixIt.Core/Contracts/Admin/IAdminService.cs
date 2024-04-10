@@ -18,7 +18,9 @@ namespace FixIt.Core.Contracts.User
     {
         Task<IEnumerable<CustomerViewModel>> GetAllCustomersAsync();
         Task<IEnumerable<AppointmentViewModel>> GetAllAppointmentsAsync();
+        Task<AppointmentViewModel> GetAppointmentAsync(int id);
         Task<IEnumerable<TechnicianViewModel>> GetAllTechniciansAsync();
+        Task AppointTechnicianAsync(int appointmentId, TechnicianViewModel model);
         Task<IEnumerable<CustomerViewModel>> SearchIndexAsync(string filter);
         Task<CustomerViewModel> GetCustomerDetailsAsync(string id);
         Task<IEnumerable<CarDetailedViewModel>> GetCustomerCarsAsync(string id);
@@ -33,7 +35,5 @@ namespace FixIt.Core.Contracts.User
         Task DeleteAsync(CarViewModel model);
         Task BookAsync(AppointmentFormModel model);
         Task<IEnumerable<ServiceViewModel>> GetServicesAsync();
-        Task<ICollection<TechnicianViewModel>> GetAvailableTechnicians(int appointmentId);
-        Task <bool> IsAvailableAsync(int appointmentId, int technicianId);
     }
 }

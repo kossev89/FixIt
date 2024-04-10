@@ -57,6 +57,21 @@ namespace FixIt.Core.Services.User
             await context.SaveChangesAsync();
         }
 
+        public async Task AppointTechnicianAsync(int appointmentId, TechnicianViewModel model)
+        {
+            var entity = await context
+                .Appointments
+                .FindAsync(appointmentId);
+
+            if (entity == null)
+            {
+                throw new InvalidDataException("Appoitnment doesn't exist!");
+            }
+
+            entity.TechnicianId = model.Id;
+            await context.SaveChangesAsync();
+        }
+
         public async Task BookAsync(AppointmentFormModel model)
         {
             var entity = mapper
@@ -142,32 +157,36 @@ namespace FixIt.Core.Services.User
                 .ToArrayAsync();
         }
 
-        public Task<IEnumerable<TechnicianViewModel>> GetAllTechniciansAsync()
+        public async Task<IEnumerable<TechnicianViewModel>> GetAllTechniciansAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ICollection<TechnicianViewModel>> GetAvailableTechnicians(int appointmentId)
-        {
-            var availableTechnicians = new List<TechnicianViewModel>();
-
             var allTechnicians = await context
                 .Technicians
                 .AsNoTracking()
                 .ProjectTo<TechnicianViewModel>(config)
                 .ToArrayAsync();
 
-            foreach (var technician in allTechnicians)
+            if (allTechnicians == null)
             {
-                var technicianId = technician.Id;
-                if (await IsAvailableAsync(appointmentId, technicianId))
-                {
-                    availableTechnicians.Add(technician);
-                }
+                throw new InvalidDataException("No technicians availabe");
             }
 
-            return availableTechnicians;
+            return allTechnicians;
+        }
 
+        public async Task<AppointmentViewModel> GetAppointmentAsync(int appointmentId)
+        {
+            var appointment = await context
+                .Appointments
+                .AsNoTracking()
+                .ProjectTo<AppointmentViewModel>(config)
+                .FirstOrDefaultAsync(x => x.Id == appointmentId);
+
+            if (appointment==null)
+            {
+                throw new ArgumentException("Appointment does not exist");
+            }
+
+            return appointment;
         }
 
         public async Task<IEnumerable<AppointmentViewModel>> GetCustomerApointmentsAsync(string id)
@@ -305,34 +324,6 @@ namespace FixIt.Core.Services.User
             }
 
             return services;
-        }
-
-        public async Task <bool> IsAvailableAsync(int appointmentId, int technicianId)
-        {
-            var appointment = await context
-                .Appointments
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x=>x.Id==appointmentId);
-
-            if (appointment==null)
-            {
-                throw new ArgumentException("Invalid Appointment");
-            }
-
-            var technicianAppointments =await context
-                .Appointments
-                .AsNoTracking()
-                .Where(x=>x.TechnicianId== technicianId
-                && x.DateAndTime.Date == appointment.DateAndTime.Date
-                && x.Status == Infrastructure.Data.Enumerators.AppointmentStatus.InProgress
-                )
-                .ToArrayAsync();
-
-            if (technicianAppointments.Any())
-            {
-                return false;
-            }
-            return true;
         }
 
         public async Task RegisterCustomerAsync(CustomerFormModel model)
