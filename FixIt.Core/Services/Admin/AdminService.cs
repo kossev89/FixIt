@@ -110,6 +110,21 @@ namespace FixIt.Core.Services.User
             await context.SaveChangesAsync();
         }
 
+        public async Task EditCustomerAsync(CustomerFormModel model)
+        {
+            var entity = await context
+                .Users
+                .FindAsync(model.Id);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("User not found!");
+            }
+
+            entity.PhoneNumber = model.PhoneNumber;
+            await context.SaveChangesAsync();
+        }
+
         public async Task EditCustomerCarAsync(CarFormModel model)
         {
             var entity = await context
@@ -181,7 +196,7 @@ namespace FixIt.Core.Services.User
                 .ProjectTo<AppointmentViewModel>(config)
                 .FirstOrDefaultAsync(x => x.Id == appointmentId);
 
-            if (appointment==null)
+            if (appointment == null)
             {
                 throw new ArgumentException("Appointment does not exist");
             }

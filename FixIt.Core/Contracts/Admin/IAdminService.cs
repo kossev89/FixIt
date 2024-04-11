@@ -31,6 +31,7 @@ namespace FixIt.Core.Contracts.User
         Task<CarViewModel> GetCustomerCarViewAsync(string cutomerId, int carId);
         Task<IEnumerable<CarViewModel>> GetCustomerCarsViewAsync(string cutomerId);
         Task EditCustomerCarAsync(CarFormModel model);
+        Task EditCustomerAsync(CustomerFormModel model);
         Task AddCarAsync(CarFormModel model);
         Task DeleteAsync(CarViewModel model);
         Task BookAsync(AppointmentFormModel model);

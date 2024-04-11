@@ -216,5 +216,28 @@ namespace FixIt.Areas.Admin.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        public IActionResult EditCustomer(string id)
+        {
+            var model = new CustomerFormModel()
+            {
+                Id = id
+            };
+
+            if (ModelState.IsValid)
+            {
+                return View("~/Areas/Admin/Views/Customer/EditCustomer.cshtml", model);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCustomer(CustomerFormModel model)
+        {
+            await service.EditCustomerAsync(model);
+            return RedirectToAction("Index");
+        }
+
     }
 }

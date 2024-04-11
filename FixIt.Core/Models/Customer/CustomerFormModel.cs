@@ -10,6 +10,7 @@ namespace FixIt.Core.Models.Customer
 {
     public class CustomerFormModel
     {
+        public string Id { get; set; }
         [Required (ErrorMessage = RequiredErrorMessage)]
         [StringLength(UsernameMax, MinimumLength = UsernameMin, ErrorMessage = NameValidationError)]
         public string UserName => Email;
