@@ -231,13 +231,13 @@ namespace FixIt.Core.Services.User
                 .ToArrayAsync();
         }
 
-        public async Task<IEnumerable<CarViewModel>> GetCustomerCarsViewAsync(string cutomerId)
+        public async Task<IEnumerable<CarViewModel>> GetCustomerCarsViewAsync(string customerId)
         {
             var models = await context
             .Cars
             .AsNoTracking()
             .Where(x =>
-            x.UserId == cutomerId
+            x.UserId == customerId
             && x.IsDeleted == false
             )
             .ProjectTo<CarViewModel>(config)
