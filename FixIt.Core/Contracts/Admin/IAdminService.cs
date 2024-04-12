@@ -4,37 +4,42 @@ using FixIt.Core.Models.Customer;
 using FixIt.Core.Models.Service;
 using FixIt.Core.Models.ServiceHistory;
 using FixIt.Core.Models.Technician;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixIt.Core.Contracts.User
 {
     public interface IAdminService
     {
-        Task<IEnumerable<CustomerViewModel>> GetAllCustomersAsync();
-        Task<IEnumerable<AppointmentViewModel>> GetAllAppointmentsAsync();
-        Task<AppointmentViewModel> GetAppointmentAsync(int id);
-        Task<IEnumerable<TechnicianViewModel>> GetAllTechniciansAsync();
-        Task AppointTechnicianAsync(int appointmentId, TechnicianViewModel model);
+        //Customer manipulation from the Admin User
         Task<IEnumerable<CustomerViewModel>> SearchIndexAsync(string filter);
+        Task<IEnumerable<CustomerViewModel>> GetAllCustomersAsync();
         Task<CustomerViewModel> GetCustomerDetailsAsync(string id);
-        Task<IEnumerable<CarDetailedViewModel>> GetCustomerCarsAsync(string id);
-        Task<IEnumerable<AppointmentViewModel>> GetCustomerApointmentsAsync(string id);
-        Task<IEnumerable<ServiceHistoryViewModel>> GetCustomerServicesAsync(string id);
         Task RegisterCustomerAsync(CustomerFormModel model);
+        Task EditCustomerAsync(CustomerFormModel model);
+
+        //Car manupulation from the Admin User
         Task<CarFormModel> GetCustomerCarFormAsync(string cutomerId, int carId);
         Task<CarViewModel> GetCustomerCarViewAsync(string cutomerId, int carId);
         Task<IEnumerable<CarViewModel>> GetCustomerCarsViewAsync(string cutomerId);
         Task EditCustomerCarAsync(CarFormModel model);
-        Task EditCustomerAsync(CustomerFormModel model);
+        Task<IEnumerable<CarDetailedViewModel>> GetCustomerCarsAsync(string id);
         Task AddCarAsync(CarFormModel model);
         Task DeleteAsync(CarViewModel model);
+        Task<IEnumerable<CarViewModel>> GetAllCarsAsync();
+        Task<CarDetailedViewModel> GetCarDetailsAsync(int id);
+
+        //Appointment manupulation from the Admin User
+        Task<IEnumerable<AppointmentViewModel>> GetAllAppointmentsAsync();
+        Task<AppointmentViewModel> GetAppointmentAsync(int id);
+        Task<IEnumerable<AppointmentViewModel>> GetCustomerApointmentsAsync(string id);
         Task BookAsync(AppointmentFormModel model);
+
+        //Technician manupulation from the Admin User
+        Task<IEnumerable<TechnicianViewModel>> GetAllTechniciansAsync();
+        Task AppointTechnicianAsync(int appointmentId, TechnicianViewModel model);
+
+        //Service manupulation from the Admin User
+        Task<IEnumerable<ServiceHistoryViewModel>> GetCustomerServicesAsync(string id);
         Task<IEnumerable<ServiceViewModel>> GetServicesAsync();
+        Task<IEnumerable<ServiceHistoryViewModel>> GetCarHistory(int id);
     }
 }

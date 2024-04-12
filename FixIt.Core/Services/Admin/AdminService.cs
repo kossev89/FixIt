@@ -43,73 +43,20 @@ namespace FixIt.Core.Services.User
             mapper = _mapper;
         }
 
-        public async Task AddCarAsync(CarFormModel model)
+        //Customer manipulation from the Admin User
+        public async Task<IEnumerable<CustomerViewModel>> GetAllCustomersAsync()
         {
-            var entity = mapper
-                .Map<Infrastructure.Data.Models.Car>(model);
+            var customers = userManager.GetUsersInRoleAsync("Customer").Result;
+            var customersId = customers
+                .Select(x => x.Id);
 
-            if (entity == null)
-            {
-                throw new ArgumentException("Invalid Car Information");
-            }
-
-            await context.AddAsync(entity);
-            await context.SaveChangesAsync();
+            return await context
+                .Users
+                .AsNoTracking()
+                .Where(x => customersId.Contains(x.Id))
+                .ProjectTo<CustomerViewModel>(config)
+                .ToArrayAsync();
         }
-
-        public async Task AppointTechnicianAsync(int appointmentId, TechnicianViewModel model)
-        {
-            var entity = await context
-                .Appointments
-                .FindAsync(appointmentId);
-
-            if (entity == null)
-            {
-                throw new InvalidDataException("Appoitnment doesn't exist!");
-            }
-
-            entity.TechnicianId = model.Id;
-            await context.SaveChangesAsync();
-        }
-
-        public async Task BookAsync(AppointmentFormModel model)
-        {
-            var entity = mapper
-                .Map<Infrastructure.Data.Models.Appointment>(model);
-
-            if (entity == null)
-            {
-                throw new ArgumentException("Invalid Appointment Information");
-            }
-
-            if (entity.DateAndTime.DayOfWeek > LastWorkDay || entity.DateAndTime.Hour < 8 || entity.DateAndTime.Hour > 17)
-            {
-                throw new ArgumentException("The appointment date is outside working hours");
-            }
-
-            await context.Appointments.AddAsync(entity);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(CarViewModel model)
-        {
-            var entity = await context
-            .Cars
-            .Where(x => x.UserId == model.UserId
-            && x.Id == model.Id
-            && x.IsDeleted == false
-            )
-            .FirstOrDefaultAsync();
-
-            if (entity == null || entity.IsDeleted)
-            {
-                throw new ArgumentException("The car does not exist");
-            }
-
-            entity.IsDeleted = true;
-            await context.SaveChangesAsync();
-        }
-
         public async Task EditCustomerAsync(CustomerFormModel model)
         {
             var entity = await context
@@ -124,168 +71,6 @@ namespace FixIt.Core.Services.User
             entity.PhoneNumber = model.PhoneNumber;
             await context.SaveChangesAsync();
         }
-
-        public async Task EditCustomerCarAsync(CarFormModel model)
-        {
-            var entity = await context
-               .Cars
-               .FindAsync(model.Id);
-
-            if (entity == null || entity.IsDeleted)
-            {
-                throw new ArgumentException("The car doesn't exist!");
-            }
-
-            entity.PlateNumber = model.PlateNumber;
-            entity.ImageUrl = model.ImageUrl;
-            if (entity.Mileage > model.Mileage)
-            {
-                throw new ArgumentException($"The new Mileage should be more or equal to {entity.Mileage}");
-            }
-            entity.Mileage = model.Mileage;
-            entity.Vin = model.Vin;
-
-            await context.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<AppointmentViewModel>> GetAllAppointmentsAsync()
-        {
-            return await context
-                .Appointments
-                .AsNoTracking()
-                .ProjectTo<AppointmentViewModel>(config)
-                .OrderBy(x => x.Status)
-                .ToArrayAsync();
-        }
-
-        public async Task<IEnumerable<CustomerViewModel>> GetAllCustomersAsync()
-        {
-            var customers = userManager.GetUsersInRoleAsync("Customer").Result;
-            var customersId = customers
-                .Select(x => x.Id);
-
-            return await context
-                .Users
-                .AsNoTracking()
-                .Where(x => customersId.Contains(x.Id))
-                .ProjectTo<CustomerViewModel>(config)
-                .ToArrayAsync();
-        }
-
-        public async Task<IEnumerable<TechnicianViewModel>> GetAllTechniciansAsync()
-        {
-            var allTechnicians = await context
-                .Technicians
-                .AsNoTracking()
-                .ProjectTo<TechnicianViewModel>(config)
-                .ToArrayAsync();
-
-            if (allTechnicians == null)
-            {
-                throw new InvalidDataException("No technicians availabe");
-            }
-
-            return allTechnicians;
-        }
-
-        public async Task<AppointmentViewModel> GetAppointmentAsync(int appointmentId)
-        {
-            var appointment = await context
-                .Appointments
-                .AsNoTracking()
-                .ProjectTo<AppointmentViewModel>(config)
-                .FirstOrDefaultAsync(x => x.Id == appointmentId);
-
-            if (appointment == null)
-            {
-                throw new ArgumentException("Appointment does not exist");
-            }
-
-            return appointment;
-        }
-
-        public async Task<IEnumerable<AppointmentViewModel>> GetCustomerApointmentsAsync(string id)
-        {
-            return await context
-            .Appointments
-            .AsNoTracking()
-            .Where(x => x.UserId == id
-            && x.Status != Infrastructure.Data.Enumerators.AppointmentStatus.Canceled
-            )
-            .ProjectTo<AppointmentViewModel>(config)
-            .ToArrayAsync();
-        }
-
-        public async Task<CarFormModel> GetCustomerCarFormAsync(string cutomerId, int carId)
-        {
-            var car = await context
-            .Cars
-            .AsNoTracking()
-            .Where(x =>
-            x.UserId == cutomerId
-            && x.Id == carId
-            && x.IsDeleted == false
-            )
-            .ProjectTo<CarFormModel>(config)
-            .FirstOrDefaultAsync();
-
-            if (car is CarFormModel)
-            {
-                return car;
-            }
-            throw new InvalidDataException("The car doesn't exist");
-        }
-
-        public async Task<IEnumerable<CarDetailedViewModel>> GetCustomerCarsAsync(string id)
-        {
-            return await context
-                .Cars
-                .AsNoTracking()
-                .Where(x => x.UserId == id && x.IsDeleted == false)
-                .ProjectTo<CarDetailedViewModel>(config)
-                .ToArrayAsync();
-        }
-
-        public async Task<IEnumerable<CarViewModel>> GetCustomerCarsViewAsync(string customerId)
-        {
-            var models = await context
-            .Cars
-            .AsNoTracking()
-            .Where(x =>
-            x.UserId == customerId
-            && x.IsDeleted == false
-            )
-            .ProjectTo<CarViewModel>(config)
-            .ToArrayAsync();
-
-            if (models.Any())
-            {
-                return models;
-            }
-
-            throw new InvalidDataException("The customer has no cars!");
-        }
-
-        public async Task<CarViewModel> GetCustomerCarViewAsync(string cutomerId, int carId)
-        {
-            var car = await context
-            .Cars
-            .AsNoTracking()
-            .Where(x =>
-            x.UserId == cutomerId
-            && x.Id == carId
-            && x.IsDeleted == false
-            )
-            .ProjectTo<CarViewModel>(config)
-            .FirstOrDefaultAsync();
-
-            if (car is CarViewModel)
-            {
-                return car;
-            }
-            throw new InvalidDataException("The car doesn't exist");
-        }
-
         public async Task<CustomerViewModel> GetCustomerDetailsAsync(string id)
         {
             var customer = userManager.GetUsersInRoleAsync("Customer")
@@ -312,35 +97,6 @@ namespace FixIt.Core.Services.User
 
             return model;
         }
-
-        public async Task<IEnumerable<ServiceHistoryViewModel>> GetCustomerServicesAsync(string id)
-        {
-            return await context
-             .ServiceHistories
-             .AsNoTracking()
-             .Where(x => x.UserId == id)
-             .ProjectTo<ServiceHistoryViewModel>(config)
-             .OrderBy(d => d.Date)
-             .ToArrayAsync();
-        }
-
-        public async Task<IEnumerable<ServiceViewModel>> GetServicesAsync()
-        {
-            var services = await context
-            .Services
-            .AsNoTracking()
-            .ProjectTo<ServiceViewModel>(config)
-            .OrderBy(n => n.Type)
-            .ToArrayAsync();
-
-            if (services == null)
-            {
-                throw new ArgumentException("There are no services added!");
-            }
-
-            return services;
-        }
-
         public async Task RegisterCustomerAsync(CustomerFormModel model)
         {
             var hasher = new PasswordHasher<IdentityUser>();
@@ -357,7 +113,6 @@ namespace FixIt.Core.Services.User
             await context.SaveChangesAsync();
             await userManager.AddToRoleAsync(user, "Customer");
         }
-
         public async Task<IEnumerable<CustomerViewModel>> SearchIndexAsync(string filter)
         {
             return await context
@@ -365,6 +120,274 @@ namespace FixIt.Core.Services.User
                 .AsNoTracking()
                 .Where(x => x.Email.Contains(filter))
                 .ProjectTo<CustomerViewModel>(config)
+                .ToArrayAsync();
+        }
+
+        //Car manupulation from the Admin User
+        public async Task AddCarAsync(CarFormModel model)
+        {
+            var entity = mapper
+                .Map<Infrastructure.Data.Models.Car>(model);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("Invalid Car Information");
+            }
+
+            await context.AddAsync(entity);
+            await context.SaveChangesAsync();
+        }
+        public async Task EditCustomerCarAsync(CarFormModel model)
+        {
+            var entity = await context
+               .Cars
+               .FindAsync(model.Id);
+
+            if (entity == null || entity.IsDeleted)
+            {
+                throw new ArgumentException("The car doesn't exist!");
+            }
+
+            entity.PlateNumber = model.PlateNumber;
+            entity.ImageUrl = model.ImageUrl;
+            if (entity.Mileage > model.Mileage)
+            {
+                throw new ArgumentException($"The new Mileage should be more or equal to {entity.Mileage}");
+            }
+            entity.Mileage = model.Mileage;
+            entity.Vin = model.Vin;
+
+            await context.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(CarViewModel model)
+        {
+            var entity = await context
+            .Cars
+            .Where(x => x.UserId == model.UserId
+            && x.Id == model.Id
+            && x.IsDeleted == false
+            )
+            .FirstOrDefaultAsync();
+
+            if (entity == null || entity.IsDeleted)
+            {
+                throw new ArgumentException("The car does not exist");
+            }
+
+            entity.IsDeleted = true;
+            await context.SaveChangesAsync();
+        }
+        public async Task<CarFormModel> GetCustomerCarFormAsync(string cutomerId, int carId)
+        {
+            var car = await context
+            .Cars
+            .AsNoTracking()
+            .Where(x =>
+            x.UserId == cutomerId
+            && x.Id == carId
+            && x.IsDeleted == false
+            )
+            .ProjectTo<CarFormModel>(config)
+            .FirstOrDefaultAsync();
+
+            if (car is CarFormModel)
+            {
+                return car;
+            }
+            throw new InvalidDataException("The car doesn't exist");
+        }
+        public async Task<IEnumerable<CarDetailedViewModel>> GetCustomerCarsAsync(string id)
+        {
+            return await context
+                .Cars
+                .AsNoTracking()
+                .Where(x => x.UserId == id && x.IsDeleted == false)
+                .ProjectTo<CarDetailedViewModel>(config)
+                .ToArrayAsync();
+        }
+        public async Task<IEnumerable<CarViewModel>> GetCustomerCarsViewAsync(string customerId)
+        {
+            var models = await context
+            .Cars
+            .AsNoTracking()
+            .Where(x =>
+            x.UserId == customerId
+            && x.IsDeleted == false
+            )
+            .ProjectTo<CarViewModel>(config)
+            .ToArrayAsync();
+
+            if (models.Any())
+            {
+                return models;
+            }
+
+            throw new InvalidDataException("The customer has no cars!");
+        }
+        public async Task<CarViewModel> GetCustomerCarViewAsync(string cutomerId, int carId)
+        {
+            var car = await context
+            .Cars
+            .AsNoTracking()
+            .Where(x =>
+            x.UserId == cutomerId
+            && x.Id == carId
+            && x.IsDeleted == false
+            )
+            .ProjectTo<CarViewModel>(config)
+            .FirstOrDefaultAsync();
+
+            if (car is CarViewModel)
+            {
+                return car;
+            }
+            throw new InvalidDataException("The car doesn't exist");
+        }
+        public async Task<IEnumerable<CarViewModel>> GetAllCarsAsync()
+        {
+            return await context
+                .Cars
+                .AsNoTracking()
+                .ProjectTo<CarViewModel>(config)
+                .OrderBy(x => x.Make)
+                .ToArrayAsync();
+        }
+        public async Task<CarDetailedViewModel> GetCarDetailsAsync(int id)
+        {
+            var car = await context
+                .Cars
+                .AsNoTracking()
+                .ProjectTo<CarDetailedViewModel>(config)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (car is CarDetailedViewModel)
+            {
+                return car;
+            }
+            throw new InvalidDataException("Car doesn't exist!");
+        }
+
+        //Appointment manupulation from the Admin User
+        public async Task BookAsync(AppointmentFormModel model)
+        {
+            var entity = mapper
+                .Map<Infrastructure.Data.Models.Appointment>(model);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("Invalid Appointment Information");
+            }
+
+            if (entity.DateAndTime.DayOfWeek > LastWorkDay || entity.DateAndTime.Hour < 8 || entity.DateAndTime.Hour > 17)
+            {
+                throw new ArgumentException("The appointment date is outside working hours");
+            }
+
+            await context.Appointments.AddAsync(entity);
+            await context.SaveChangesAsync();
+        }
+        public async Task<IEnumerable<AppointmentViewModel>> GetAllAppointmentsAsync()
+        {
+            return await context
+                .Appointments
+                .AsNoTracking()
+                .ProjectTo<AppointmentViewModel>(config)
+                .OrderBy(x => x.Status)
+                .ToArrayAsync();
+        }
+        public async Task<AppointmentViewModel> GetAppointmentAsync(int appointmentId)
+        {
+            var appointment = await context
+                .Appointments
+                .AsNoTracking()
+                .ProjectTo<AppointmentViewModel>(config)
+                .FirstOrDefaultAsync(x => x.Id == appointmentId);
+
+            if (appointment == null)
+            {
+                throw new ArgumentException("Appointment does not exist");
+            }
+
+            return appointment;
+        }
+        public async Task<IEnumerable<AppointmentViewModel>> GetCustomerApointmentsAsync(string id)
+        {
+            return await context
+            .Appointments
+            .AsNoTracking()
+            .Where(x => x.UserId == id
+            && x.Status != Infrastructure.Data.Enumerators.AppointmentStatus.Canceled
+            )
+            .ProjectTo<AppointmentViewModel>(config)
+            .ToArrayAsync();
+        }
+
+        //Technician manupulation from the Admin User
+        public async Task<IEnumerable<TechnicianViewModel>> GetAllTechniciansAsync()
+        {
+            var allTechnicians = await context
+                .Technicians
+                .AsNoTracking()
+                .ProjectTo<TechnicianViewModel>(config)
+                .ToArrayAsync();
+
+            if (allTechnicians == null)
+            {
+                throw new InvalidDataException("No technicians availabe");
+            }
+
+            return allTechnicians;
+        }
+        public async Task AppointTechnicianAsync(int appointmentId, TechnicianViewModel model)
+        {
+            var entity = await context
+                .Appointments
+                .FindAsync(appointmentId);
+
+            if (entity == null)
+            {
+                throw new InvalidDataException("Appoitnment doesn't exist!");
+            }
+
+            entity.TechnicianId = model.Id;
+            await context.SaveChangesAsync();
+        }
+
+        //Service manupulation from the Admin User
+        public async Task<IEnumerable<ServiceHistoryViewModel>> GetCustomerServicesAsync(string id)
+        {
+            return await context
+             .ServiceHistories
+             .AsNoTracking()
+             .Where(x => x.UserId == id)
+             .ProjectTo<ServiceHistoryViewModel>(config)
+             .OrderBy(d => d.Date)
+             .ToArrayAsync();
+        }
+        public async Task<IEnumerable<ServiceViewModel>> GetServicesAsync()
+        {
+            var services = await context
+            .Services
+            .AsNoTracking()
+            .ProjectTo<ServiceViewModel>(config)
+            .OrderBy(n => n.Type)
+            .ToArrayAsync();
+
+            if (services == null)
+            {
+                throw new ArgumentException("There are no services added!");
+            }
+
+            return services;
+        }
+        public async Task<IEnumerable<ServiceHistoryViewModel>> GetCarHistory(int id)
+        {
+            return await context
+                .ServiceHistories
+                .AsNoTracking()
+                .Where(x => x.CarId == id)
+                .ProjectTo<ServiceHistoryViewModel>(config)
+                .OrderBy(d => d.Date)
                 .ToArrayAsync();
         }
     }
