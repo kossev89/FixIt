@@ -2,7 +2,32 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (User.IsInRole("Administrator"))
+{
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-4 text-center">Welcome, Admin</h1>
+            <div class="d-flex justify-content-between mt-5">
+                <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Customers")">Customers</a>
+                <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Cars")">Cars</a>
+                <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Appointments")">Appointments</a>
+            </div>
+        </div>
+    </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+                <h1 class="display-4">Welcome to FixIt - Your Car's Clinic</h1>
+                <p class="lead">Where Your Car Receives Expert Care</p>
+                <p>At FixIt, we understand the importance of keeping your car running smoothly. Our team of skilled technicians is here to provide top-notch service and repairs for all makes and models.</p>
+                <p>Whether it's routine maintenance, diagnostics, or major repairs, trust FixIt to get the job done right.</p>
+            </div>
+        </div>
+    </div>
+}
+
