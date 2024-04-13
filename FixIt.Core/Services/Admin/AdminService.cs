@@ -24,7 +24,6 @@ namespace FixIt.Core.Services.User
     public class AdminService : IAdminService
     {
         private readonly ApplicationDbContext context;
-        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly UserManager<IdentityUser> userManager;
         private readonly IConfigurationProvider config;
         private readonly IMapper mapper;
@@ -37,7 +36,6 @@ namespace FixIt.Core.Services.User
             )
         {
             context = _context;
-            httpContextAccessor = _httpContextAccessor;
             userManager = _userManager;
             config = _config;
             mapper = _mapper;
