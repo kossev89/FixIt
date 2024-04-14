@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using FixIt.Infrastructure.Data.Models;
 using static FixIt.Infrastructure.Data.Constants.ValidationConstants;
+using NUnit.Framework.Constraints;
 namespace UnitTests
 {
     [TestFixture]
@@ -49,12 +50,13 @@ namespace UnitTests
         public async Task BookAsync_ValidAppointment_Success()
         {
             // Arrange
+            var rightDateTime = new DateTime(2024, 4, 15, 09, 0, 0);
             var validModel = new AppointmentFormModel
             {
                 UserId = "qwewqeqweq",
                 CarId = 1,
                 ServiceId = 1,
-                DateAndTime = DateTime.Now
+                DateAndTime = rightDateTime
             };
 
             // Act
@@ -66,7 +68,7 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task BookAsync_InvalidAppointment_ThrowsArgumentException()
+        public void BookAsync_InvalidAppointment_ThrowsArgumentException()
         {
             // Arrange
             var invalidModel = new AppointmentFormModel
@@ -77,7 +79,7 @@ namespace UnitTests
 
             // Act & Assert
             var exception = Assert.ThrowsAsync<ArgumentException>(() => _adminService.BookAsync(invalidModel));
-            Assert.AreEqual(FixIt.Infrastructure.Data.Constants.ValidationConstants., exception.Message);
+            Assert.That(exception.Message, Is.EqualTo("The appointment date is outside working hours"));
         }
     }
 }

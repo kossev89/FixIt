@@ -23,25 +23,24 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-text">Customer: @appointment.User.Email</h4>
                             <h5 class="card-title">@appointment.Car.Make @appointment.Car.Model</h5>
                             <p class="card-text">Registration Plate: @appointment.Car.PlateNumber</p>
                             <p class="card-text">Service Type: @appointment.ServiceType</p>
                             <p class="card-text">Technician: @appointment.TechnicianName</p>
                             <p class="card-text">Date And Time: @appointment.DateAndTime.ToString(DateValidationFormat)</p>
                             <p class="card-text">Status: @appointment.Status</p>
-                            <a asp-area="Admin" asp-controller="" asp-action="" asp-route-id="@appointment.Id" class="btn btn-primary">Assign a Technician</a>
-                            @if (appointment.Status != Canceled
-                           && appointment.Status != InProgress
-                           && appointment.Status != Completed)
+                            @if (appointment.Status == Idle && string.IsNullOrEmpty(appointment.TechnicianName))
                             {
                                 <div class="mt-4">
-                                    <a asp-area="Admin" asp-controller="" asp-route-id="@appointment.Id" class="btn btn-danger">Cancel Appointment</a>
+                                    <a asp-area="Admin" asp-controller="AppointAdmin" asp-action="AppointTechnician" asp-route-id="@appointment.Id" class="btn btn-primary">Appoint Technician</a>
+                                </div>
+                                <div class="mt-4">
+                                    <a asp-area="Admin" asp-controller="" asp-action="" asp-route-id="@appointment.Id" class="btn btn-danger">Cancel Appointment</a>
                                 </div>
                             }
-                        </div>
-                    </div>
                 </div>
+            </div>
+        </div>
             }
         </div>
     }

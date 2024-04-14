@@ -26,6 +26,7 @@ namespace FixIt.Core.Profiles
             CreateMap<ServiceHistory, ServiceHistoryViewModel>();
 
             CreateMap<Technician, TechnicianViewModel>();
+            CreateMap<TechnicianFormModel, Technician>();
 
             CreateMap<IdentityUser, CustomerViewModel>();
 

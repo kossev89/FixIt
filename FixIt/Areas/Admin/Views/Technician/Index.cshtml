@@ -1,0 +1,43 @@
+﻿@model IEnumerable<TechnicianViewModel>
+
+@{
+    ViewBag.Title = "All Technicians";
+}
+<hr />
+<table class="table">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+
+        <a asp-area="Admin" asp-controller="Technician" asp-action="RegisterUser" class="btn btn-primary">Add Technician</a>
+        <hr />
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info" role="alert">
+                There are no registered technicians!
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                @foreach (var technician in Model)
+                {
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text">Username: @technician.Name</p>
+                                <p class="card-text">Email: @technician.Specialization</p>
+                                <p class="card-text">Phone number: @technician.User.Email</p>
+                            </div>
+                            <div class="mt-4">
+                                <a asp-area="" asp-controller="" asp-action="" asp-route-Id="@technician.Id" class="btn btn-danger">Remove Technician</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</table>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

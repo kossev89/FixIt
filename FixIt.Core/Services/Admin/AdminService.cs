@@ -326,6 +326,8 @@ namespace FixIt.Core.Services.User
             var allTechnicians = await context
                 .Technicians
                 .AsNoTracking()
+                .Where(x => x.IsDeleted == false)
+                .OrderBy(x => x.Name)
                 .ProjectTo<TechnicianViewModel>(config)
                 .ToArrayAsync();
 
@@ -349,6 +351,50 @@ namespace FixIt.Core.Services.User
 
             entity.TechnicianId = model.Id;
             await context.SaveChangesAsync();
+        }
+        public async Task RegisterTechnicianUserAsync(CustomerFormModel model)
+        {
+            var hasher = new PasswordHasher<IdentityUser>();
+            var user = new IdentityUser()
+            {
+                UserName = model.UserName,
+                NormalizedUserName = model.NormalizedUserName,
+                Email = model.Email,
+                NormalizedEmail = model.NormalizedEmail
+            };
+            user.PasswordHash = hasher.HashPassword(user, model.Password);
+
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
+            await userManager.AddToRoleAsync(user, "Technician");
+        }
+        public async Task AddTechnicianInfoAsync(TechnicianFormModel model)
+        {
+            var entity = mapper
+                    .Map<Technician>(model);
+
+            if (entity == null)
+            {
+                throw new InvalidDataException("Invalid data!");
+            }
+
+            await context.AddAsync(entity);
+            await context.SaveChangesAsync();
+
+        }
+        public async Task<string> GetTechnicinUserIdAsync(string email)
+        {
+            var technicianUser = await context
+                .Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Email == email);
+
+            if (technicianUser == null)
+            {
+                throw new InvalidDataException("The user doesn't exist!");
+            }
+
+            return technicianUser.Id;
         }
 
         //Service manupulation from the Admin User
@@ -388,5 +434,6 @@ namespace FixIt.Core.Services.User
                 .OrderBy(d => d.Date)
                 .ToArrayAsync();
         }
+
     }
 }

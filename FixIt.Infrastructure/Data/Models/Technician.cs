@@ -21,6 +21,7 @@ namespace FixIt.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Comment("Identity User Identification")]
+        [Required]
         public string UserId { get; set; } = string.Empty;
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; } = null!;

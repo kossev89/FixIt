@@ -1,0 +1,36 @@
+﻿@using FixIt.Infrastructure.Data.Enumerators
+@model TechnicianFormModel
+
+@{
+    ViewBag.Title = "Add Technician Info";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <input type="hidden" name="UserId" value="@Model.UserId" />
+        <form asp-area="Admin" asp-controller="Technician" asp-action="AddInfo" method="post">
+            <div class="mb-3">
+                <label asp-for="@Model.Name" class="form-label-add-edit">Technician Name</label>
+                <input asp-for="@Model.Name" class="form-control" aria-required="true" placeholder="Enter Technician's Name" />
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Specialization" class="form-label-add-edit">Select Technician's Specialization</label>
+                @Html.DropDownListFor(m => m.Specialization, Enum.GetNames(typeof(TechnicianSpecialization)).Select(t => new SelectListItem { Text = t, Value = t }), "Select Technician's Specialization", new { @class = "form-control", aria_required = "true" })
+                <span asp-validation-for="@Model.Specialization" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+
+                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Add Info" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
