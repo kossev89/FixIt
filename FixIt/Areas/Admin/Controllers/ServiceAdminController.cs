@@ -45,5 +45,39 @@ namespace FixIt.Areas.Admin.Controllers
             await service.AddServiceAsync(model);
             return RedirectToAction("Index", "ServiceAdmin");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            try
+            {
+                var model = await service.GetServiceFormAsync(id);
+                if (ModelState.IsValid)
+                {
+                    return View("~/Areas/Admin/Views/ServiceAdmin/Edit.cshtml", model);
+                }
+                return View("~/Areas/Admin/Views/ServiceAdmin/Edit.cshtml");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ServiceFormModel model)
+        {
+            try
+            {
+                await service.EditServiceAsync(model);
+                return RedirectToAction("Index", "ServiceAdmin");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -28,7 +28,7 @@
                             <p class="card-text">Price: @service.Price</p>
                             <p class="card-text">Detailed Description: @service.Description</p>
                             <div class="d-grid gap-2">
-                                <a asp-area="" asp-controller="" asp-action="" asp-route-id="" class="btn btn-primary">Edit Service</a>
+                                <a asp-area="Admin" asp-controller="ServiceAdmin" asp-action="Edit" asp-route-id="@service.Id" class="btn btn-primary">Edit Service</a>
                                 <a asp-area="" asp-controller="" asp-action="" asp-route-id="" class="btn btn-danger">Remove Service</a>
                             </div>
                         </div>

@@ -516,5 +516,21 @@ namespace FixIt.Core.Services.User
             entity.Price = model.Price;
             await context.SaveChangesAsync();
         }
+        public async Task<ServiceFormModel> GetServiceFormAsync(int id)
+        {
+            var model = await context
+                .Services
+                .AsNoTracking()
+                .Where(d => d.IsDeleted == false && d.Id == id)
+                .ProjectTo<ServiceFormModel>(config)
+                .FirstOrDefaultAsync();
+
+            if (!(model is ServiceFormModel))
+            {
+                throw new InvalidDataException("The service doesn't exist");
+            }
+
+            return model;
+        }
     }
 }

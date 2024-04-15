@@ -23,6 +23,7 @@ namespace FixIt.Core.Profiles
             CreateMap<AppointmentFormModel, Appointment>();
 
             CreateMap<Service, ServiceViewModel>();
+            CreateMap<Service, ServiceFormModel>();
             CreateMap<ServiceFormModel, Service>();
             CreateMap<ServiceHistory, ServiceHistoryViewModel>();
 
