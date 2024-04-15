@@ -47,5 +47,6 @@ namespace FixIt.Core.Contracts.User
         Task<IEnumerable<ServiceViewModel>> GetServicesAsync();
         Task<IEnumerable<ServiceHistoryViewModel>> GetCarHistory(int id);
         Task AddServiceAsync(ServiceFormModel model);
+        Task EditServiceAsync(ServiceFormModel model);
     }
 }

@@ -500,5 +500,21 @@ namespace FixIt.Core.Services.User
             await context.AddAsync(entity);
             await context.SaveChangesAsync();
         }
+
+        public async Task EditServiceAsync(ServiceFormModel model)
+        {
+            var entity = await context
+              .Services
+              .FindAsync(model.Id);
+
+            if (entity == null || entity.IsDeleted)
+            {
+                throw new ArgumentException("The Service doesn't exist!");
+            }
+
+            entity.Description = model.Description;
+            entity.Price = model.Price;
+            await context.SaveChangesAsync();
+        }
     }
 }
