@@ -27,9 +27,11 @@
                                 <p class="card-text">Username: @technician.Name</p>
                                 <p class="card-text">Email: @technician.Specialization</p>
                                 <p class="card-text">Phone number: @technician.User.Email</p>
+                                <input type="hidden" name="Id" value="@technician.Id" />
                             </div>
                             <div class="mt-4">
-                                <a asp-area="" asp-controller="" asp-action="" asp-route-Id="@technician.Id" class="btn btn-danger">Remove Technician</a>
+                                <a asp-area="Admin" asp-controller="Technician" asp-action="Delete" asp-route-Id="@technician.Id" class="btn btn-danger">Remove Technician</a>
+                                <br />
                             </div>
                         </div>
                     </div>

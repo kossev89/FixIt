@@ -1,4 +1,5 @@
 ﻿using FixIt.Core.Contracts.User;
+using FixIt.Core.Models.Car;
 using FixIt.Core.Models.Customer;
 using FixIt.Core.Models.Technician;
 using Microsoft.AspNetCore.Authorization;
@@ -100,6 +101,46 @@ namespace FixIt.Areas.Admin.Controllers
             try
             {
                 await service.AddTechnicianInfoAsync(model);
+                return RedirectToAction("Index", "Technician");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var model = await service
+                    .GetTechnicianViewModelAsync(id);
+
+                if (ModelState.IsValid)
+                {
+                    return View("~/Areas/Admin/Views/Technician/Delete.cshtml", model);
+                }
+                else
+                {
+                    return View("~/Areas/Admin/Views/Technician/Index.cshtml");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(TechnicianViewModel viewModel)
+        {
+            try
+            {
+                await service
+                    .DeleteTechnicianAsync(viewModel);
                 return RedirectToAction("Index", "Technician");
             }
             catch (Exception)

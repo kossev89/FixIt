@@ -39,6 +39,8 @@ namespace FixIt.Core.Contracts.User
         Task RegisterTechnicianUserAsync(CustomerFormModel model);
         Task AddTechnicianInfoAsync(TechnicianFormModel model);
         Task <string> GetTechnicinUserIdAsync(string email);
+        Task<TechnicianViewModel> GetTechnicianViewModelAsync(int id);
+        Task DeleteTechnicianAsync(TechnicianViewModel model);
 
         //Service manupulation from the Admin User
         Task<IEnumerable<ServiceHistoryViewModel>> GetCustomerServicesAsync(string id);

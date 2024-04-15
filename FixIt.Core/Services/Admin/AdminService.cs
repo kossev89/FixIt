@@ -396,6 +396,58 @@ namespace FixIt.Core.Services.User
 
             return technicianUser.Id;
         }
+        public async Task DeleteTechnicianAsync(TechnicianViewModel model)
+        {
+            var technicianEntity = await context
+                .Technicians
+                .FindAsync(model.Id);
+
+            if (technicianEntity == null)
+            {
+                throw new InvalidDataException("Technician doesn't exist!");
+            }
+
+            var userEntity = await context
+                .Users
+                .Where(x => x.Id == technicianEntity.UserId)
+                .FirstOrDefaultAsync();
+
+            if (userEntity == null)
+            {
+                throw new InvalidDataException("User doesn't exist!");
+            }
+
+            var userRole = await context
+                .UserRoles
+                .Where(x => x.UserId == userEntity.Id)
+                .FirstOrDefaultAsync();
+
+            if (userRole == null)
+            {
+                throw new InvalidDataException("UserRole doesn't exist!");
+            }
+
+            context.Remove(userRole);
+            context.Remove(userEntity);
+            technicianEntity.IsDeleted = true;
+
+            await context.SaveChangesAsync();
+        }
+        public async Task<TechnicianViewModel> GetTechnicianViewModelAsync(int id)
+        {
+            var model = await context
+                .Technicians
+                .AsNoTracking()
+                .Where(x => x.Id == id)
+                .ProjectTo<TechnicianViewModel>(config)
+                .FirstOrDefaultAsync();
+
+            if (!(model is TechnicianViewModel) )
+            {
+                throw new InvalidDataException("Technician doesn't exist");
+            }
+            return model;
+        }
 
         //Service manupulation from the Admin User
         public async Task<IEnumerable<ServiceHistoryViewModel>> GetCustomerServicesAsync(string id)
@@ -434,6 +486,5 @@ namespace FixIt.Core.Services.User
                 .OrderBy(d => d.Date)
                 .ToArrayAsync();
         }
-
     }
 }
