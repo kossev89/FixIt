@@ -442,7 +442,7 @@ namespace FixIt.Core.Services.User
                 .ProjectTo<TechnicianViewModel>(config)
                 .FirstOrDefaultAsync();
 
-            if (!(model is TechnicianViewModel) )
+            if (!(model is TechnicianViewModel))
             {
                 throw new InvalidDataException("Technician doesn't exist");
             }
@@ -485,6 +485,20 @@ namespace FixIt.Core.Services.User
                 .ProjectTo<ServiceHistoryViewModel>(config)
                 .OrderBy(d => d.Date)
                 .ToArrayAsync();
+        }
+
+        public async Task AddServiceAsync(ServiceFormModel model)
+        {
+            var entity = mapper
+            .Map<Service>(model);
+
+            if (entity == null)
+            {
+                throw new ArgumentException("Invalid Service Information");
+            }
+
+            await context.AddAsync(entity);
+            await context.SaveChangesAsync();
         }
     }
 }

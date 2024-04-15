@@ -44,6 +44,7 @@ namespace FixIt.Infrastructure.Data.Constants
         public const string YearValidationError = "The {0} field should be between {1} and {2}";
         public const string VinValidationError = "The {0} field should be exactly {1} symbols";
         public const string MileageValidationError = "The {0} field should be between {1} and {2} kilometers";
+        public const string PriceValidationError = "Please enter a valid price.";
         /// <summary>
         /// Display Constants
         /// </summary>

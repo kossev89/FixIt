@@ -1,0 +1,49 @@
+﻿using FixIt.Core.Contracts.User;
+using FixIt.Core.Models.Car;
+using FixIt.Core.Models.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FixIt.Areas.Admin.Controllers
+{
+    [Authorize(Roles = "Administrator")]
+    public class ServiceAdminController : Controller
+    {
+        private readonly IAdminService service;
+        public ServiceAdminController(IAdminService _service)
+        {
+            service = _service;
+        }
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var model = await service.GetServicesAsync();
+            if (ModelState.IsValid)
+            {
+                return View("~/Areas/Admin/Views/ServiceAdmin/Index.cshtml", model);
+            }
+            return View("~/Areas/Admin/Views/AppointmentAdmin/Index.cshtml");
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            var model = new ServiceFormModel()
+            {
+
+            };
+            if (ModelState.IsValid)
+            {
+                return View("~/Areas/Admin/Views/ServiceAdmin/Add.cshtml", model);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(ServiceFormModel model)
+        {
+            await service.AddServiceAsync(model);
+            return RedirectToAction("Index", "ServiceAdmin");
+        }
+    }
+}
