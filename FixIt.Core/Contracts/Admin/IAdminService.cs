@@ -49,5 +49,7 @@ namespace FixIt.Core.Contracts.User
         Task AddServiceAsync(ServiceFormModel model);
         Task EditServiceAsync(ServiceFormModel model);
         Task<ServiceFormModel> GetServiceFormAsync(int id);
+        Task DeleteServiceAsync(ServiceViewModel model);
+        Task<ServiceViewModel> GetServiceViewModelAsync(int id);
     }
 }
