@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ServiceViewModel>
+
+@{
+    ViewBag.Title = "All Services";
+}
+<hr />
+
+<div class="container">
+    <h1>@ViewBag.Title</h1>
+    <hr />
+    <a asp-area="Admin" asp-controller="ServiceAdmin" asp-action="Add" class="btn btn-primary">Add New Service</a>
+    <hr />
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info" role="alert">
+            There are no services registered!
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var service in Model)
+            {
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@service.Type</h5>
+                            <p class="card-text">Price: @service.Price</p>
+                            <p class="card-text">Detailed Description: @service.Description</p>
+                            <div class="d-grid gap-2">
+                                <a asp-area="Admin" asp-controller="ServiceAdmin" asp-action="Edit" asp-route-id="@service.Id" class="btn btn-primary">Edit Service</a>
+                                <a asp-area="" asp-controller="" asp-action="" asp-route-id="" class="btn btn-danger">Remove Service</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

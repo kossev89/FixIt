@@ -11,22 +11,23 @@ namespace FixIt.Core.Models.Car
     public class CarFormModel
     {
         public int Id { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = RequiredErrorMessage)]
         [StringLength(CarMax, MinimumLength = CarMin, ErrorMessage = NameValidationError)]
         public string Make { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = RequiredErrorMessage)]
         [DisplayName(CarModelDisplay)]
         [StringLength(CarMax, MinimumLength = CarMin, ErrorMessage = NameValidationError)]
         public string CarModel { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = RequiredErrorMessage)]
         [DisplayName(CarYearDisplay)]
         [Range(YearMin, YearMax)]
         public int Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredErrorMessage)]
         [DisplayName(CarPlateDisplay)]
         [StringLength(CarMax, MinimumLength = CarMin, ErrorMessage = NameValidationError)]
         public string PlateNumber { get; set; } = string.Empty;
@@ -34,7 +35,7 @@ namespace FixIt.Core.Models.Car
         [StringLength(VinLength, MinimumLength = VinLength, ErrorMessage = VinValidationError)]
         public string? Vin { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredErrorMessage)]
         [DisplayName(CarImageDisplay)]
         [Range(MinMileage, MaxMileage, ErrorMessage =MileageValidationError)]
         public int Mileage { get; set; }

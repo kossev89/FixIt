@@ -1,4 +1,5 @@
-﻿using FixIt.Infrastructure.Data.Enumerators;
+﻿using FixIt.Core.Models.Customer;
+using FixIt.Infrastructure.Data.Enumerators;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,10 @@ namespace FixIt.Core.Models.Technician
     public class TechnicianViewModel
     {
         public int Id { get; set; }
+        public string UserId { get; set; } = string.Empty;
+        public CustomerViewModel User { get; set; } = null!;
         public string Name { get; set; } = string.Empty;
         public string Specialization { get; set; } = string.Empty;
+        public bool IsDeleted { get; set; }
     }
 }

@@ -1,0 +1,30 @@
+﻿@model CustomerFormModel
+
+@{
+    ViewBag.Title = "Edit customer's phone:";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-area="Admin" asp-controller="Customer" asp-action="EditCustomer" method="post">
+            <div class="mb-3">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <label asp-for="@Model.PhoneNumber" class="form-label-add-edit">Enter Phone Number</label>
+                <input asp-for="@Model.PhoneNumber" class="form-control" aria-required="false" placeholder="(0XXX) XXX XX XX or 0XXX XXX XX XX)" />
+                <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+              
+                <input class="btn btn-warning mb-2 w-100 p-3 fw-bold" type="submit" value="Update" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,145 @@
+﻿
+@{
+    var title = ViewBag.CustomerData.Email;
+    ViewBag.Title = $"Customer Username: {title}";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="container">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="cars-tab" data-bs-toggle="tab" data-bs-target="#cars" type="button" role="tab" aria-controls="cars" aria-selected="true">CARS</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="appointments-tab" data-bs-toggle="tab" data-bs-target="#appointments" type="button" role="tab" aria-controls="appointments" aria-selected="false">APPOINTMENTS</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="service-history-tab" data-bs-toggle="tab" data-bs-target="#service-history" type="button" role="tab" aria-controls="service-history" aria-selected="false">SERVICE HISTORY</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="cars" role="tabpanel" aria-labelledby="cars-tab">
+            <div class="container">
+                <hr />
+                <a asp-area="Admin" asp-controller="Customer" asp-action="AddCar" asp-route-id="@ViewBag.CustomerData.Id" class="btn btn-primary">Add a Car</a>
+                <hr />
+                @if (ViewBag.CarsData.Length == 0)
+                {
+                    <div class="alert alert-info" role="alert">
+                        Customer has no cars!
+                    </div>
+                }
+                else
+                {
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        @foreach (var car in ViewBag.CarsData)
+                        {
+                            <div class="col">
+                                <div class="card">
+
+                                    <img src="@car.ImageUrl" class="card-img-top" alt="Car Image">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@car.Make @car.Model</h5>
+                                        <p class="card-text">Registration Plate: @car.PlateNumber</p>
+                                        <p class="card-text">Current Mileage: @car.Mileage</p>
+                                        <p class="card-text">VIN: @car.Vin</p>
+                                        <div class="d-grid gap-2">
+                                            <a asp-area="Admin" asp-controller="Customer" asp-action="EditCustomerCar" asp-route-customerId="@car.UserId" asp-route-carId="@car.Id" class="btn btn-secondary">Edit</a>
+                                            <a asp-area="Admin" asp-controller="Customer" asp-action="BookToCar" asp-route-customerId="@car.UserId" asp-route-carId="@car.Id" class="btn btn-success">Book an Appointment</a>
+                                        </div>
+                                        <div class="mt-4">
+                                            <a asp-area="Admin" asp-controller="Customer" asp-action="Delete" asp-route-customerId="@car.UserId" asp-route-carId="@car.Id" class="btn btn-danger">Remove a Car</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="tab-pane fade" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
+            <hr />
+            <a asp-area="Admin" asp-controller="Customer" asp-action="Book" asp-route-customerId="@ViewBag.CustomerData.Id" class="btn btn-primary">Book an Appointment</a>
+            <hr />
+            @if (ViewBag.AppointmentsData.Length == 0)
+            {
+                <div class="alert alert-info" role="alert">
+                    Customer has no appointments!
+                </div>
+            }
+            else
+            {
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    @foreach (var appointment in ViewBag.AppointmentsData)
+                    {
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">@appointment.Car.Make @appointment.Car.Model</h5>
+                                    <p class="card-text">Registration Plate: @appointment.Car.PlateNumber</p>
+                                    <p class="card-text">Service Type: @appointment.ServiceType</p>
+                                    <p class="card-text">Technician: @appointment.TechnicianName</p>
+                                    <p class="card-text">Date And Time: @appointment.DateAndTime.ToString(DateValidationFormat)</p>
+                                    <p class="card-text">Status: @appointment.Status</p>
+                                    @if (appointment.Status == Idle && string.IsNullOrEmpty(appointment.TechnicianName))
+                                                    {
+                                        <div class="mt-4">
+                                            <a asp-area="Admin" asp-controller="Customer" asp-action="AppointTechnician" asp-route-id="@appointment.Id" class="btn btn-primary">Appoint Technician</a>
+                                        </div>
+                                        <div class="mt-4">
+                                            <a asp-area="Admin" asp-controller="" asp-action="" asp-route-id="@appointment.Id" class="btn btn-danger">Cancel Appointment</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="tab-pane fade" id="service-history" role="tabpanel" aria-labelledby="service-history-tab">
+             <hr />
+             @if (ViewBag.ServicesData.Length == 0)
+    {
+        <div class="alert alert-info" role="alert">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                  <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                <p class="card-text">You have no services performed!!!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var service in ViewBag.ServicesData)
+            {
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@service.Car.Make @service.Car.Model</h5>
+                            <p class="card-text">Registration Plate: @service.Car.PlateNumber</p>
+                            <p class="card-text">Milleage: @service.Car.Mileage</p>
+                            <p class="card-text">Type of the service: @service.Service.Type</p>
+                            <p class="card-text">Technician: @service.Technician.Name</p>
+                            <p class="card-text">Date And Time: @service.Date.ToString(DateValidationFormat)</p>
+                            <p class="card-text">Price: @service.Price</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

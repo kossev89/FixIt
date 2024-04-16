@@ -9,6 +9,11 @@ namespace FixIt.Infrastructure.Data.Models
     [Comment("Table for Services")]
     public class Service
     {
+        public Service()
+        {
+            IsDeleted = false;
+        }
+
         [Comment("Service Identifier")]
         [Key]
         public int Id { get; set; }
@@ -24,5 +29,9 @@ namespace FixIt.Infrastructure.Data.Models
         [Required]
         [Column(TypeName = ("decimal(18,2)"))]
         public decimal Price { get; set; }
+
+        [Comment("Soft delete property")]
+        [Required]
+        public bool IsDeleted { get; set; }
     }
 }

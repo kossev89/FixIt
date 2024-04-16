@@ -1,0 +1,40 @@
+﻿@model IEnumerable<TechnicianViewModel>
+
+@{
+    ViewBag.Title = $"Appoint Technician to: {ViewBag.AppointmentData.ServiceType}";
+}
+<hr />
+
+<div class="container">
+    <h1>@ViewBag.Title</h1>
+
+    <hr />
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info" role="alert">
+            No registered technicians!
+        </div>
+    }
+    else
+    {
+        @foreach (var technician in Model)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">@technician.Name</h5>
+                    <p class="card-text">Specialty: @technician.Specialization</p>
+
+                    <form method="post">
+                        <input type="hidden" name="appointmentId" value="@ViewBag.AppointmentData.Id" />
+                        <input type="hidden" name="Model.Id" value="@technician.Id" />
+                        <button type="submit" class="btn btn-primary">Appoint Technician</button>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

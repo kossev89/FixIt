@@ -1,7 +1,9 @@
 ﻿using FixIt.Infrastructure.Data.Enumerators;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static FixIt.Infrastructure.Data.Constants.ValidationConstants;
 
 namespace FixIt.Infrastructure.Data.Models
@@ -9,9 +11,20 @@ namespace FixIt.Infrastructure.Data.Models
     [Comment("Technicians Table")]
     public class Technician
     {
+        public Technician() 
+        {
+            IsDeleted = false;
+        }
+
         [Comment("Technician Identifier")]
         [Key]
         public int Id { get; set; }
+
+        [Comment("Identity User Identification")]
+        [Required]
+        public string UserId { get; set; } = string.Empty;
+        [ForeignKey(nameof(UserId))]
+        public IdentityUser User { get; set; } = null!;
 
         [Comment("Technician Name")]
         [Required]

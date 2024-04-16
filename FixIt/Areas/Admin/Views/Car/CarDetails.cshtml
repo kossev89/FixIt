@@ -1,0 +1,36 @@
+﻿@model CarDetailedViewModel
+
+@{
+    ViewBag.Title = "Car Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col">
+        <div class="card">
+
+            <img src="@Model.ImageUrl" class="card-img-top" alt="Car Image">
+
+            <div class="card-body">
+
+                <h5 class="card-title">@Model.Make @Model.Model</h5>
+                <p class="card-text">Owner: @Model.User.UserName</p>
+                <p class="card-text">Registration Plate: @Model.PlateNumber</p>
+                <p class="card-text">Production Year: @Model.Year</p>
+                <p class="card-text">VIN Number: @Model.Vin</p>
+                <p class="card-text">Current Mileage: @Model.Mileage</p>
+
+
+                <div class="d-grid gap-2">
+                    <a asp-area="Admin" asp-controller="CarAdmin" asp-action="CarHistory" asp-route-id="@Model.Id" class="btn btn-secondary">Service History</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

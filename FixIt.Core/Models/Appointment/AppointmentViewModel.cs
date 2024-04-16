@@ -9,6 +9,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FixIt.Core.Models.Car;
+using FixIt.Core.Models.Customer;
 
 namespace FixIt.Core.Models.Appointment
 {
@@ -16,10 +18,9 @@ namespace FixIt.Core.Models.Appointment
     {
         public int Id { get; init; }
         public string UserId { get; init; } = string.Empty;
+        public CustomerViewModel User { get; set; } = null!;
         public int CarId { get; init; }
-        public string CarMake { get; set; } = string.Empty;
-        public string CarModel { get; set; } = string.Empty;
-        public string CarRegPlate { get; set; } = string.Empty;
+        public CarViewModel Car { get; set; } = null!;
         public int ServiceId { get; init; }
         public string ServiceType { get; init; } = string.Empty;
         public int? TechnicianId { get; set; }

@@ -10,6 +10,7 @@ using FixIt.Core.Services.Appointment;
 using FixIt.Core.Contracts.ServiceHistory;
 using FixIt.Core.Services.ServiceHistory;
 using FixIt.Core.Contracts.User;
+using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -20,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IServiceHistoryService, ServiceHistoryService>();
-            services.AddScoped<IUserService, FixIt.Core.Services.User.UserSevice>();
+            services.AddScoped<IAdminService, FixIt.Core.Services.User.AdminService>();
             return services;
         }
 
@@ -42,8 +43,18 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
             services
-                .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddDefaultIdentity<IdentityUser>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                }
+                )
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
 
             return services;
         }

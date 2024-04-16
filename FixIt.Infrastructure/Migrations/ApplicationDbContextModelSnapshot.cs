@@ -17,7 +17,7 @@ namespace FixIt.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.26")
+                .HasAnnotation("ProductVersion", "6.0.28")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -66,7 +66,7 @@ namespace FixIt.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
 
                     b.HasComment("Appointments table");
 
@@ -75,7 +75,7 @@ namespace FixIt.Infrastructure.Migrations
                         {
                             Id = 1,
                             CarId = 1,
-                            DateAndTime = new DateTime(2024, 3, 11, 0, 50, 6, 699, DateTimeKind.Local).AddTicks(162),
+                            DateAndTime = new DateTime(2024, 4, 17, 0, 22, 55, 906, DateTimeKind.Local).AddTicks(2405),
                             ServiceId = 1,
                             Status = 0,
                             TechnicianId = 1,
@@ -140,7 +140,7 @@ namespace FixIt.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Cars", (string)null);
+                    b.ToTable("Cars");
 
                     b.HasComment("Cars Table");
 
@@ -184,6 +184,10 @@ namespace FixIt.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasComment("Detailed description of the service, if needed");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasComment("Soft delete property");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)")
                         .HasComment("Price for the service");
@@ -194,7 +198,7 @@ namespace FixIt.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
 
                     b.HasComment("Table for Services");
 
@@ -202,36 +206,42 @@ namespace FixIt.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            IsDeleted = false,
                             Price = 80.00m,
                             Type = 0
                         },
                         new
                         {
                             Id = 2,
+                            IsDeleted = false,
                             Price = 150.00m,
                             Type = 1
                         },
                         new
                         {
                             Id = 3,
+                            IsDeleted = false,
                             Price = 60.00m,
                             Type = 2
                         },
                         new
                         {
                             Id = 4,
+                            IsDeleted = false,
                             Price = 2000.00m,
                             Type = 3
                         },
                         new
                         {
                             Id = 5,
+                            IsDeleted = false,
                             Price = 1300.00m,
                             Type = 4
                         },
                         new
                         {
                             Id = 6,
+                            IsDeleted = false,
                             Price = 2420.00m,
                             Type = 5
                         });
@@ -266,6 +276,11 @@ namespace FixIt.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasComment("Technician Identifier");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("ServceHistory Customer Identifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
@@ -274,7 +289,9 @@ namespace FixIt.Infrastructure.Migrations
 
                     b.HasIndex("TechnicianId");
 
-                    b.ToTable("ServiceHistories", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ServiceHistories");
 
                     b.HasComment("Table for the ServiceHistory");
 
@@ -283,10 +300,11 @@ namespace FixIt.Infrastructure.Migrations
                         {
                             Id = 1,
                             CarId = 1,
-                            Date = new DateTime(2023, 12, 10, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Local),
                             Mileage = 180000,
                             ServiceId = 6,
-                            TechnicianId = 2
+                            TechnicianId = 2,
+                            UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e"
                         });
                 });
 
@@ -313,9 +331,16 @@ namespace FixIt.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasComment("Technician Specialization");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Identity User Identification");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Technicians", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Technicians");
 
                     b.HasComment("Technicians Table");
 
@@ -325,21 +350,24 @@ namespace FixIt.Infrastructure.Migrations
                             Id = 1,
                             IsDeleted = false,
                             Name = "John Doe",
-                            Specialization = 3
+                            Specialization = 3,
+                            UserId = "99ae7f52-08a1-4c41-98f6-0934ab9eeced"
                         },
                         new
                         {
                             Id = 2,
                             IsDeleted = false,
                             Name = "Jane Doe",
-                            Specialization = 0
+                            Specialization = 0,
+                            UserId = "3e0f5536-ea82-4817-9d63-861cc93427c6"
                         },
                         new
                         {
                             Id = 3,
                             IsDeleted = false,
                             Name = "Don Johns",
-                            Specialization = 4
+                            Specialization = 4,
+                            UserId = "b98a765c-94d6-4520-95ae-42503a95445d"
                         });
                 });
 
@@ -464,15 +492,15 @@ namespace FixIt.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ae1a9b29-2137-4910-87f8-82569bedc029",
+                            ConcurrencyStamp = "4875014b-b25b-4dc0-8a74-32471a461c4a",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@mail.com",
                             NormalizedUserName = "admin@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB84qcMkMm8I/S0riLj8tNJXRo2IrOZKRmtsI5f56AmsQDcK1CokXElORqnGfEyjXw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFu6Z+4MPFTUADpndvgpaV6gwgEIAVKpdMtOzduBNaLVkzeEQ1CTYiYKxjq/3LCgaw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d185435b-f81f-473c-872d-2ede3f0bda59",
+                            SecurityStamp = "8296809f-a3a0-4b4a-bf4e-d3340211846e",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
                         },
@@ -480,17 +508,65 @@ namespace FixIt.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6064d0d3-5fe3-4c7a-9d3c-6215a515ace4",
+                            ConcurrencyStamp = "2c04ccb1-adb6-48a3-93b2-cccaec55df78",
                             Email = "customer@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "customer@mail.com",
                             NormalizedUserName = "customer@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDwTUFLt4B06eXu2puV1RLolq/bPBfYDMo1hafVvwGf13kRu6aY7ZKhKKEY6EhfBtA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKQM+GsFyPPpr6UYhtVCXwKKXa9gQzoMJsxWnaldAd3FvQsf3XEC2dECKSas7umP6g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "721a0964-78c0-491b-9144-017abce28889",
+                            SecurityStamp = "ca8de875-b853-4757-acf5-b303eb7ec466",
                             TwoFactorEnabled = false,
                             UserName = "customer@mail.com"
+                        },
+                        new
+                        {
+                            Id = "99ae7f52-08a1-4c41-98f6-0934ab9eeced",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d066c533-4b6c-4019-bd48-98d3d104e1fe",
+                            Email = "technician1@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "technician1@mail.com",
+                            NormalizedUserName = "technician1@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP58v6YvWSXDJbmwi8uG3bcjaj+LnGTjoxTQmfkQamIb73uujam083/ihTrbTESk5Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "b7f9c5dc-265d-4054-ae0c-1afdfcef8eba",
+                            TwoFactorEnabled = false,
+                            UserName = "technician1@mail.com"
+                        },
+                        new
+                        {
+                            Id = "3e0f5536-ea82-4817-9d63-861cc93427c6",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5da8c938-db1e-49c7-aec8-67ff2016ec76",
+                            Email = "technician2@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "technician2@mail.com",
+                            NormalizedUserName = "technician2@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEODySK0K/jfg9hTe1tQKNRpBY21YLgwn0wgza8RxaNlABUkgHzefkhwKNiCT6e7bWw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "8ad2cfcb-a79c-4fbb-bade-5abac906e96b",
+                            TwoFactorEnabled = false,
+                            UserName = "technician2@mail.com"
+                        },
+                        new
+                        {
+                            Id = "b98a765c-94d6-4520-95ae-42503a95445d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ed64586d-1223-43dd-a4eb-9da23a863052",
+                            Email = "technician3@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "technician3@mail.com",
+                            NormalizedUserName = "technician3@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG+jHgL4VvFsujZK2FSBRau9YLNpPvXLAnhwYuuPp9HAllhP0FPSrJID8246E+fpCw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c0911565-6204-4de2-aaa0-de56cee1d418",
+                            TwoFactorEnabled = false,
+                            UserName = "technician3@mail.com"
                         });
                 });
 
@@ -643,11 +719,30 @@ namespace FixIt.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Car");
 
                     b.Navigation("Service");
 
                     b.Navigation("Technician");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FixIt.Infrastructure.Data.Models.Technician", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

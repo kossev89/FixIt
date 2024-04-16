@@ -15,7 +15,12 @@ namespace FixIt.Infrastructure.Data.Configuration
         public void Configure(EntityTypeBuilder<IdentityUser> builder)
         {
             var data = new SeedData();
-            builder.HasData(new IdentityUser[] { data.AdminUser, data.CustomerUser });
+            builder.HasData(new IdentityUser[] { 
+                data.AdminUser,
+                data.CustomerUser,
+                data.TechnicianUser1,
+                data.TechnicianUser2,
+                data.TechnicianUser3});
         }
     }
 }
