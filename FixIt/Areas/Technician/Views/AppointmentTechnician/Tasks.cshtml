@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<AppointmentViewModel>
 
 @{
-    ViewBag.Title = "All Appointments";
+    ViewBag.Title = "My Tasks";
 }
 <hr />
 
@@ -12,7 +12,7 @@
     @if (!Model.Any())
     {
         <div class="alert alert-info" role="alert">
-            There are no appointments
+            There are no tasks accepted!
         </div>
     }
     else
@@ -29,18 +29,12 @@
                             <p class="card-text">Technician: @appointment.TechnicianName</p>
                             <p class="card-text">Date And Time: @appointment.DateAndTime.ToString(DateValidationFormat)</p>
                             <p class="card-text">Status: @appointment.Status</p>
-                            @if (appointment.Status == Idle && string.IsNullOrEmpty(appointment.TechnicianName))
-                            {
-                                <div class="mt-4">
-                                    <a asp-area="Admin" asp-controller="AppointmentAdmin" asp-action="AppointTechnician" asp-route-id="@appointment.Id" class="btn btn-primary">Appoint Technician</a>
-                                </div>
-                                <div class="mt-4">
-                                    <a asp-area="Admin" asp-controller="" asp-action="" asp-route-id="@appointment.Id" class="btn btn-danger">Cancel Appointment</a>
-                                </div>
-                            }
+                            <div class="mt-4">
+                                <a asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="Complete" asp-route-id="@appointment.Id" class="btn btn-primary">Complete Task</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
             }
         </div>
     }

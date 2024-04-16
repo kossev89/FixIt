@@ -371,7 +371,7 @@ namespace FixIt.Core.Services.User
         public async Task AddTechnicianInfoAsync(TechnicianFormModel model)
         {
             var entity = mapper
-                    .Map<Technician>(model);
+                    .Map<FixIt.Infrastructure.Data.Models.Technician>(model);
 
             if (entity == null)
             {

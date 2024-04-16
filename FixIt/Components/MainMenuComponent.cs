@@ -10,6 +10,10 @@ namespace FixIt.Components
             {
                 return await Task.FromResult<IViewComponentResult>(View("Admin"));
             }
+            else if (User.IsInRole("Technician"))
+            {
+                return await Task.FromResult<IViewComponentResult>(View("Technician"));
+            }
             return await Task.FromResult<IViewComponentResult>(View());
         }
     }
