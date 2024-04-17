@@ -173,7 +173,8 @@ namespace FixIt.Infrastructure.Data.Seed
                 TechnicianId = 2,
                 Date = DateTime.Today.AddMonths(-3),
                 Mileage = 180_000,
-                UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e"
+                UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                Price = 2420
             };
         }
         private void SeedTechnicians()

@@ -44,8 +44,9 @@ namespace FixIt.Infrastructure.Data.Models
         [Required]
         public int Mileage { get; init; }
 
+        [Column(TypeName = "decimal(18, 2)")]
         [Comment("Price of the service performed")]
         [Required]
-        public decimal Price => Service.Price;
-    }
+        public decimal Price { get; init; }
+}
 }

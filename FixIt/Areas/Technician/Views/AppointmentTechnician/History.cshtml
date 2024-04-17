@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ServiceHistoryViewModel>
+
+@{
+    ViewBag.Title = "My History";
+}
+<hr />
+
+<div class="container">
+    <h1>@ViewBag.Title</h1>
+
+    <hr />
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info" role="alert">
+            You have no services performed.
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var service in Model)
+            {
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@service.Car.Make @service.Car.Model</h5>
+                            <p class="card-text">Registration Plate: @service.Car.PlateNumber</p>
+                            <p class="card-text">Milleage: @service.Car.Mileage</p>
+                            <p class="card-text">Type of the service: @service.Service.Type</p>
+                            <p class="card-text">Technician: @service.Technician.Name</p>
+                            <p class="card-text">Date And Time: @service.Date.ToString(DateValidationFormat)</p>
+                            <p class="card-text">Price: @service.Price</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

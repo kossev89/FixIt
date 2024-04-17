@@ -14,16 +14,18 @@ using Microsoft.AspNetCore.Http;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using FixIt.Infrastructure.Data.Models;
 using static FixIt.Infrastructure.Data.Constants.ValidationConstants;
+using FixIt.Infrastructure.Data.Enumerators;
 using NUnit.Framework.Constraints;
+using FixIt.Core.Models.Car;
 namespace UnitTests
 {
     [TestFixture]
     public class AdminServiceTests
     {
-        private ApplicationDbContext _context;
-        private Mock<IHttpContextAccessor> _httpContextAccessorMock;
-        private IMapper _mapper;
-        private AdminService _adminService;
+        private ApplicationDbContext context;
+        private Mock<IHttpContextAccessor> httpContextAccessorMock;
+        private IMapper mapper;
+        private AdminService adminService;
 
         [SetUp]
         public void Setup()
@@ -32,17 +34,17 @@ namespace UnitTests
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
-            _context = new ApplicationDbContext(options);
+            context = new ApplicationDbContext(options);
 
-            _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+            httpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
             var mapperConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MapperConfig>();
             });
-            _mapper = mapperConfig.CreateMapper();
+            mapper = mapperConfig.CreateMapper();
 
-            _adminService = new AdminService(_context, _httpContextAccessorMock.Object, null, null, _mapper);
+            adminService = new AdminService(context, httpContextAccessorMock.Object, null, null, mapper);
         }
 
 
@@ -60,10 +62,10 @@ namespace UnitTests
             };
 
             // Act
-            await _adminService.BookAsync(validModel);
+            await adminService.BookAsync(validModel);
 
             // Assert
-            var savedAppointment = await _context.Appointments.FirstOrDefaultAsync();
+            var savedAppointment = await context.Appointments.FirstOrDefaultAsync();
             Assert.NotNull(savedAppointment);
         }
 
@@ -78,8 +80,12 @@ namespace UnitTests
             };
 
             // Act & Assert
-            var exception = Assert.ThrowsAsync<ArgumentException>(() => _adminService.BookAsync(invalidModel));
+            var exception = Assert.ThrowsAsync<ArgumentException>(() => adminService.BookAsync(invalidModel));
             Assert.That(exception.Message, Is.EqualTo("The appointment date is outside working hours"));
         }
+
+   
+
+
     }
 }

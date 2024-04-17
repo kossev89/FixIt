@@ -1,0 +1,20 @@
+﻿<ul class="navbar-nav flex-grow-1">
+    @if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="Index">My Appointments</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="Tasks">Tasks</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="History">History</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+    }
+</ul>

@@ -9,12 +9,27 @@
         <div class="col-md-8">
             <h1 class="display-4 text-center">Welcome, Admin</h1>
             <div class="d-flex justify-content-between mt-5">
-                <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Customers")">Customers</a>
-                <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Cars")">Cars</a>
-                <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Appointments")">Appointments</a>
+                <a asp-area="Admin" asp-controller="Customer" asp-action="Index" class="btn btn-primary btn-lg">Customers</a>
+                <a asp-area="Admin" asp-controller="CarAdmin" asp-action="Index" class="btn btn-primary btn-lg">Cars</a>
+                <a asp-area="Admin" asp-controller="AppointmentAdmin" asp-action="Index" class="btn btn-primary btn-lg">Appointments</a>
             </div>
         </div>
     </div>
+    </div>
+}
+else if (User.IsInRole("Technician"))
+{
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="display-4 text-center">Welcome, Technician</h1>
+                <div class="d-flex justify-content-between mt-5">
+                    <a asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="Index" class="btn btn-primary btn-lg">My Appointments</a>
+                    <a asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="Tasks" class="btn btn-primary btn-lg">Tasks</a>
+                    <a asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="History" class="btn btn-primary btn-lg">History</a>
+                </div>
+            </div>
+        </div>
     </div>
 }
 else

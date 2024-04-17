@@ -1,4 +1,5 @@
-﻿using FixIt.Core.Contracts.Car;
+﻿
+using FixIt.Core.Contracts.Car;
 using FixIt.Core.Contracts.User;
 using FixIt.Core.Models.Appointment;
 using FixIt.Core.Models.Car;
@@ -7,6 +8,7 @@ using FixIt.Core.Models.Technician;
 using FixIt.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace FixIt.Areas.Admin.Controllers
 {
@@ -38,7 +40,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -57,7 +59,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -81,7 +83,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -103,7 +105,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -118,7 +120,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -137,7 +139,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -152,7 +154,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -174,7 +176,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -189,7 +191,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -211,8 +213,7 @@ namespace FixIt.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
-                throw;
+                return BadRequest("Wrong data!"); ;
             }
         }
 
@@ -227,7 +228,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -251,7 +252,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -275,7 +276,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             };
         }
 
@@ -290,7 +291,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -310,7 +311,7 @@ namespace FixIt.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -325,7 +326,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -348,7 +349,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 
@@ -363,7 +364,7 @@ namespace FixIt.Areas.Admin.Controllers
             catch (Exception)
             {
 
-                throw;
+                return BadRequest("Wrong data!");
             }
         }
 

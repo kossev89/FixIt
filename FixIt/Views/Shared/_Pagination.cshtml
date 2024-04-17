@@ -1,0 +1,25 @@
+﻿@if (Model.HasPreviousPage || Model.HasNextPage)
+{
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?page=@(Model.PageIndex - 1)">&laquo;</a>
+                </li>
+            }
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a class="page-link" href="?page=@i">@i</a>
+                </li>
+            }
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?page=@(Model.PageIndex + 1)">&raquo;</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

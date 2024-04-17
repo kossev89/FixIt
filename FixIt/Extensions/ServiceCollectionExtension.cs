@@ -11,6 +11,8 @@ using FixIt.Core.Contracts.ServiceHistory;
 using FixIt.Core.Services.ServiceHistory;
 using FixIt.Core.Contracts.User;
 using Microsoft.Extensions.Options;
+using FixIt.Core.Contracts.Technician;
+using FixIt.Core.Services.Technician;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -22,6 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IServiceHistoryService, ServiceHistoryService>();
             services.AddScoped<IAdminService, FixIt.Core.Services.User.AdminService>();
+            services.AddScoped<ITechnicianService, TechnicianService>();
             return services;
         }
 

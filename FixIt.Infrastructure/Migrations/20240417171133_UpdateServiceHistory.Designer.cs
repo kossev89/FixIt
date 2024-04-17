@@ -4,6 +4,7 @@ using FixIt.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FixIt.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240417171133_UpdateServiceHistory")]
+    partial class UpdateServiceHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,7 +77,7 @@ namespace FixIt.Infrastructure.Migrations
                         {
                             Id = 1,
                             CarId = 1,
-                            DateAndTime = new DateTime(2024, 4, 18, 20, 49, 56, 535, DateTimeKind.Local).AddTicks(4409),
+                            DateAndTime = new DateTime(2024, 4, 18, 20, 11, 31, 808, DateTimeKind.Local).AddTicks(7449),
                             ServiceId = 1,
                             Status = 0,
                             TechnicianId = 1,
@@ -306,7 +308,7 @@ namespace FixIt.Infrastructure.Migrations
                             CarId = 1,
                             Date = new DateTime(2024, 1, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             Mileage = 180000,
-                            Price = 2420m,
+                            Price = 2420.00m,
                             ServiceId = 6,
                             TechnicianId = 2,
                             UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e"
@@ -497,15 +499,15 @@ namespace FixIt.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c7c63112-99b6-4dd0-aa98-68ef9fffc829",
+                            ConcurrencyStamp = "1d729348-b857-4328-ab85-114a6e424135",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@mail.com",
                             NormalizedUserName = "admin@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHKINayhZq/+dWUEd+UQRh+X0Dd5kIcIY229pTdUkh4PK/BkRixqOP10i0my4LW8xg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJSbzP36lrzDDCIa8tP3L2nHXp2zVX03Ea4hcDtkh//f/LwOktZwPNR/iZu2C5IBNg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "801d213c-e97b-4993-90a4-2ed6eac9ce8c",
+                            SecurityStamp = "e115d9eb-e91b-4bc3-a61f-5e2cf297178d",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
                         },
@@ -513,15 +515,15 @@ namespace FixIt.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b9d5c864-444a-4197-9d25-148c8c84d56a",
+                            ConcurrencyStamp = "bcfa3ffe-3bed-4ce8-9e1b-e7841b4c33cd",
                             Email = "customer@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "customer@mail.com",
                             NormalizedUserName = "customer@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJaaVaunu25GsPXToiAfvTjpri0vp1cQnUSMkEpHWIldGUZJLuCloFLSGLyYHedOjw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB7JUMVRL+cyqWNlXs06XbjCjgS993PU0jzVNDoyXpMsxTR6ZumnyhbnD3Mh3QQ1TA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e2c0672d-04bd-4aea-8b18-7fac72673627",
+                            SecurityStamp = "e55d8aff-3080-4b59-a6f0-33ffb1ef7ffb",
                             TwoFactorEnabled = false,
                             UserName = "customer@mail.com"
                         },
@@ -529,15 +531,15 @@ namespace FixIt.Infrastructure.Migrations
                         {
                             Id = "99ae7f52-08a1-4c41-98f6-0934ab9eeced",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "60ce5133-b801-419f-a066-18e61c21eb10",
+                            ConcurrencyStamp = "28029a3a-7b35-47cc-8a95-b842bd9a3c13",
                             Email = "technician1@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "technician1@mail.com",
                             NormalizedUserName = "technician1@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPvNcS0Zb21jARfOGcrERz/sxubqrA55PSt6vqfYmjJlq0izL30DODCF3Tn5PY+DRA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAHN78fX5tjU7mz5LW6Wp7kyBqjXRo1CYYrPe36KuriTdOVE+0EJ+GrsPRzyz+4NqQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "750da9a4-7bf2-4a8c-af9f-23a4ed73d866",
+                            SecurityStamp = "2a4e63df-29f8-451a-a8b9-82786aeabd63",
                             TwoFactorEnabled = false,
                             UserName = "technician1@mail.com"
                         },
@@ -545,15 +547,15 @@ namespace FixIt.Infrastructure.Migrations
                         {
                             Id = "3e0f5536-ea82-4817-9d63-861cc93427c6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "561055d1-6a7f-42d6-a6b9-d96de65b952a",
+                            ConcurrencyStamp = "51069ae5-71c3-4f3e-8e6e-d814532ef389",
                             Email = "technician2@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "technician2@mail.com",
                             NormalizedUserName = "technician2@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPnBKq9MfuizitXlxnwoveGtqj/6ubzNtXt6Pt8eVEsqu7fCtFPExu/avNz5UTvDAw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE4UKyEFD6jn/H8+jGv4ZjCraBa4HfES5EGlkqGKPBZtg84ofw37aRpqXTEmOble+w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8f229407-6a35-43ea-ad01-7bb2941c70fe",
+                            SecurityStamp = "52b2597a-5190-449c-9277-e548da2104b9",
                             TwoFactorEnabled = false,
                             UserName = "technician2@mail.com"
                         },
@@ -561,15 +563,15 @@ namespace FixIt.Infrastructure.Migrations
                         {
                             Id = "b98a765c-94d6-4520-95ae-42503a95445d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3e8f5c3b-e43f-4344-b541-bbb571caad69",
+                            ConcurrencyStamp = "65117358-853a-4dd7-907d-d1727bb207f1",
                             Email = "technician3@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "technician3@mail.com",
                             NormalizedUserName = "technician3@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMiQly9LS58JvWibniZpGTCCCryc9iLcSTWvEgpWMMoq7GxplqGlJPnLWy2/8c3arQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECp5R1QS793psttVbbzs8iqXmaGM4s2Qr2Dqr7P8epynql7ZTpTEjE4mtPXqMlX/Kw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7fd72d1a-459a-42cf-8e18-f12d916f8e42",
+                            SecurityStamp = "6ba0fe59-2685-490e-a00e-146824178005",
                             TwoFactorEnabled = false,
                             UserName = "technician3@mail.com"
                         });

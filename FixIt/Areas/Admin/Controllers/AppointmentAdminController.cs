@@ -40,7 +40,7 @@ namespace FixIt.Areas.Admin.Controllers
                 var model = await service.GetAllTechniciansAsync();
                 if (ModelState.IsValid)
                 {
-                    return View("~/Areas/Admin/Views/AppointmentAdmin/AppointTechnician.cshtml", model);
+                    return View("~/Areas/Admin/Views/Customer/AppointTechnician.cshtml", model);
                 }
                 return RedirectToAction("Index");
             }

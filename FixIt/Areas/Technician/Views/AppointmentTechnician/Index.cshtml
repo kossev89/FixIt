@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<AppointmentViewModel>
 
 @{
-    ViewBag.Title = "All Appointments";
+    ViewBag.Title = "My Appointments";
 }
 <hr />
 
@@ -29,18 +29,15 @@
                             <p class="card-text">Technician: @appointment.TechnicianName</p>
                             <p class="card-text">Date And Time: @appointment.DateAndTime.ToString(DateValidationFormat)</p>
                             <p class="card-text">Status: @appointment.Status</p>
-                            @if (appointment.Status == Idle && string.IsNullOrEmpty(appointment.TechnicianName))
-                            {
                                 <div class="mt-4">
-                                    <a asp-area="Admin" asp-controller="AppointmentAdmin" asp-action="AppointTechnician" asp-route-id="@appointment.Id" class="btn btn-primary">Appoint Technician</a>
+                                <a asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="Accept" asp-route-id="@appointment.Id" class="btn btn-primary">Accept Appointment</a>
                                 </div>
                                 <div class="mt-4">
                                     <a asp-area="Admin" asp-controller="" asp-action="" asp-route-id="@appointment.Id" class="btn btn-danger">Cancel Appointment</a>
                                 </div>
-                            }
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
             }
         </div>
     }

@@ -126,12 +126,6 @@ namespace FixIt.Core.Services.User
         {
             var entity = mapper
                 .Map<Infrastructure.Data.Models.Car>(model);
-
-            if (entity == null)
-            {
-                throw new ArgumentException("Invalid Car Information");
-            }
-
             await context.AddAsync(entity);
             await context.SaveChangesAsync();
         }
@@ -371,7 +365,7 @@ namespace FixIt.Core.Services.User
         public async Task AddTechnicianInfoAsync(TechnicianFormModel model)
         {
             var entity = mapper
-                    .Map<Technician>(model);
+                    .Map<FixIt.Infrastructure.Data.Models.Technician>(model);
 
             if (entity == null)
             {
@@ -465,6 +459,7 @@ namespace FixIt.Core.Services.User
             var services = await context
             .Services
             .AsNoTracking()
+            .Where(x => x.IsDeleted == false)
             .ProjectTo<ServiceViewModel>(config)
             .OrderBy(n => n.Type)
             .ToArrayAsync();
@@ -505,9 +500,10 @@ namespace FixIt.Core.Services.User
         {
             var entity = await context
               .Services
-              .FindAsync(model.Id);
+              .Where(x => x.IsDeleted == false)
+              .FirstOrDefaultAsync(x => x.Id == model.Id);
 
-            if (entity == null || entity.IsDeleted)
+            if (entity == null)
             {
                 throw new ArgumentException("The Service doesn't exist!");
             }
@@ -530,6 +526,42 @@ namespace FixIt.Core.Services.User
                 throw new InvalidDataException("The service doesn't exist");
             }
 
+            return model;
+        }
+
+        public async Task DeleteServiceAsync(ServiceViewModel model)
+        {
+            var entity = await context
+            .Services
+            .Where(x => x.Id == model.Id
+            && x.IsDeleted == false
+            )
+            .FirstOrDefaultAsync();
+
+            if (entity == null)
+            {
+                throw new ArgumentException("The Service does not exist");
+            }
+
+            entity.IsDeleted = true;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<ServiceViewModel> GetServiceViewModelAsync(int id)
+        {
+            var model = await context
+               .Services
+               .AsNoTracking()
+               .Where(x => x.Id == id
+               && x.IsDeleted == false
+               )
+               .ProjectTo<ServiceViewModel>(config)
+               .FirstOrDefaultAsync();
+
+            if (!(model is ServiceViewModel))
+            {
+                throw new InvalidDataException("Service doesn't exist");
+            }
             return model;
         }
     }
