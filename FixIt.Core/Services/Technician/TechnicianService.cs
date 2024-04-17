@@ -58,19 +58,25 @@ namespace FixIt.Core.Services.Technician
                 .Appointments
                 .FindAsync(model.Id);
 
-            var modelMapped = await context
-                .Appointments
-                .ProjectTo<AppointmentViewModel>(config)
-                .FirstOrDefaultAsync();
-
             if (appointmentEntity==null)
             {
                 throw new InvalidDataException();
             }
+
+            var serviceHistoryModel = new ServiceHistoryViewModel()
+            {
+                UserId = model.UserId,
+                CarId = model.CarId,
+                ServiceId = model.ServiceId,
+                TechnicianId = (int)model.TechnicianId,
+                Date = DateTime.Now,
+                Mileage = model.Car.Mileage,
+                Price = model.Service.Price
+            };
             appointmentEntity.Status = AppointmentStatus.Completed;
 
             var entity = mapper
-                .Map<Infrastructure.Data.Models.ServiceHistory>(modelMapped);
+                .Map<Infrastructure.Data.Models.ServiceHistory>(serviceHistoryModel);
 
             await context.AddAsync(entity);
             await context.SaveChangesAsync();

@@ -19,17 +19,11 @@
             </div>
             <div class="card-footer">
                 <form asp-area="Admin" asp-action="AcceptConfirmed" method="post">
-                    <input type="hidden" asp-for="@Model.CarId" />
-                    <input type="hidden" asp-for="@Model.Car" />
-                    <input type="hidden" asp-for="@Model.DateAndTime" />
-                    <input type="hidden" asp-for="@Model.ServiceId" />
-                    <input type="hidden" asp-for="@Model.Service" />
-                    <input type="hidden" asp-for="@Model.UserId" />
-                    <input type="hidden" asp-for="@Model.User" />
-                    <input type="hidden" asp-for="@Model.TechnicianId" />
-                    <input type="hidden" asp-for="@Model.Technician" />
-                    <input type="hidden" asp-for="@Model.Id" />
-
+                    <input type="hidden" asp-for="@Model.CarId" value="@Model.CarId" />
+                    <input type="hidden" asp-for="@Model.ServiceId" value="@Model.ServiceId" />
+                    <input type="hidden" asp-for="@Model.UserId" value="@Model.UserId" />
+                    <input type="hidden" asp-for="@Model.TechnicianId" value="@Model.TechnicianId" />
+                    <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
                     <button type="submit" class="btn btn-primary" asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="CompleteConfirmed">Complete Task?</button>
                     <a asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="Tasks" class="btn btn-secondary">Cancel</a>
                 </form>

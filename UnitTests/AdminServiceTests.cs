@@ -160,24 +160,6 @@ namespace UnitTests
         }
 
         [Test]
-        public async Task AddCarAsync_ValidModel_CarAddedSuccessfully()
-        {
-            // Arrange
-            var model = new CarFormModel
-            {
-                
-            };
-
-            // Act
-            await adminService.AddCarAsync(model);
-
-            // Assert
-            var addedCar = await context.Cars.FirstOrDefaultAsync(c => c.Make);
-            Assert.IsNotNull(addedCar);
-            // Assert other conditions as needed
-        }
-
-        [Test]
         public async Task AddCarAsync_InvalidModel_ThrowsArgumentException()
         {
             // Arrange

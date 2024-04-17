@@ -1,4 +1,5 @@
-﻿using FixIt.Core.Contracts.Technician;
+﻿using FixIt.Core.Contracts.Car;
+using FixIt.Core.Contracts.Technician;
 using FixIt.Core.Contracts.User;
 using FixIt.Core.Models.Appointment;
 using FixIt.Core.Models.Car;
@@ -13,9 +14,14 @@ namespace FixIt.Areas.Technician.Controllers
     {
 
         private readonly ITechnicianService service;
-        public AppointmentTechnicianController(ITechnicianService _service)
+        private readonly IAdminService adminService;
+        public AppointmentTechnicianController(
+            ITechnicianService _service,
+            IAdminService _adminService
+            )
         {
             service = _service;
+            adminService = _adminService;
         }
 
         [HttpGet]
@@ -120,12 +126,36 @@ namespace FixIt.Areas.Technician.Controllers
         {
             try
             {
+                var carModel = await adminService.GetCarDetailsAsync(model.CarId);
+                var serviceModel = await adminService.GetServiceViewModelAsync(model.ServiceId);
+                var technicianModel = await adminService.GetTechnicianViewModelAsync(model.TechnicianId);
+                model.Car = carModel;
+                model.Service = serviceModel;
+                model.Technician = technicianModel;
                 await service.CompleteTaskAsync(model);
                 return RedirectToAction("History");
             }
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> History()
+        {
+            try
+            {
+                var model = await service.GetMyHistoryAsync();
+                if (ModelState.IsValid)
+                {
+                    return View("~/Areas/Technician/Views/AppointmentTechnician/History.cshtml", model);
+                }
+                return View("~/Areas/Technician/Views/AppointmentTechnician/History.cshtml");
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
