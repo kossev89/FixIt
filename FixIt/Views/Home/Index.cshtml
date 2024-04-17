@@ -24,9 +24,9 @@ else if (User.IsInRole("Technician"))
             <div class="col-md-8">
                 <h1 class="display-4 text-center">Welcome, Technician</h1>
                 <div class="d-flex justify-content-between mt-5">
-                    <a asp-area="" asp-controller="" asp-action="" class="btn btn-primary btn-lg">My Appointments</a>
-                    <a asp-area="" asp-controller="" asp-action="" class="btn btn-primary btn-lg">Tasks</a>
-                    <a asp-area="" asp-controller="" asp-action="" class="btn btn-primary btn-lg">History</a>
+                    <a asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="Index" class="btn btn-primary btn-lg">My Appointments</a>
+                    <a asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="Tasks" class="btn btn-primary btn-lg">Tasks</a>
+                    <a asp-area="Technician" asp-controller="AppointmentTechnician" asp-action="History" class="btn btn-primary btn-lg">History</a>
                 </div>
             </div>
         </div>

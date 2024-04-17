@@ -126,12 +126,6 @@ namespace FixIt.Core.Services.User
         {
             var entity = mapper
                 .Map<Infrastructure.Data.Models.Car>(model);
-
-            if (entity == null)
-            {
-                throw new ArgumentException("Invalid Car Information");
-            }
-
             await context.AddAsync(entity);
             await context.SaveChangesAsync();
         }
